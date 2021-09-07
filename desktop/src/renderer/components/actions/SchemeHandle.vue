@@ -90,6 +90,9 @@ export default defineComponent({
         'datahu://'.length,
         props.modelValue.url.indexOf('?')
       )
+      if(actionConfig.action.endsWith('/')){
+        actionConfig.action = actionConfig.action.substring(0, actionConfig.action.length - 1)
+      }
       query.value = Util.Url.query(props.modelValue.url)
       currentServer.value = query.value.server
       if (state.store.user && state.store.user.server == currentServer.value) {

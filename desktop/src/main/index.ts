@@ -1,8 +1,10 @@
 import {app, BrowserWindow, Menu} from 'electron'
+import fs from 'fs'
 import {join, resolve} from 'path'
 import {format} from 'url'
 import ipc from './ipc'
 
+let isHandleSchemeWhenStart = false
 const gotTheLock = app.requestSingleInstanceLock()
 // const gotTheLock = true
 if (!gotTheLock) {
@@ -81,18 +83,29 @@ if (!gotTheLock) {
 
     mainWindow.on('closed', () => {
       mainWindow = null
+      ipc.close()
     })
 
     if (env.MODE === 'development') {
       mainWindow.webContents.openDevTools()
     }
+
+    if (!isHandleSchemeWhenStart) {
+      // 程序启动时，检查是否需要处理scheme， 如果已经处理过，下次跳过不重复处理, 只在windows 下有效， macos下走 open-url
+      handleArgv(process.argv)
+      isHandleSchemeWhenStart = true
+    }
   }
 
-  app.on('second-instance', () => {
+  app.on('second-instance', (event, argv) => {
     // Someone tried to run a second instance, we should focus our window.
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
+    }
+    if (process.platform === 'win32') {
+      // Windows
+      handleArgv(argv)
     }
   })
 
@@ -144,27 +157,24 @@ if (!gotTheLock) {
 
   app.setAsDefaultProtocolClient(PROTOCOL, process.execPath, args)
 
-  handleArgv(process.argv)
-
-  app.on('second-instance', (event, argv) => {
-    if (process.platform === 'win32') {
-      // Windows
-      handleArgv(argv)
-    }
-  })
-
   // macOS
   app.on('open-url', (event, urlStr) => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+    }
     handleUrl(urlStr)
   })
 
   function handleArgv(argv: any) {
     const prefix = `${PROTOCOL}:`
     const offset = app.isPackaged ? 1 : 2
-    const url = argv.find(
-      (arg: any, i: any) => i >= offset && arg.startsWith(prefix)
-    )
-    if (url) handleUrl(url)
+    if (argv && argv.length > 0) {
+      const url = argv.find(
+        (arg: any, i: any) => i >= offset && arg.startsWith(prefix)
+      )
+      if (url) handleUrl(url)
+    }
   }
 
   async function handleUrl(urlStr: string) {

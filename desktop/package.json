@@ -12,10 +12,10 @@
     "pretest": "cross-env MODE=test npm run build",
     "test": "node ./tests/app.spec.js",
     "prewatch": "npm run buildEnvTypes",
-    "watch": "NODE_ENV=development node ./bin/watch.js",
-    "start": "NODE_ENV=development node ./bin/start.js",
+    "watch": "cross-env NODE_ENV=development node ./bin/watch.js",
+    "start": "cross-env NODE_ENV=development node ./bin/start.js",
     "start:main": "./node_modules/.bin/electron ./dist/source/main/index.cjs.js --inspect",
-    "start:renderer": "NODE_ENV=development node ./bin/watch.js"
+    "start:renderer": "cross-env NODE_ENV=development node ./bin/watch.js"
   },
   "devDependencies": {
     "@types/electron-devtools-installer": "^2.2.0",

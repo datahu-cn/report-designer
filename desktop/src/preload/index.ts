@@ -55,12 +55,13 @@ const api: any = {
     }
   },
   preloadReady() {
+    console.log('preloaderReady')
     ipcRenderer.send('preloaderReady', {})
   }
 } as const
 
 ipcRenderer.on('mainSendMessage', (_, message) => {
-  console.log('ipcRenderer on mainSendMessage')
+  console.log('ipcRenderer on mainSendMessage', message)
   for (let c of mainCallbacks) {
     c(message)
   }

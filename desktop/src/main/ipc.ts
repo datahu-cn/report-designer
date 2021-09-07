@@ -1,5 +1,6 @@
 import {ipcMain} from 'electron'
 import * as routes from './routes'
+import fs from 'fs'
 
 async function call(bridgeName: string, data: any, mainWindow: any) {
   let routeNames = bridgeName.split('/')
@@ -54,9 +55,11 @@ export default {
   mainWindow: null,
   init(mw: any) {
     mainWindow = mw
-    promise = new Promise((resolve) => {
-      promiseResolve = resolve
-    })
+    if (!promise) {
+      promise = new Promise((resolve) => {
+        promiseResolve = resolve
+      })
+    }
     ipcMain.on('postMessage', (event: any, message: any) => {
       postMessage(event, message, mainWindow)
     })
@@ -64,7 +67,16 @@ export default {
       promiseResolve()
     })
   },
+  close() {
+    promise = null
+    promiseResolve = null
+  },
   async send(params: any) {
+    if (!promise) {
+      promise = new Promise((resolve) => {
+        promiseResolve = resolve
+      })
+    }
     await promise
     mainWindow.send('mainSendMessage', params)
   }

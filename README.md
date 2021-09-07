@@ -2,7 +2,7 @@
 
 #### 介绍
 
-Data Hu 报表设计器, 用于数据分析、数据建模、报表设计.
+Data Hu 报表设计器, 用于数据分析、数据建模、报表设计。
 网站地址： [https://datahu.cn](https://datahu.cn)
 文档地址： [https://datahu.cn/docs/](https://datahu.cn/docs/)
 
