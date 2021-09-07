@@ -1,0 +1,40 @@
+import {I18nStrings} from './I18nStrings'
+
+export default {
+  config_title: 'source name',
+  mysql_title: 'mysql database',
+  mysql_description: 'support versions >= 5.x',
+  mysql_config_host: 'host',
+  mysql_config_port: 'port',
+  mysql_config_user: 'user',
+  mysql_config_password: 'password',
+  mysql_config_database: 'database',
+  mysql_config_charset: 'charset',
+  mysql_config_ssl: 'user ssl',
+  mysql_config_ssl_ca: 'CA',
+  mysql_config_ssl_key: 'client key',
+  mysql_config_ssl_cert: 'client cert',
+  mysql_config_ssl_reject_unauthorized: 'reject unauthorized',
+  // sqlserver
+  sqlserver_title: 'sql server database',
+  sqlserver_description: 'support versions 2000/2005/2008/2012/2014/2016/2017',
+  // excel
+  excel_title: 'excel',
+  excel_description: 'support xlsx',
+  excel_start_cols: 'start row',
+  excel_source: 'read file',
+  // restful
+  restful_title: 'restful',
+  restful_description: 'support Array type',
+  restful_url: 'url',
+  restful_result_type: 'result type',
+  restful_result_field: 'result in  field',
+  restful_method: 'request method',
+  restful_open_auth: 'is auth',
+  restful_username: 'username',
+  restful_password: 'password',
+  restful_auth_mode: 'auth mode',
+  restful_request_body: 'request body',
+  restful_params: 'params',
+  restful_headers: 'headers',
+} as I18nStrings

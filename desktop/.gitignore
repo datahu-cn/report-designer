@@ -54,6 +54,3 @@ types/env.d.ts
 
 # Editor-based Rest Client
 .idea/httpRequests
-desktop/yarn-error.log
-desktop/yarn.lock
-desktop/datahu/

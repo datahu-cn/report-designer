@@ -4,34 +4,17 @@
 
 Data Hu 报表设计器, 用于数据分析、数据建模、报表设计, https://datahu.cn
 
-#### 软件架构
+#### 开发开始教程
 
-软件架构说明
+1.  克隆项目，从仓库克隆源码到本地
+    `git clone git@gitee.com:datahu-cn/report-designer.git`
+    `cd report-designer`
 
-#### 安装教程
+2.  初始化项目
+    `yarn preinit`
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+3.  启动项目，此时为开发模式
+    `yarn start`
 
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-#### 特技
-
-1.  使用 Readme_XXX.md 来支持不同的语言，例如 Readme_en.md, Readme_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+4.  打包项目，打包成功后，将在 desktop/dist 下生成对应环境的安装包
+    `yarn package`

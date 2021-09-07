@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "sourceMap": true,
+    "moduleResolution": "Node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "jsx": "preserve",
+    // "isolatedModules": true,
+    "types": ["../../types/importMeta"]
+  },
+  "exclude": ["../**/node_modules"]
+}

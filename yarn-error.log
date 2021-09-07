@@ -1,0 +1,47 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js init
+
+PATH: 
+  /Users/zhengliu/opt/miniconda3/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Users/zhengliu/opt/miniconda3/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  14.15.4
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:137008:13)
+      at Interface.emit (events.js:315:20)
+      at Interface._ttyWrite (readline.js:875:16)
+      at ReadStream.onkeypress (readline.js:213:10)
+      at ReadStream.emit (events.js:315:20)
+      at emitKeys (internal/readline/utils.js:345:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1144:36)
+      at ReadStream.emit (events.js:315:20)
+      at addChunk (internal/streams/readable.js:309:12)
+
+npm manifest: 
+  {
+    "name": "@datahu/all",
+    "version": "0.1.0",
+    "scripts": {
+      "init": "cd core && yarn link && cd ../component && yarn link && cd ../datasource && yarn link && cd ../desktop && yarn link @datahu/core && yarn link @datahu/component && yarn link @datahu/datasource && cd ..",
+      "build": "cd desktop && yarn && yarn build && cd ..",
+      "start": "cd desktop && yarn && yarn start && cd ..",
+      "package": "cd desktop && yarn &&  yarn compile && cd .."
+    },
+    "dependencies": {},
+    "devDependencies": {}
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
