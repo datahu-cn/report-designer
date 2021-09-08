@@ -19,6 +19,10 @@
           </a-button>
           <template #overlay>
             <a-menu>
+              <a-menu-item @click="loadPkg()" key="2">
+                <icon type="open" />
+                浏览
+              </a-menu-item>
               <a-sub-menu
                 v-if="
                   state.store &&
@@ -40,10 +44,6 @@
                   <span :title="item.path">{{ item.path }}</span>
                 </a-menu-item>
               </a-sub-menu>
-              <a-menu-item @click="loadPkg()" key="2">
-                <icon type="open" />
-                浏览
-              </a-menu-item>
             </a-menu>
           </template>
         </a-dropdown>
@@ -91,7 +91,7 @@
         </a-dropdown>
       </div>
       <div class="c-action">
-        <a-button type="link" @click="showEditRelationship = true">
+        <a-button type="link" @click="state.showEditRelationship = true">
           <icon type="ralation" />
           关系
         </a-button>
@@ -206,8 +206,8 @@
       </div>
     </div>
     <EditRelationship
-      v-if="showEditRelationship"
-      v-model:visible="showEditRelationship"
+      v-if="state.showEditRelationship"
+      v-model:visible="state.showEditRelationship"
     ></EditRelationship>
     <DataRole v-if="showDataRole" v-model:visible="showDataRole"></DataRole>
   </div>
@@ -331,7 +331,6 @@ export default defineComponent({
       loading.value = false
     }
 
-    let showEditRelationship = ref(false)
     let showDataRole = ref(false)
 
     let preview = () => {
@@ -422,7 +421,6 @@ export default defineComponent({
       loadPkg,
       loadPkgFromPath,
       reloadData,
-      showEditRelationship,
       showDataRole,
       preview,
       publish,

@@ -206,7 +206,9 @@ export default defineComponent({
             dropShadow: {color: '#fed666', dx: 0, dy: 0}
           })
         })
-        // line.Props.svg.addEventListener('dblclick', () => {})
+        line.Props.svg.addEventListener('dblclick', () => {
+          state.showEditRelationship = true
+        })
       }
     }
 

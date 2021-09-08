@@ -91,6 +91,9 @@ interface IState {
 
   // 缩放比例
   zoomRate: number
+
+  // 显示关系管理弹出框
+  showEditRelationship: boolean
 }
 
 export async function openLink(url: string) {
@@ -128,7 +131,9 @@ const state = reactive({
   viewMode: null,
 
   // 缩放比例
-  zoomRate: 100
+  zoomRate: 100,
+
+  showEditRelationship: false
 }) as IState
 
 let initGlobalContext = () => {
