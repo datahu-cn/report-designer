@@ -551,7 +551,7 @@ export class AxisLabelComponentOption {
   @ComponentControl({type: ControlType.boolean, title: '标签显示'})
   show: boolean = true
 
-  @ComponentControl({type: ControlType.text, title: '标签格式'})
+  @ComponentControl({type: ControlType.textarea, title: '标签格式'})
   formatter: string = ''
 
   fontSize: string = ''
@@ -826,7 +826,7 @@ export class SeriesLabelComponentOption {
   position: string = 'top'
 
   @ComponentControl({
-    type: ControlType.text,
+    type: ControlType.textarea,
     title: '标签格式',
     show(opt: any) {
       return opt.show
@@ -877,7 +877,7 @@ export class MarkPointDataLabelComponentOption {
   })
   position: string = 'inside'
 
-  @ComponentControl({type: ControlType.text, title: '格式化'})
+  @ComponentControl({type: ControlType.textarea, title: '格式化'})
   formatter: string = ''
 
   fontSize: string = ''
@@ -916,7 +916,7 @@ export class MarkLineDataLabelComponentOption {
   })
   position: string = 'end'
 
-  @ComponentControl({type: ControlType.text, title: '格式化'})
+  @ComponentControl({type: ControlType.textarea, title: '格式化'})
   formatter: string = ''
 
   fontSize: string = ''
@@ -1371,7 +1371,7 @@ export class MarkAreaDataLabelComponentOption {
   })
   position: string = 'top'
 
-  @ComponentControl({type: ControlType.text, title: '格式化'})
+  @ComponentControl({type: ControlType.textarea, title: '格式化'})
   formatter: string = ''
 
   fontSize: string = ''
@@ -1769,7 +1769,10 @@ export class SeriesComponentOption {
     title: '平滑曲线',
     min: 0,
     max: 1,
-    step: 0.1
+    step: 0.1,
+    show(opt: any) {
+      return opt.type == 'line'
+    }
   })
   smooth: number = 0
 
@@ -1892,6 +1895,7 @@ export class PieceComponentOption {
 
 export class VisualMapComponentOption {
   _enabled: boolean = false
+  _seriesOpts: Array<any> = []
   static controls: Array<IControl> = []
   constructor(defaultValues: any = null) {
     Util.cloneTo(defaultValues, this, true)
@@ -1899,12 +1903,6 @@ export class VisualMapComponentOption {
 
   @ComponentControl({type: ControlType.boolean, title: '显示手柄'})
   show: boolean = false
-
-  @ComponentControl({
-    type: ControlType.boolean,
-    title: '显示手柄标签'
-  })
-  showLabel: boolean = false
 
   @ComponentControl({
     type: ControlType.select,
@@ -1915,6 +1913,15 @@ export class VisualMapComponentOption {
     ]
   })
   type: string = 'continuous'
+
+  @ComponentControl({
+    type: ControlType.boolean,
+    title: '显示手柄标签',
+    show(opt: any) {
+      return opt.type == 'piecewise'
+    }
+  })
+  showLabel: boolean = false
 
   color: Array<string> = []
 
@@ -1939,13 +1946,14 @@ export class VisualMapComponentOption {
     title: '映射系列',
     options: (option: any, chart: any) => {
       if (chart.data && chart.data.dataset.data.length > 0) {
-        let opts = []
+        let innerOpts = option._seriesOpts || []
+        let opts = [...innerOpts]
         let seriesIndexs = chart.data.dataset.map['series']
         if (seriesIndexs) {
           for (let i = 0; i < seriesIndexs.length; i++) {
             opts.push({
               label: chart.data.dataset.data[0][seriesIndexs[i]],
-              value: i
+              value: i + innerOpts.length
             })
           }
         }

@@ -90,8 +90,8 @@
     "vue": "^3.0.5",
     "vue-router": "^4.0.3",
     "vxe-table": "^4.0.10",
-    "xe-utils": "^3.1.13",
     "vxe-table-plugin-export-xlsx": "^3.0.2",
+    "xe-utils": "^3.1.13",
     "yarn": "^1.22.10"
   }
 }

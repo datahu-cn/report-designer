@@ -32,8 +32,8 @@ export default defineComponent({
       if (
         !chartData.isReady() ||
         !option ||
-        !option.series ||
-        option.series.length == 0
+        !option.waterfallSeries ||
+        option.waterfallSeries.length == 0
       ) {
         return null
       }
@@ -48,12 +48,13 @@ export default defineComponent({
 
       option.xAxis.data = xData
 
-      let index = 0
+      let waterfallIndex = 0
       option.legend.data = []
-      for (let dataIndex of dataset.map['series']) {
-        let seriesOpt = option.series[option.series.length - 1]
-        if (option.series.length > index) {
-          seriesOpt = option.series[index]
+      for (let dataIndex of dataset.map['waterfallSeries']) {
+        let seriesOpt =
+          option.waterfallSeries[option.waterfallSeries.length - 1]
+        if (option.waterfallSeries.length > waterfallIndex) {
+          seriesOpt = option.waterfallSeries[waterfallIndex]
         }
 
         seriesOpt = Util.copy(seriesOpt)
@@ -99,11 +100,25 @@ export default defineComponent({
           data: subData
         })
         series.push(seriesOpt)
+        waterfallIndex++
+      }
+
+      let index = 0
+      for (let dataIndex of dataset.map['series']) {
+        let seriesOpt = option.series[option.series.length - 1]
+        if (option.series.length > index) {
+          seriesOpt = option.series[index]
+        }
+        seriesOpt = Util.copy(seriesOpt)
+        seriesOpt.name = dataset.data[0][dataIndex]
+        series.push(seriesOpt)
         index++
       }
+
       for (let tooltipField of dataset.map['tooltip']) {
         if (
           tooltipField != 0 &&
+          dataset.map['waterfallSeries'].indexOf(tooltipField) < 0 &&
           dataset.map['series'].indexOf(tooltipField) < 0
         ) {
           tooltips.push({
@@ -116,6 +131,9 @@ export default defineComponent({
       let opt = {
         title: {
           text: ''
+        },
+        dataset: {
+          source: dataset.data
         },
         tooltip: {
           show: option.tooltip.show,

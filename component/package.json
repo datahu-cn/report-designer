@@ -55,7 +55,7 @@
     "vite": "^2.1.2",
     "vue": "^3.0.5",
     "vue-jest": "^5.0.0-alpha.7",
-    "yarn": "^1.22.10",
-    "vxe-table-plugin-export-xlsx": "^3.0.2"
+    "vxe-table-plugin-export-xlsx": "^3.0.2",
+    "yarn": "^1.22.10"
   }
 }

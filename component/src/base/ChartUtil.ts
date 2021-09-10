@@ -62,6 +62,10 @@ export class ChartUtil {
     let titleText = ''
     if (array[0].seriesType == 'radar') {
       titleText = array[0].data.name
+    } else if (array[0].seriesType == 'candlestick') {
+      titleText = array[0].name
+    } else if (array[0].seriesName == '_skip_waterfall') {
+      titleText = array[1].seriesName || array[1].axisValue || ''
     } else {
       if (title >= 0) {
         titleText = data[array[0].dataIndex][title]
@@ -87,17 +91,21 @@ export class ChartUtil {
           index++
         }
       } else if (p.seriesType == 'candlestick') {
-        for (let i = 1; i < p.dimensionNames.length && i < 5; i++) {
-          html += `<div style="margin: 10px 0 0;">${p.marker}`
-          html += `<span style="margin-left:2px">${
-            p.dimensionNames[i] || ''
-          }</span>`
-          html += `<span style="float:right;margin-left:20px;"><strong>${ChartUtil.getFormatterValue(
-            chartData,
-            null,
-            p.seriesName || '',
-            p.value[i]
-          )}</strong></span><div style="clear:both"></div></div>`
+        if (p.encode && p.encode.y) {
+          for (let i = 0; i < p.encode.y.length; i++) {
+            let datasetIndex = p.encode.y[i]
+            let field = chartData.getFieldByDatasetIndex(datasetIndex)
+            html += `<div style="margin: 10px 0 0;">${p.marker}`
+            html += `<span style="margin-left:2px">${
+              chartData.getFieldName(field!) || ''
+            }</span>`
+            html += `<span style="float:right;margin-left:20px;"><strong>${ChartUtil.getFormatterValue(
+              chartData,
+              datasetIndex,
+              p.seriesName || '',
+              p.value[datasetIndex]
+            )}</strong></span><div style="clear:both"></div></div>`
+          }
         }
       } else {
         if (p.seriesName == '_skip_waterfall') {

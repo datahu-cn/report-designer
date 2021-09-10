@@ -1,4 +1,10 @@
-import {IControl, ControlType, ComponentControl, Util} from '@datahu/core'
+import {
+  IControl,
+  ControlType,
+  ComponentControl,
+  Util,
+  StyleType
+} from '@datahu/core'
 import {
   BaseComponent,
   BaseComponentOption,
@@ -8,14 +14,17 @@ import {
   XAxisComponentOption,
   YAxisComponentOption,
   SeriesComponentOption,
-  VisualMapComponentOption,
   PolarComponentOption,
   AngleAxisComponentOption,
   RadiusAxisComponentOption,
   DataOperationComponentOption,
   MarkPointComponentOption,
   MarkLineComponentOption,
-  MarkAreaComponentOption
+  MarkAreaComponentOption,
+  PieceComponentOption,
+  RangeComponentOption,
+  StyleComponentOption,
+  VisualMapComponentOption
 } from '../base'
 import CandlestickChart from './CandlestickChart.vue'
 
@@ -213,9 +222,13 @@ export class CandlestickChartComponentOption extends BaseComponentOption {
     array: true,
     addable: true,
     enableProperty: '_enabled',
-    defaultValue: new VisualMapComponentOption()
+    defaultValue: new VisualMapComponentOption({
+      _seriesOpts: [{label: 'K线', value: 0}]
+    })
   })
-  visualMap: Array<VisualMapComponentOption> = [new VisualMapComponentOption()]
+  visualMap: Array<VisualMapComponentOption> = [
+    new VisualMapComponentOption({_seriesOpts: [{label: 'K线', value: 0}]})
+  ]
 }
 export class CandlestickChartComponent extends BaseComponent {
   icon: string = `<svg id="图层_1" data-name="图层 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" rx="2" ry="2" fill="none" opacity="0.5"/><polygon points="10.77 24.5 12.62 24.5 12.62 21.73 14.46 21.73 14.46 14.34 12.62 14.34 12.62 12.5 10.77 12.5 10.77 14.34 8.93 14.34 8.93 21.73 10.77 21.73 10.77 24.5" fill="#7678ed"/><polygon points="19.08 30.03 20.92 30.03 20.92 21.73 22.77 21.73 22.77 10.65 20.92 10.65 20.92 6.96 19.08 6.96 19.08 10.65 17.23 10.65 17.23 21.73 19.08 21.73 19.08 30.03" fill="#7678ed"/><polygon points="27.38 27.26 29.23 27.26 29.23 22.65 31.07 22.65 31.07 16.19 29.23 16.19 29.23 11.58 27.38 11.58 27.38 16.19 25.54 16.19 25.54 22.65 27.38 22.65 27.38 27.26" fill="#7678ed"/><rect x="5" y="32.04" width="30" height="2" fill="#f9896b"/></svg>`

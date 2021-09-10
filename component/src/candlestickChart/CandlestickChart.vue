@@ -27,89 +27,90 @@ export default defineComponent({
   components: {Echarts},
   setup(props) {
     let option = computed(() => {
-      let option = ChartUtil.getChartOption(props.chart!)
-      let chartData: ChartData = props.data!
-      if (
-        !chartData.isReady() ||
-        !option ||
-        !option.series ||
-        option.series.length == 0
-      ) {
+      try {
+        let option = ChartUtil.getChartOption(props.chart!)
+        let chartData: ChartData = props.data!
+        if (
+          !chartData.isReady() ||
+          !option ||
+          !option.series ||
+          option.series.length == 0
+        ) {
+          return null
+        }
+        let dataset = chartData.getDataset()
+        let series: Array<any> = []
+        let tooltips: Array<ITooltip> = []
+
+        for (let c of option.candlestickSeries) {
+          series.push(c)
+        }
+
+        let index = 0
+        for (let dataIndex of dataset.map['series']) {
+          let seriesOpt = option.series[option.series.length - 1]
+          if (option.series.length > index) {
+            seriesOpt = option.series[index]
+            seriesOpt.encode = {y: dataIndex}
+          }
+          seriesOpt = Util.copy(seriesOpt)
+          seriesOpt.name = dataset.data[0][dataIndex]
+          series.push(seriesOpt)
+          index++
+        }
+        for (let tooltipField of dataset.map['tooltip']) {
+          if (
+            tooltipField != 0 &&
+            dataset.map['series'].indexOf(tooltipField) < 0
+          ) {
+            tooltips.push({
+              name: dataset.data[0][tooltipField],
+              field: tooltipField
+            })
+          }
+        }
+
+        let opt = {
+          title: {
+            text: ''
+          },
+          dataset: {
+            source: dataset.data
+          },
+          tooltip: {
+            show: option.tooltip.show,
+            trigger: 'axis',
+            appendToBody: true,
+            padding: 0,
+            borderWidth: 0,
+            // alwaysShowContent: true,
+            axisPointer: {
+              type: 'line'
+            },
+            confine: true,
+            formatter(params: any) {
+              return ChartUtil.getTooltipFormatter(
+                params,
+                tooltips,
+                props.optionAfterTheme!.tooltip,
+                dataset.data,
+                chartData
+              )
+            }
+          },
+          grid: option.grid,
+          legend: option.legend,
+          xAxis: option.xAxis,
+          yAxis: option.yAxis,
+          series: series,
+          visualMap: option.visualMap
+        }
+        console.log('opt', opt)
+        return opt
+      } catch (e) {
+        console.error(e)
         return null
       }
-      let dataset = chartData.getDataset()
-      let series: Array<any> = []
-      let tooltips: Array<ITooltip> = []
-
-      for (let c of option.candlestickSeries) {
-        series.push(c)
-        c.name = 'K线'
-      }
-
-      let index = 0
-      for (let dataIndex of dataset.map['series']) {
-        let seriesOpt = option.series[option.series.length - 1]
-        if (option.series.length > index) {
-          seriesOpt = option.series[index]
-          seriesOpt.encode = {y: dataIndex}
-        }
-        seriesOpt = Util.copy(seriesOpt)
-        seriesOpt.name = dataset.data[0][dataIndex]
-        series.push(seriesOpt)
-        index++
-      }
-      for (let tooltipField of dataset.map['tooltip']) {
-        if (
-          tooltipField != 0 &&
-          dataset.map['series'].indexOf(tooltipField) < 0
-        ) {
-          tooltips.push({
-            name: dataset.data[0][tooltipField],
-            field: tooltipField
-          })
-        }
-      }
-
-      let opt = {
-        title: {
-          text: ''
-        },
-        dataset: {
-          source: dataset.data
-        },
-        tooltip: {
-          show: option.tooltip.show,
-          trigger: 'axis',
-          appendToBody: true,
-          padding: 0,
-          borderWidth: 0,
-          // alwaysShowContent: true,
-          axisPointer: {
-            type: 'cross'
-          },
-          confine: true,
-          formatter(params: any) {
-            return ChartUtil.getTooltipFormatter(
-              params,
-              tooltips,
-              props.optionAfterTheme!.tooltip,
-              dataset.data,
-              chartData
-            )
-          }
-        },
-        grid: option.grid,
-        legend: option.legend,
-        polar: option.polar,
-        radiusAxis: option.radiusAxis,
-        angleAxis: option.angleAxis,
-        xAxis: option.xAxis,
-        yAxis: option.yAxis,
-        series: series,
-        visualMap: option.visualMap
-      }
-      console.log('opt', opt)
-      return opt
     })
 
     let dblclickHandle = (params: any) => {

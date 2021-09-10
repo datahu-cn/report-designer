@@ -261,7 +261,7 @@ export class GaugeAxisLabelComponentOption {
   distance: number = 15
 
   @ComponentControl({
-    type: ControlType.text,
+    type: ControlType.textarea,
     title: '刻度标签的内容格式器',
     show(opt: any) {
       return opt.show

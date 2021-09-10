@@ -117,6 +117,13 @@ export class FieldComponentOption {
 
   @ComponentControl({
     type: ControlType.fieldSelect,
+    title: '瀑布值',
+    multiple: false
+  })
+  waterfallSeries = []
+
+  @ComponentControl({
+    type: ControlType.fieldSelect,
     title: '值',
     multiple: true
   })
@@ -203,15 +210,26 @@ export class WaterfallChartComponentOption extends BaseComponentOption {
   @ComponentControl({
     type: ControlType.subset,
     title: '瀑布图',
-    children: WaterfallSeriesComponentOption.controls,
+    children: SeriesComponentOption.controls,
+    array: true,
+    addable: false,
+    enableProperty: '_enabled',
+    defaultValue: new SeriesComponentOption({stack: 'waterfall', type: 'bar'})
+  })
+  waterfallSeries: Array<SeriesComponentOption> = [
+    new SeriesComponentOption({stack: 'waterfall', type: 'bar'})
+  ]
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '图形',
+    children: SeriesComponentOption.controls,
     array: true,
     addable: true,
     enableProperty: '_enabled',
-    defaultValue: new WaterfallSeriesComponentOption()
+    defaultValue: new SeriesComponentOption()
   })
-  series: Array<WaterfallSeriesComponentOption> = [
-    new WaterfallSeriesComponentOption()
-  ]
+  series: Array<SeriesComponentOption> = [new SeriesComponentOption()]
 
   @ComponentControl({
     type: ControlType.subset,
@@ -220,9 +238,21 @@ export class WaterfallChartComponentOption extends BaseComponentOption {
     array: true,
     addable: true,
     enableProperty: '_enabled',
-    defaultValue: new VisualMapComponentOption()
+    defaultValue: new VisualMapComponentOption({
+      _seriesOpts: [
+        {label: '瀑布图-透明底部', value: 0},
+        {label: '瀑布图-顶部', value: 1}
+      ]
+    })
   })
-  visualMap: Array<VisualMapComponentOption> = [new VisualMapComponentOption()]
+  visualMap: Array<VisualMapComponentOption> = [
+    new VisualMapComponentOption({
+      _seriesOpts: [
+        {label: '瀑布图-透明底部', value: 0},
+        {label: '瀑布图-顶部', value: 1}
+      ]
+    })
+  ]
 }
 export class WaterfallChartComponent extends BaseComponent {
   icon: string = `<svg id="图层_1" data-name="图层 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" rx="2" ry="2" fill="none" opacity="0.5"/><rect x="6.02" y="6.41" width="4.81" height="22.97" fill="#7678ed"/><polygon points="18.63 6.41 18.63 11.92 13.82 11.92 13.82 6.41 18.63 6.41 18.63 6.41" fill="#f9896b"/><rect x="21.63" y="11.52" width="4.81" height="9.77" fill="#7678ed"/><rect x="29.44" y="21.12" width="4.81" height="8.26" fill="#f9896b"/><rect x="5" y="31.59" width="30" height="2" fill="#f9896b"/></svg>`

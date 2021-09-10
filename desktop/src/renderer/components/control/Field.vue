@@ -195,14 +195,6 @@
       @change="change"
       :config="config"
     ></StyleKItemStyle>
-    <StyleKItemStyle
-      :size="size"
-      :disabled="disabled"
-      v-model="innerValue"
-      v-if="config.type == 'kItemStyle'"
-      @change="change"
-      :config="config"
-    ></StyleKItemStyle>
     <NumberColor
       :size="size"
       :disabled="disabled"

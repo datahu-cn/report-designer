@@ -73,7 +73,7 @@ export class FunnelSeriesLabelComponentOption {
   position: string = 'outside'
 
   @ComponentControl({
-    type: ControlType.text,
+    type: ControlType.textarea,
     title: '标签格式',
     show(opt: any) {
       return opt.show

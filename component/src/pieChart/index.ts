@@ -1,4 +1,10 @@
-import {IControl, ControlType, ComponentControl, Util} from '@datahu/core'
+import {
+  IControl,
+  ControlType,
+  ComponentControl,
+  Util,
+  StyleType
+} from '@datahu/core'
 import PieChart from './PieChart.vue'
 import {
   BaseComponent,
@@ -50,18 +56,66 @@ export class PieSeriesLabelComponentOption {
   show: boolean = true
 
   @ComponentControl({
-    type: ControlType.text,
+    type: ControlType.select,
+    title: '显示位置',
+    options: [
+      {label: '扇区外侧', value: 'outside'},
+      {label: '扇区内部', value: 'inside'},
+      {label: '中心位置', value: 'center'}
+    ],
+    show(opt: any) {
+      return opt.show
+    }
+  })
+  position: string = ''
+
+  @ComponentControl({
+    type: ControlType.textarea,
     title: '标签格式',
     show(opt: any) {
       return opt.show
     }
   })
-  formatter: string = '{b}  {d}%'
+  formatter: string = '{b}\n{d}%'
 
-  fontSize: string = ''
-  color: string = ''
-  fontFamily: string = ''
-  fontWeight: string = ''
+  @ComponentControl({
+    type: ControlType.select,
+    title: '标签的对齐方式',
+    options: [
+      {label: '自动', value: 'none'},
+      {label: '末端对齐', value: 'labelLine'},
+      {label: '文字对齐', value: 'edge'}
+    ],
+    show(opt: any) {
+      return opt.show
+    }
+  })
+  alignTo = ''
+
+  @ComponentControl({
+    type: ControlType.number,
+    title: '内边距',
+    show(opt: any) {
+      return opt.show
+    }
+  })
+  padding = 0
+
+  @ComponentControl({
+    type: ControlType.number,
+    title: '文字块的圆角',
+    show(opt: any) {
+      return opt.show
+    }
+  })
+  borderRadius = 0
+
+  color = ''
+  fontWeight = ''
+  fontFamily = ''
+  fontSize = ''
+  backgroundColor = ''
+  lineHeight = ''
 
   constructor(defaultValues: any = null) {
     Util.cloneTo(defaultValues, this, true)
@@ -79,7 +133,7 @@ export class PieSeriesComponentOption {
 
   @ComponentControl({
     type: ControlType.boolean,
-    title: '支持多个选中'
+    title: '支持选中'
   })
   selectedMode: boolean = false
 
@@ -184,7 +238,7 @@ export class PieSeriesComponentOption {
     array: true,
     addable: false
   })
-  center: Array<string> = ['50%', '50%']
+  center: Array<string> = ['50%', '55%']
 
   @ComponentControl({
     type: ControlType.styleLength,
@@ -196,11 +250,25 @@ export class PieSeriesComponentOption {
     array: true,
     addable: false
   })
-  radius: Array<any> = ['0', '65%']
+  radius: Array<any> = ['0', '55%']
 
   @ComponentControl({
+    type: ControlType.style,
+    title: '标签文字',
+    show(opt: any) {
+      return opt.label.show
+    },
+    options: [
+      StyleType.fontSize,
+      StyleType.color,
+      StyleType.fontFamily,
+      StyleType.fontWeight,
+      StyleType.backgroundColor
+    ]
+  })
+  @ComponentControl({
     type: ControlType.subset,
-    title: '（圆心）坐标',
+    title: '标签',
     children: PieSeriesLabelComponentOption.controls
   })
   label: PieSeriesLabelComponentOption = new PieSeriesLabelComponentOption()
