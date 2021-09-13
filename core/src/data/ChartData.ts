@@ -136,7 +136,10 @@ export class ChartData {
     } else {
       let index = 0
       for (let key in this.fieldMap) {
-        if (index == 0) {
+        if (
+          index == 0 &&
+          this.chart.option.mergeMethod == DataMergeMethod.table
+        ) {
           index++
           continue
         }

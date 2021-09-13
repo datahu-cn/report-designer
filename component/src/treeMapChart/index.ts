@@ -50,12 +50,107 @@ export class FieldComponentOption {
   parent = []
 
   // 数据结构有变化， 工具提示有问题
-  // @ComponentControl({
-  //   type: ControlType.fieldSelect,
-  //   title: '工具提示',
-  //   multiple: true
-  // })
-  // tooltip = []
+  @ComponentControl({
+    type: ControlType.fieldSelect,
+    title: '工具提示',
+    multiple: true
+  })
+  tooltip = []
+}
+
+class TreeMapSeriesItemStyleComponentOption {
+  _enabled: boolean = true
+  static controls: Array<IControl> = []
+  constructor(defaultValues: any = null) {
+    Util.cloneTo(defaultValues, this, true)
+  }
+
+  color = ''
+  borderColor = ''
+  borderWidth = 0
+  borderType = 'solid'
+  borderRadius = [0, 0, 0, 0]
+
+  @ComponentControl({
+    type: ControlType.number,
+    title: '矩形间隔距离'
+  })
+  gapWidth = 0
+}
+
+class TreeMapSeriesUpperLabelComponentOption {
+  _enabled: boolean = true
+  static controls: Array<IControl> = []
+  constructor(defaultValues: any = null) {
+    Util.cloneTo(defaultValues, this, true)
+  }
+  @ComponentControl({type: ControlType.boolean, title: '标签显示'})
+  show: boolean = false
+
+  @ComponentControl({
+    type: ControlType.select,
+    title: '标签的位置',
+    options: [
+      {label: 'top', value: 'top'},
+      {label: 'left', value: 'left'},
+      {label: 'right', value: 'right'},
+      {label: 'bottom', value: 'bottom'},
+      {babel: 'inside', value: 'inside'},
+      {babel: 'insideLeft', value: 'insideLeft'},
+      {babel: 'insideRight', value: 'insideRight'},
+      {babel: 'insideTop', value: 'insideTop'},
+      {babel: 'insideBottom', value: 'insideBottom'},
+      {babel: 'insideTopLeft', value: 'insideTopLeft'},
+      {babel: 'insideBottomLeft', value: 'insideBottomLeft'},
+      {babel: 'insideTopRight', value: 'insideTopRight'},
+      {babel: 'insideBottomRight', value: 'insideBottomRight'}
+    ],
+    show(opt: any) {
+      return opt.show
+    }
+  })
+  position: string = ''
+
+  @ComponentControl({
+    type: ControlType.textarea,
+    title: '标签格式',
+    show(opt: any) {
+      return opt.show
+    }
+  })
+  formatter: string = ''
+
+  fontSize: string = ''
+  color: string = ''
+  fontFamily: string = ''
+  fontWeight: string = ''
+  backgroundColor: string = ''
+}
+
+class TreeMapSeriesLevelComponentOption {
+  _enabled: boolean = true
+  static controls: Array<IControl> = []
+  constructor(defaultValues: any = null) {
+    Util.cloneTo(defaultValues, this, true)
+  }
+
+  @ComponentControl({
+    type: ControlType.graphset,
+    title: '矩形样式',
+    value: {
+      get(opt: any) {
+        return opt
+      },
+      set(opt: any, v: any) {}
+    }
+  })
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '',
+    children: TreeMapSeriesItemStyleComponentOption.controls,
+    defaultValue: new TreeMapSeriesItemStyleComponentOption()
+  })
+  itemStyle: TreeMapSeriesItemStyleComponentOption = new TreeMapSeriesItemStyleComponentOption()
 }
 
 export class TreeMapSeriesComponentOption {
@@ -142,6 +237,18 @@ export class TreeMapSeriesComponentOption {
   height: string = '80%'
 
   @ComponentControl({
+    type: ControlType.styleLength,
+    title: '移动和缩放',
+    options: [
+      {label: '移动和缩放', value: true},
+      {label: '缩放', value: 'scale'},
+      {label: '移动', value: 'move'},
+      {label: '禁用', value: false}
+    ]
+  })
+  roam: string | boolean = true
+
+  @ComponentControl({
     type: ControlType.number,
     title: '展示子层级',
     description: '层次更深的节点则被隐藏起来。点击则可下钻看到层次更深的节点'
@@ -150,7 +257,7 @@ export class TreeMapSeriesComponentOption {
 
   @ComponentControl({
     type: ControlType.style,
-    title: '文字',
+    title: '标签文字样式',
     options: [
       StyleType.fontSize,
       StyleType.color,
@@ -163,13 +270,62 @@ export class TreeMapSeriesComponentOption {
   })
   @ComponentControl({
     type: ControlType.subset,
-    title: '标签样式',
+    title: '标签',
     children: SeriesLabelComponentOption.controls
   })
   label: SeriesLabelComponentOption = new SeriesLabelComponentOption({
     show: true,
     position: 'inside'
   })
+
+  @ComponentControl({
+    type: ControlType.graphset,
+    title: '矩形样式',
+    value: {
+      get(opt: any) {
+        return opt
+      },
+      set(opt: any, v: any) {}
+    }
+  })
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '',
+    children: TreeMapSeriesItemStyleComponentOption.controls,
+    defaultValue: new TreeMapSeriesItemStyleComponentOption()
+  })
+  itemStyle: TreeMapSeriesItemStyleComponentOption = new TreeMapSeriesItemStyleComponentOption()
+
+  @ComponentControl({
+    type: ControlType.style,
+    title: '父节点标签文字样式',
+    options: [
+      StyleType.fontSize,
+      StyleType.color,
+      StyleType.fontFamily,
+      StyleType.fontWeight,
+      StyleType.backgroundColor
+    ],
+    show(opt: any) {
+      return opt.upperLabel.show
+    }
+  })
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '父节点标签样式',
+    children: TreeMapSeriesUpperLabelComponentOption.controls
+  })
+  upperLabel: TreeMapSeriesUpperLabelComponentOption = new TreeMapSeriesUpperLabelComponentOption()
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '各层级配置',
+    array: true,
+    addable: true,
+    defaultValue: new TreeMapSeriesLevelComponentOption(),
+    children: TreeMapSeriesLevelComponentOption.controls
+  })
+  levels: Array<TreeMapSeriesLevelComponentOption> = []
 }
 
 export class TreeMapChartComponentOption extends BaseComponentOption {

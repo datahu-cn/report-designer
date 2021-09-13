@@ -217,7 +217,12 @@ export class WaterfallChartComponentOption extends BaseComponentOption {
     defaultValue: new SeriesComponentOption({stack: 'waterfall', type: 'bar'})
   })
   waterfallSeries: Array<SeriesComponentOption> = [
-    new SeriesComponentOption({stack: 'waterfall', type: 'bar'})
+    new SeriesComponentOption({
+      stack: 'waterfall',
+      type: 'bar',
+      _disabledType: true,
+      _disabledSort: true
+    })
   ]
 
   @ComponentControl({

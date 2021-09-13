@@ -660,24 +660,6 @@ export class GaugeChartComponentOption extends BaseComponentOption {
 
   @ComponentControl({
     type: ControlType.subset,
-    title: '工具提示',
-    children: TooltipComponentOption.controls,
-    enableProperty: 'show',
-    defaultValue: new TooltipComponentOption()
-  })
-  tooltip?: TooltipComponentOption = new TooltipComponentOption()
-
-  @ComponentControl({
-    type: ControlType.subset,
-    title: '图例标签',
-    children: LegendComponentOption.controls,
-    enableProperty: 'show',
-    defaultValue: new LegendComponentOption()
-  })
-  legend: LegendComponentOption = new LegendComponentOption()
-
-  @ComponentControl({
-    type: ControlType.subset,
     title: '图形',
     children: GaugeSeriesComponentOption.controls,
     array: true,

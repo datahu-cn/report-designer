@@ -71,7 +71,6 @@ export default defineComponent({
         },
         series: series
       }
-      console.log('opt', opt)
       return opt
     })
 

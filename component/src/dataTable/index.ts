@@ -433,7 +433,7 @@ class DataTableComponentOption extends BaseComponentOption {
 
 export class DataTableComponent extends BaseComponent {
   isLayout: boolean = false
-  icon: string = `<svg id="图层_1" data-name="图层 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><title>未标题-2</title><rect width="40" height="40" rx="2" ry="2" transform="translate(-0.11 39.89) rotate(-89.69)" fill="none" opacity="0.5" style="isolation:isolate"/><g id="表格图标"><path id="路径_25" data-name="路径 25" d="M7.13,9.37,7,30.49a1.23,1.23,0,0,0,1.22,1.23l23.42.12a1.21,1.21,0,0,0,1.22-1.21h0L33,9.51a1.23,1.23,0,0,0-1.22-1.23L8.36,8.16A1.22,1.22,0,0,0,7.13,9.37Zm8.15,20.68L8.64,30l0-5.08,6.64,0Zm0-6.39-6.64,0,0-5,6.64,0Zm0-6.39-6.64,0,0-5,6.64,0ZM23.28,30.1l-6.65,0,0-5.08,6.64,0Zm0-6.39-6.65,0,0-5,6.64,0Zm0-6.39-6.65,0,0-5.05,6.64,0Zm7.94,12.82-6.66,0,0-5.08,6.64,0Zm0-6.39-6.66,0,0-5,6.64,0Zm0-6.39-6.66,0,0-5,6.64,0Z" fill="#7678ed"/></g></svg>`
+  icon: string = `<svg id="图层_1" data-name="图层 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" rx="2" ry="2" transform="translate(-0.11 39.89) rotate(-89.69)" fill="none" opacity="0.5" style="isolation:isolate"/><g id="表格图标"><path id="路径_25" data-name="路径 25" d="M7.13,9.37,7,30.49a1.23,1.23,0,0,0,1.22,1.23l23.42.12a1.21,1.21,0,0,0,1.22-1.21h0L33,9.51a1.23,1.23,0,0,0-1.22-1.23L8.36,8.16A1.22,1.22,0,0,0,7.13,9.37Zm8.15,20.68L8.64,30l0-5.08,6.64,0Zm0-6.39-6.64,0,0-5,6.64,0Zm0-6.39-6.64,0,0-5,6.64,0ZM23.28,30.1l-6.65,0,0-5.08,6.64,0Zm0-6.39-6.65,0,0-5,6.64,0Zm0-6.39-6.65,0,0-5.05,6.64,0Zm7.94,12.82-6.66,0,0-5.08,6.64,0Zm0-6.39-6.66,0,0-5,6.64,0Zm0-6.39-6.66,0,0-5,6.64,0Z" fill="#7678ed"/></g></svg>`
   constructor(language: string) {
     super(language)
     this.option.body!.style.borderTopWidth = '0px'

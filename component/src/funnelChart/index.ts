@@ -104,13 +104,13 @@ export class FunnelSeriesComponentOption {
     type: ControlType.number,
     title: '数据最小值'
   })
-  min: number = 0
+  min?: number
 
   @ComponentControl({
     type: ControlType.number,
     title: '数据最大值'
   })
-  max: number = 100
+  max?: number
 
   @ComponentControl({
     type: ControlType.styleLength,
@@ -134,7 +134,7 @@ export class FunnelSeriesComponentOption {
 
   @ComponentControl({
     type: ControlType.select,
-    title: '最大值映射的宽度',
+    title: '布局方向',
     options: [
       {label: '纵向', value: 'vertical'},
       {label: '横向', value: 'horizontal'}
@@ -158,7 +158,7 @@ export class FunnelSeriesComponentOption {
     title: '数据排序',
     options: [
       {label: '倒序', value: 'descending'},
-      {label: '正序', value: 'horizontal'},
+      {label: '正序', value: 'ascending'},
       {label: '不排序', value: 'none'}
     ]
   })

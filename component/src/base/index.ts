@@ -544,6 +544,37 @@ export class GridComponentOption {
   }
 }
 
+export class LineStyleComponentOption {
+  _enabled: boolean = true
+  static controls: Array<IControl> = []
+  constructor(defaultValues: any = null) {
+    Util.cloneTo(defaultValues, this, true)
+  }
+
+  @ComponentControl({
+    type: ControlType.color,
+    title: '线颜色'
+  })
+  color: string = ''
+
+  @ComponentControl({
+    type: ControlType.number,
+    title: '线宽度'
+  })
+  width: number = 1
+
+  @ComponentControl({
+    type: ControlType.select,
+    title: '线类型',
+    options: [
+      {label: 'solid', value: 'solid'},
+      {label: 'dashed', value: 'dashed'},
+      {label: 'dotted', value: 'dotted'}
+    ]
+  })
+  type: string = 'dashed'
+}
+
 export class AxisLabelComponentOption {
   _enabled: boolean = true
   static controls: Array<IControl> = []
@@ -572,6 +603,78 @@ export class AxisLabelComponentOption {
 
   @ComponentControl({type: ControlType.number, title: '刻度标签旋转的角度'})
   rotate: number = 0
+
+  constructor(defaultValues: any = null) {
+    Util.cloneTo(defaultValues, this, true)
+  }
+}
+
+export class AxisLineComponentOption {
+  _enabled: boolean = true
+  static controls: Array<IControl> = []
+
+  @ComponentControl({type: ControlType.boolean, title: '是否显示坐标轴轴线'})
+  show: boolean = true
+
+  @ComponentControl({
+    type: ControlType.select,
+    array: true,
+    addable: false,
+    options: [
+      {label: '无', value: 'none'},
+      {label: '箭头', value: 'arrow'}
+    ],
+    title: '轴线两边的箭头'
+  })
+  symbol: Array<string> = ['none', 'none']
+
+  @ComponentControl({
+    type: ControlType.number,
+    array: true,
+    addable: false,
+    title: '轴线两边的箭头的大小'
+  })
+  symbolSize: Array<number> = [10, 15]
+
+  @ComponentControl({
+    type: ControlType.number,
+    array: true,
+    addable: false,
+    title: '起始和结束箭头的偏移'
+  })
+  symbolOffset: Array<number> = [0, 0]
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '标记线条样式',
+    children: LineStyleComponentOption.controls
+  })
+  lineStyle: LineStyleComponentOption = new LineStyleComponentOption()
+
+  constructor(defaultValues: any = null) {
+    Util.cloneTo(defaultValues, this, true)
+  }
+}
+
+export class AxisTickComponentOption {
+  _enabled: boolean = true
+  static controls: Array<IControl> = []
+
+  @ComponentControl({type: ControlType.boolean, title: '是否显示坐标轴刻度'})
+  show: boolean = true
+
+  @ComponentControl({
+    type: ControlType.number,
+    title: '坐标轴刻度的长度'
+  })
+  length?: number = 5
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '标记线条样式',
+    children: LineStyleComponentOption.controls
+  })
+  lineStyle: LineStyleComponentOption = new LineStyleComponentOption()
 
   constructor(defaultValues: any = null) {
     Util.cloneTo(defaultValues, this, true)
@@ -1124,37 +1227,6 @@ export class MarkPointComponentOption {
   data: Array<MarkPointDataComponentOption> = []
 }
 
-export class LineStyleComponentOption {
-  _enabled: boolean = true
-  static controls: Array<IControl> = []
-  constructor(defaultValues: any = null) {
-    Util.cloneTo(defaultValues, this, true)
-  }
-
-  @ComponentControl({
-    type: ControlType.color,
-    title: '线颜色'
-  })
-  color: string = ''
-
-  @ComponentControl({
-    type: ControlType.number,
-    title: '线宽度'
-  })
-  width: number = 1
-
-  @ComponentControl({
-    type: ControlType.select,
-    title: '线类型',
-    options: [
-      {label: 'solid', value: 'solid'},
-      {label: 'dashed', value: 'dashed'},
-      {label: 'dotted', value: 'dotted'}
-    ]
-  })
-  type: string = 'dashed'
-}
-
 export class AreaStyleComponentOption {
   _enabled: boolean = true
   static controls: Array<IControl> = []
@@ -1524,6 +1596,8 @@ export class MarkAreaComponentOption {
 
 export class SeriesComponentOption {
   _enabled: boolean = true
+  _disabledType: boolean = false
+  _disabledSort: boolean = false
   static controls: Array<IControl> = []
   constructor(defaultValues: any = null) {
     Util.cloneTo(defaultValues, this, true)
@@ -1532,6 +1606,9 @@ export class SeriesComponentOption {
   @ComponentControl({
     type: ControlType.select,
     title: '图形形状',
+    show(opt: any) {
+      return !opt._disabledType
+    },
     options: [
       {label: '线性', value: 'line'},
       {label: '柱状', value: 'bar'},
@@ -1546,7 +1623,7 @@ export class SeriesComponentOption {
     type: ControlType.boolean,
     title: '动态排序',
     show(opt: any) {
-      return opt.type == 'bar'
+      return opt.type == 'bar' && !opt._disabledSort
     }
   })
   realtimeSort: boolean = false

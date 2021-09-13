@@ -21,7 +21,10 @@ import {
   DataOperationComponentOption,
   AxisLabelComponentOption,
   AreaStyleComponentOption,
-  SeriesLabelComponentOption
+  SeriesLabelComponentOption,
+  AxisLineComponentOption,
+  AxisTickComponentOption,
+  LineStyleComponentOption
 } from '../base'
 import RadarChart from './RadarChart.vue'
 
@@ -55,6 +58,13 @@ export class FieldComponentOption {
     multiple: false
   })
   min = []
+
+  @ComponentControl({
+    type: ControlType.fieldSelect,
+    title: '工具提示',
+    multiple: true
+  })
+  tooltip = []
 }
 
 export class RadarAreaStyleComponentOption {
@@ -163,6 +173,13 @@ export class RadarSeriesComponentOption {
 
 class RadarNameComponentOption {
   static controls = []
+
+  @ComponentControl({type: ControlType.boolean, title: '显示名称'})
+  show: boolean = true
+
+  @ComponentControl({type: ControlType.textarea, title: '显示格式'})
+  formatter: string = ''
+
   color: string = ''
   fontSize: string = ''
   fontFamily: string = ''
@@ -171,11 +188,48 @@ class RadarNameComponentOption {
   backgroundColor: string = ''
 }
 
+export class SplitLineComponentOption {
+  _enabled: boolean = true
+  static controls: Array<IControl> = []
+
+  @ComponentControl({type: ControlType.boolean, title: '是否显示'})
+  show: boolean = true
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '线条样式',
+    children: LineStyleComponentOption.controls
+  })
+  lineStyle: LineStyleComponentOption = new LineStyleComponentOption({
+    type: 'solid'
+  })
+
+  constructor(defaultValues: any = null) {
+    Util.cloneTo(defaultValues, this, true)
+  }
+}
+
+export class SplitAreaComponentOption {
+  _enabled: boolean = true
+  static controls: Array<IControl> = []
+
+  @ComponentControl({type: ControlType.boolean, title: '是否显示'})
+  show: boolean = true
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '区域样式',
+    children: RadarAreaStyleComponentOption.controls
+  })
+  areaStyle: RadarAreaStyleComponentOption = new RadarAreaStyleComponentOption()
+
+  constructor(defaultValues: any = null) {
+    Util.cloneTo(defaultValues, this, true)
+  }
+}
+
 class RadarConfigComponentOption {
   static controls = []
-
-  @ComponentControl({type: ControlType.boolean, title: '显示名称'})
-  show: boolean = true
 
   @ComponentControl({
     type: ControlType.styleLength,
@@ -209,7 +263,7 @@ class RadarConfigComponentOption {
 
   @ComponentControl({
     type: ControlType.style,
-    title: '文字样式',
+    title: '指示器名称样式',
     options: [
       StyleType.fontSize,
       StyleType.color,
@@ -218,13 +272,26 @@ class RadarConfigComponentOption {
       StyleType.backgroundColor
     ]
   })
-  axisName: RadarNameComponentOption = new RadarNameComponentOption()
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '指示器名称',
+    children: RadarNameComponentOption.controls
+  })
+  name: RadarNameComponentOption = new RadarNameComponentOption()
 
   @ComponentControl({
     type: ControlType.number,
-    title: '指示器名称和指示器轴的距离'
+    title: '指示器名称和轴的距离'
   })
-  axisNameGap: number = 15
+  nameGap: number = 15
+
+  @ComponentControl({
+    type: ControlType.boolean,
+    title: '是否是脱离0值比例',
+    description:
+      '设置成后坐标刻度不会强制包含零刻度。在双数值轴的散点图中比较有用'
+  })
+  scale?: boolean
 
   @ComponentControl({
     type: ControlType.number,
@@ -254,12 +321,42 @@ class RadarConfigComponentOption {
   })
   @ComponentControl({
     type: ControlType.subset,
-    title: '',
+    title: '坐标轴刻度标签',
     children: AxisLabelComponentOption.controls
   })
   axisLabel: AxisLabelComponentOption = new AxisLabelComponentOption({
     show: false
   })
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '坐标轴轴线',
+    children: AxisLineComponentOption.controls
+  })
+  axisLine: AxisLineComponentOption = new AxisLineComponentOption({
+    show: false
+  })
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '坐标轴刻度',
+    children: AxisTickComponentOption.controls
+  })
+  axisTick: AxisTickComponentOption = new AxisTickComponentOption({length: 0})
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '分隔线',
+    children: SplitLineComponentOption.controls
+  })
+  splitLine: SplitLineComponentOption = new SplitLineComponentOption()
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '分隔区域',
+    children: SplitAreaComponentOption.controls
+  })
+  splitArea: SplitAreaComponentOption = new SplitAreaComponentOption()
 }
 
 export class RadarChartComponentOption extends BaseComponentOption {
