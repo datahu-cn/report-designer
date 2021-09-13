@@ -51,6 +51,7 @@ interface IDataTableColumn {
   treeNode?: boolean
   fieldFormatter: string
   slots: any
+  children?: Array<IDataTableColumn>
 }
 export default defineComponent({
   name: 'GridLayout',
@@ -62,10 +63,10 @@ export default defineComponent({
       let defaultOpt: any = null
       let selfOpt: any = null
       for (let opt of chart.option.columnStyles) {
-        if (opt.field == '__all__') {
+        if (opt.fields && opt.fields.indexOf('__all__') >= 0) {
           defaultOpt = opt
         }
-        if (opt.field == colName) {
+        if (opt.fields && opt.fields.indexOf(colName) >= 0) {
           selfOpt = opt
         }
       }
@@ -103,6 +104,9 @@ export default defineComponent({
           tcol.sortable = opt.sortable
           tcol.fixed = opt.fixed
           tcol.showOverflow = opt.showOverflow
+          if (opt.cellType == 'html') {
+            tcol.type = 'html'
+          }
           let field: IFieldInfo | null = props.data!.getFieldByDatasetIndex(
             tcol.fieldIndex
           )
@@ -314,9 +318,25 @@ export default defineComponent({
     }
 
     let headerCellStyle = (arg: any) => {
-      let column: any = getCol(arg.column.property)
-      if (column) {
-        return column.opt.headerCellStyle
+      let property = ''
+      let col = arg.column
+      // 表头分组栏目逻辑处理
+      while (!property && col) {
+        if (col.property) {
+          property = col.property
+          break
+        }
+        if (col.children && col.children.length > 0) {
+          col = col.children[0]
+        } else {
+          col = null
+        }
+      }
+      if (property) {
+        let column: any = getCol(property)
+        if (column) {
+          return column.opt.headerCellStyle
+        }
       }
     }
 
@@ -512,10 +532,54 @@ export default defineComponent({
       return cols
     })
 
+    // 表头合并分组
+    let groupGridColumns: ComputedRef<Array<IDataTableColumn>> = computed(
+      () => {
+        let result: Array<IDataTableColumn> = []
+        for (let col of gridColumns.value) {
+          if (
+            col.opt &&
+            col.opt.columnGroups &&
+            col.opt.columnGroups.length > 0
+          ) {
+            let parentCol: IDataTableColumn
+            let children = result
+            for (let groupName of col.opt.columnGroups) {
+              if (!groupName) {
+                continue
+              }
+              let has = false
+              for (let parent of children) {
+                if (parent.title == groupName) {
+                  parentCol = parent
+                  if (!parentCol.children) {
+                    parentCol.children = []
+                  }
+                  children = parentCol.children
+                  has = true
+                  break
+                }
+              }
+              if (!has) {
+                let newCol: any = {title: groupName, children: [], field: ''}
+                children.push(newCol)
+                parentCol = newCol
+                children = newCol.children
+              }
+            }
+            children.push(col)
+          } else {
+            result.push(col)
+          }
+        }
+        return result
+      }
+    )
+
     let gridOptions = computed(() => {
       let gridOpt = {
         data: tableData.value,
-        columns: gridColumns.value,
+        columns: groupGridColumns.value,
         size: 'mini',
         height: '100%',
         highlightHoverRow: true,

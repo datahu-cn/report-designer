@@ -108,6 +108,7 @@ export class ColumnStyleComponentOption {
   @ComponentControl({
     type: ControlType.select,
     title: '适用列',
+    multiple: true,
     options: (option: any, chart: any) => {
       let opts = [
         {label: '所有列', value: '__all__'},
@@ -124,7 +125,7 @@ export class ColumnStyleComponentOption {
       return opts
     }
   })
-  field: string = '__all__'
+  fields: Array<string> = ['__all__']
 
   @ComponentControl({
     type: ControlType.boolean,
@@ -137,6 +138,16 @@ export class ColumnStyleComponentOption {
     title: '列位置序号'
   })
   order: number = 0
+
+  @ComponentControl({
+    type: ControlType.text,
+    array: true,
+    addable: true,
+    title: '列分组',
+    description:
+      '输入分组名称， 相同名称的列将分到同一组，多层分组可添加多个分组名称'
+  })
+  columnGroups: Array<string> = []
 
   @ComponentControl({
     type: ControlType.boolean,
@@ -175,7 +186,10 @@ export class ColumnStyleComponentOption {
   @ComponentControl({
     type: ControlType.select,
     title: '单元格类型',
-    options: [{label: '文字', value: 'text'}]
+    options: [
+      {label: '文本', value: 'text'},
+      {label: 'html', value: 'html'}
+    ]
   })
   cellType: string = 'text'
 
@@ -185,7 +199,6 @@ export class ColumnStyleComponentOption {
     options: [
       {label: '不汇总', value: 'none'},
       {label: '自动', value: 'auto'},
-      {label: '倒序', value: 'desc'},
       {label: '计数', value: DataMergeType.count},
       {label: '求和', value: DataMergeType.sum}
     ]
@@ -300,12 +313,12 @@ class TableGroupComponentOption {
 
   @ComponentControl({
     type: ControlType.select,
-    title: '层次结构',
+    title: '行层次结构',
     options: [
       {label: '无层次', value: 'none'},
       {label: '行分组', value: 'rowGroup'},
       // {label: '列分组', value: 'columnGroup'},
-      {label: '树形结构', value: 'tree'}
+      {label: '树形', value: 'tree'}
     ]
   })
   type: string = 'none'
