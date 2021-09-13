@@ -1,36 +1,35 @@
-# report-designer
+# Data Hu report-designer
 
-#### Description
-Data Hu 报表设计器, 用于数据分析、数据建模、报表设计
+#### 介绍
 
-#### Software Architecture
-Software architecture description
+Data Hu 报表设计器, 用于数据分析、数据建模、报表设计。
+网站地址： [https://datahu.cn](https://datahu.cn)
+文档地址： [https://datahu.cn/docs/](https://datahu.cn/docs/)
 
-#### Installation
+![](https://datahu.oss-cn-beijing.aliyuncs.com/desktop/datahu.gif)
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+#### 开发开始教程
 
-#### Instructions
+1.  克隆项目，从仓库克隆源码到本地
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+    ```
+    git clone git@gitee.com:datahu-cn/report-designer.git`
+    cd report-designer
+    ```
 
-#### Contribution
+2.  初始化项目
 
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
+    ```
+    yarn preinit
+    ```
 
+3.  启动项目，此时为开发模式
 
-#### Gitee Feature
+    ```
+    yarn start
+    ```
 
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+4.  打包项目，打包成功后，将在 desktop/dist 下生成对应环境的安装包
+    ```
+    yarn package
+    ```
