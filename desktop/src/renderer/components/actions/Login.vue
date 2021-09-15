@@ -114,7 +114,7 @@
                   <a @click="linkUrl('/signup')">注册新用户</a>
                 </a-col>
                 <a-col :span="12" class="c-login-link-right">
-                  <a @click="linkUrl('/forget')">忘记密码</a>
+                  <!-- <a @click="linkUrl('/forget')">忘记密码</a> -->
                 </a-col>
               </a-row>
             </a-form-item>
@@ -330,7 +330,7 @@ export default defineComponent({
     }
 
     let linkUrl = async (url: string) => {
-      openLink(url)
+      openLink(user.server + url)
     }
 
     let switchUser = () => {

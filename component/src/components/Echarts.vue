@@ -10,6 +10,7 @@
 import {defineComponent, ref, onMounted, watch, watchEffect} from 'vue'
 import * as echarts from 'echarts'
 import 'echarts-gl'
+import 'echarts/extension/bmap/bmap'
 import {Resize, Util} from '@datahu/core'
 import {ChartUtil} from '../base'
 export default defineComponent({

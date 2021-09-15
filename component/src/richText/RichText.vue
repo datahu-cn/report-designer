@@ -7,12 +7,12 @@
         ref="editorRef"
       ></div>
       <div class="com-rich-text-drop-panel">
-        <drop-panel
+        <DropPanel
           @size-change="sizeChange"
           @remove-chart="dropPanelRemoveChart"
           ref="dropPanelRef"
           :chart="chart"
-        ></drop-panel>
+        ></DropPanel>
       </div>
     </div>
   </div>
@@ -40,7 +40,8 @@ import {
   createVNode,
   nextTick
 } from 'vue'
-import {GridLayoutComponent} from '../gridLayout'
+import {SplitLayoutComponent} from '../splitLayout'
+import DropPanel from '../chart/DropPanel.vue'
 import EditorJS from '@editorjs/editorjs'
 import Paragraph from '@editorjs/paragraph'
 import Header from '@editorjs/header'
@@ -58,6 +59,7 @@ import Delimiter from '@editorjs/delimiter'
 export default defineComponent({
   name: 'RichText',
   props: ['chart', 'data', 'pkg', 'view', 'language'],
+  components: {DropPanel},
   setup(props) {
     let chart = props.chart
 
@@ -67,11 +69,12 @@ export default defineComponent({
       if (dropPanelRef.value) {
         let newChart = {
           filters: [],
-          type: GridLayoutComponent.name,
-          option: new GridLayoutComponent(props.language).option,
+          type: SplitLayoutComponent.name,
+          option: new SplitLayoutComponent(props.language).option,
           children: []
         }
         newChart.option.disableDrag = true
+        newChart.option.split.rows = ['1']
         dropPanelRef.value.addChild(newChart)
       }
     }
@@ -187,7 +190,7 @@ export default defineComponent({
 
       static get toolbox() {
         return {
-          title: 'RichTextChartPanel',
+          title: '组件面板',
           icon: '<svg t="1618673527873" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6021" width="15" height="15"><path d="M888 792H200V168c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v688c0 4.4 3.6 8 8 8h752c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8z" fill="#595959" p-id="6022"></path><path d="M272 728h536c4.4 0 8-3.6 8-8V284c0-7.2-8.7-10.7-13.7-5.7L592 488.6l-125.4-124c-3.1-3.1-8.2-3.1-11.3 0l-189 189.6c-1.5 1.5-2.3 3.5-2.3 5.6V720c0 4.4 3.6 8 8 8z" fill="#595959" p-id="6023"></path></svg>'
         }
       }
@@ -320,7 +323,7 @@ export default defineComponent({
         holder: editorRef.value,
         readOnly: props.view,
         tools: {
-          RichTextChartPanel,
+          // RichTextChartPanel,
           header: {
             class: Header,
             config: {
@@ -442,15 +445,21 @@ export default defineComponent({
 .com-rich-text {
   width: 100%;
   height: 100%;
+  overflow: auto;
+  .cdx-input.image-tool__caption {
+    display: none;
+  }
+  .cdx-input.cdx-quote__caption {
+    display: none;
+  }
   .ce-inline-toolbar,
   .ce-toolbar,
   .ce-settings {
-    position: fixed;
+    // position: fixed;
   }
   .com-rich-text-panel {
-    height: 100%;
-    overflow: auto;
-    position: relative;
+    // height: 100%;
+    // position: relative;
     .com-rich-text-panel-editor {
       left: 0px;
       top: 0px;

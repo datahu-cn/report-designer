@@ -332,11 +332,9 @@ export default defineComponent({
           col = null
         }
       }
-      if (property) {
-        let column: any = getCol(property)
-        if (column) {
-          return column.opt.headerCellStyle
-        }
+      let column: any = getCol(property)
+      if (column) {
+        return column.opt.headerCellStyle
       }
     }
 
@@ -449,7 +447,8 @@ export default defineComponent({
       return [totals]
     })
 
-    let footerMethod = () => {
+    let footerMethod = (arg: any) => {
+      let {columns, data} = arg
       return footerData.value
     }
 

@@ -12,7 +12,7 @@
       className
     ]"
     @mousedown="elementMouseDown"
-    @keydown.stop="onKeyDown"
+    @keydown="onKeyDown"
     :tabindex="resizable || draggable ? 1 : -1"
     @focus.stop="onFocus"
   >

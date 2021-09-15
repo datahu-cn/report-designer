@@ -7,6 +7,7 @@
             <a-select
               class="c-style-fontfamily"
               size="small"
+              :allow-clear="true"
               v-model:value="SelectSymbol"
               :dropdown-match-select-width="false"
               @change="change"

@@ -48,17 +48,46 @@ export default defineComponent({
       let series: Array<any> = []
       let tooltips: Array<ITooltip> = []
 
-      let formatPathSeries = (serieOpt: any, dataIndex: number) => {
+      let formatPathSeries = (
+        serieOpt: any,
+        dataIndex: number,
+        index: number
+      ) => {
         let mapData = []
+        let colorDataIndex = -1
+        if (dataset.map['colors'] && dataset.map['colors'].length > index) {
+          colorDataIndex = dataset.map['colors'][index]
+        }
+
+        let widthDataIndex = -1
+        if (dataset.map['widths'] && dataset.map['widths'].length > index) {
+          widthDataIndex = dataset.map['widths'][index]
+        }
+
         for (let i = 1; i < dataset.data.length; i++) {
           let row = dataset.data[i]
           if (row.length > 0) {
             let paths = row[dataIndex]
             if (paths && paths.length > 0) {
               let item: any = {
-                coords: []
+                coords: [],
+                name: row[0]
               }
-
+              if (colorDataIndex >= 0) {
+                if (!item.lineStyle) {
+                  item.lineStyle = {}
+                }
+                item.lineStyle.color = row[colorDataIndex]
+              }
+              if (widthDataIndex >= 0) {
+                if (!item.lineStyle) {
+                  item.lineStyle = {}
+                }
+                item.lineStyle.width = row[widthDataIndex]
+              }
+              if (typeof paths == 'string') {
+                paths = paths.split(';')
+              }
               for (let path of paths) {
                 if (path && path.split) {
                   let coords = path.split(',')
@@ -92,56 +121,57 @@ export default defineComponent({
         let newSeries = Util.copy(seriesOpt)
         newSeries.name = dataset.data[0][dataIndex]
         series.push(newSeries)
-        formatPathSeries(newSeries, dataIndex)
+
+        formatPathSeries(newSeries, dataIndex, index)
         index++
       }
 
-      for (let tooltipField of dataset.map['tooltip']) {
-        if (
-          tooltipField != 0 &&
-          dataset.map['series'].indexOf(tooltipField) < 0
-        ) {
-          tooltips.push({
-            name: dataset.data[0][tooltipField],
-            field: tooltipField
-          })
-        }
-      }
+      // for (let tooltipField of dataset.map['tooltip']) {
+      //   if (
+      //     tooltipField != 0 &&
+      //     dataset.map['series'].indexOf(tooltipField) < 0
+      //   ) {
+      //     tooltips.push({
+      //       name: dataset.data[0][tooltipField],
+      //       field: tooltipField
+      //     })
+      //   }
+      // }
 
       let opt = {
         title: {
           text: ''
         },
         backgroundColor: 'transparent',
-        dataset: {
-          source: dataset.data
-        },
+        // dataset: {
+        //   source: dataset.data
+        // },
         amap: option.amap,
-        tooltip: {
-          show: option.tooltip.show,
-          trigger: 'item',
-          appendToBody: true,
-          padding: 0,
-          borderWidth: 0,
-          // alwaysShowContent: true,
-          axisPointer: {
-            type: 'cross'
-          },
-          confine: true,
-          formatter(params: any) {
-            return ChartUtil.getTooltipFormatter(
-              params,
-              tooltips,
-              props.optionAfterTheme!.tooltip,
-              dataset.data,
-              chartData,
-              0
-            )
-          }
-        },
+        // tooltip: {
+        //   show: option.tooltip.show,
+        //   trigger: 'item',
+        //   appendToBody: true,
+        //   padding: 0,
+        //   borderWidth: 0,
+        //   // alwaysShowContent: true,
+        //   axisPointer: {
+        //     type: 'cross'
+        //   },
+        //   confine: true,
+        //   formatter(params: any) {
+        //     return ChartUtil.getTooltipFormatter(
+        //       params,
+        //       tooltips,
+        //       props.optionAfterTheme!.tooltip,
+        //       dataset.data,
+        //       chartData,
+        //       0
+        //     )
+        //   }
+        // },
         legend: option.legend,
-        series: series,
-        visualMap: option.visualMap
+        series: series
+        // visualMap: option.visualMap
       }
       return opt
     })

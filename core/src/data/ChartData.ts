@@ -27,7 +27,7 @@ export class ChartData {
   fieldMap: any
   private relationships: Array<IRelationshipDefinition> = []
   structure: any
-  rows: Array<any> = []
+  // rows: Array<any> = []
 
   private ralationshipCache: any = {}
   fields: Array<IFieldInfo> = []
@@ -81,7 +81,7 @@ export class ChartData {
       // 数据为空，主要是删除图表时的问题
       return
     }
-    this.rows = this.merge()
+    this.merge()
   }
 
   public isReady(): boolean {
@@ -159,6 +159,33 @@ export class ChartData {
     return null
   }
 
+  public getDatasetIndexByField(field: IFieldInfo): number | null {
+    if (field == this.mainField) {
+      return 0
+    }
+    let index = 0
+    for (let key in this.fieldMap) {
+      if (
+        index == 0 &&
+        this.chart.option.mergeMethod == DataMergeMethod.table
+      ) {
+        index++
+        continue
+      }
+
+      let infos = this.fieldMap[key]
+      if (infos && infos.length > 0) {
+        for (let info of infos) {
+          if (info == field) {
+            return index
+          }
+          index++
+        }
+      }
+    }
+    return null
+  }
+
   public getFieldByName(fieldName: string): IFieldInfo | undefined {
     for (let key in this.fieldMap) {
       let infos = this.fieldMap[key]
@@ -191,7 +218,15 @@ export class ChartData {
   }
 
   public getRow(field: IFieldInfo): Array<any> {
-    return Util.getRow(this.rows, field.columnId)
+    let index = this.getDatasetIndexByField(field)
+    if (index != null) {
+      let row = []
+      for (let i = 1; i < this.dataset.data.length; i++) {
+        row.push(this.dataset.data[i][index])
+      }
+      return row
+    }
+    return []
   }
   public getMainRow(): Array<any> {
     if (!this.mainField) {
@@ -326,10 +361,10 @@ export class ChartData {
     }
 
     //只有主栏目，而且主栏目进行汇总时
-    let mergeRows: Array<any> = []
+    // let mergeRows: Array<any> = []
     if (this.chart.option.mergeMethod == DataMergeMethod.row) {
       let arr: Array<any> = []
-      let row: any = {}
+      // let row: any = {}
       for (let key in this.fieldMap) {
         let infos = this.fieldMap[key]
         if (infos && infos.length > 0) {
@@ -339,12 +374,12 @@ export class ChartData {
               info
             )
             arr.push(v)
-            row[info.columnId] = v
+            // row[info.columnId] = v
           }
         }
       }
       this.dataset.data.push(arr)
-      mergeRows.push(row)
+      // mergeRows.push(row)
     } else {
       // 主栏目不进行合并
       for (let row of this.data[this.structure[this.mainField.tableId]]) {
@@ -367,20 +402,20 @@ export class ChartData {
         }
       }
       for (let mainV of mainRowData) {
-        let mergeRow: any = {}
+        // let mergeRow: any = {}
         let arr = []
         arr.push(mainV[0])
-        mergeRow[this.mainField.columnId] = mainV[0]
+        // mergeRow[this.mainField.columnId] = mainV[0]
         for (let fieldV of mainV[1]) {
           let v = this.getFieldMergeValue(fieldV[1], fieldV[0])
-          mergeRow[fieldV[0].columnId] = v
+          // mergeRow[fieldV[0].columnId] = v
           arr.push(v)
         }
         this.dataset.data.push(arr)
-        mergeRows.push(mergeRow)
+        // mergeRows.push(mergeRow)
       }
     }
-    return mergeRows
+    // return mergeRows
   }
 
   public getDataset() {

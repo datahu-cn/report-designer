@@ -56,17 +56,17 @@ export default defineComponent({
         index++
       }
 
-      for (let tooltipField of dataset.map['tooltip']) {
-        if (
-          tooltipField != 0 &&
-          dataset.map['series'].indexOf(tooltipField) < 0
-        ) {
-          tooltips.push({
-            name: dataset.data[0][tooltipField],
-            field: tooltipField
-          })
-        }
-      }
+      // for (let tooltipField of dataset.map['tooltip']) {
+      //   if (
+      //     tooltipField != 0 &&
+      //     dataset.map['series'].indexOf(tooltipField) < 0
+      //   ) {
+      //     tooltips.push({
+      //       name: dataset.data[0][tooltipField],
+      //       field: tooltipField
+      //     })
+      //   }
+      // }
 
       // let mapData = []
       // for (let i = 1; i < dataset.data.length; i++) {
@@ -83,28 +83,28 @@ export default defineComponent({
         },
         backgroundColor: 'transparent',
         amap: option.amap,
-        tooltip: {
-          show: option.tooltip.show,
-          trigger: 'item',
-          appendToBody: true,
-          padding: 0,
-          borderWidth: 0,
-          // alwaysShowContent: true,
-          axisPointer: {
-            type: 'cross'
-          },
-          confine: true,
-          formatter(params: any) {
-            return ChartUtil.getTooltipFormatter(
-              params,
-              tooltips,
-              props.optionAfterTheme!.tooltip,
-              dataset.data,
-              chartData,
-              0
-            )
-          }
-        },
+        // tooltip: {
+        //   show: option.tooltip.show,
+        //   trigger: 'item',
+        //   appendToBody: true,
+        //   padding: 0,
+        //   borderWidth: 0,
+        //   // alwaysShowContent: true,
+        //   axisPointer: {
+        //     type: 'cross'
+        //   },
+        //   confine: true,
+        //   formatter(params: any) {
+        //     return ChartUtil.getTooltipFormatter(
+        //       params,
+        //       tooltips,
+        //       props.optionAfterTheme!.tooltip,
+        //       dataset.data,
+        //       chartData,
+        //       0
+        //     )
+        //   }
+        // },
         legend: option.legend,
         series: series,
         visualMap: option.visualMap

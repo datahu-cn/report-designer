@@ -70,7 +70,6 @@
     "axios": "^0.21.1",
     "cardinal": "^2.1.1",
     "echarts": "^5.0.2",
-    "echarts-countries-js": "^1.0.4",
     "echarts-gl": "^2.0.4",
     "electron-debug": "^3.2.0",
     "electron-store": "^7.0.1",

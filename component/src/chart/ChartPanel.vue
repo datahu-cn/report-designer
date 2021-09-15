@@ -589,7 +589,7 @@ export default defineComponent({
             }
           }
         }
-        e.preventDefault()
+        // e.preventDefault()
         e.stopPropagation()
       }
     }

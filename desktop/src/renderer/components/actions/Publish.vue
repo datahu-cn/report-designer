@@ -248,7 +248,7 @@ export default defineComponent({
     }
 
     let linkUrl = async (url: string) => {
-      openLink(url)
+      openLink(currentUser.value.server + url)
     }
 
     let categories = ref([])
