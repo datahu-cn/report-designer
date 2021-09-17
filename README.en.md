@@ -39,64 +39,64 @@ Data Hu 报表设计器, 用于数据分析、数据建模、报表设计。
 
 ##### 布局容器
 
-- [多页布局](https://datahu.cn/docs/chart/page-layout)
+- [多页布局](https://datahu.cn/docs/chart/page-layout.html)
 
-- [响应式栅格布局](https://datahu.cn/docs/chart/grid-layout)
+- [响应式栅格布局](https://datahu.cn/docs/chart/grid-layout.html)
 
-- [拆分行列布局](https://datahu.cn/docs/chart/split-layout)
+- [拆分行列布局](https://datahu.cn/docs/chart/split-layout.html)
 
 ##### 图表组件
 
-- [线性图](https://datahu.cn/docs/chart/line-chart)
+- [线性图](https://datahu.cn/docs/chart/line-chart.html)
 
-- [面积图](https://datahu.cn/docs/chart/area-chart)
+- [面积图](https://datahu.cn/docs/chart/area-chart.html)
 
-- [柱状图](https://datahu.cn/docs/chart/bar-chart)
+- [柱状图](https://datahu.cn/docs/chart/bar-chart.html)
 
-- [条形图](https://datahu.cn/docs/chart/bar-horizontal-chart)
+- [条形图](https://datahu.cn/docs/chart/bar-horizontal-chart.html)
 
-- [饼图](https://datahu.cn/docs/chart/pie-chart)
+- [饼图](https://datahu.cn/docs/chart/pie-chart.html)
 
-- [散点图](https://datahu.cn/docs/chart/scatter-chart)
+- [散点图](https://datahu.cn/docs/chart/scatter-chart.html)
 
-- [K 线图](https://datahu.cn/docs/chart/candlestick-chart)
+- [K 线图](https://datahu.cn/docs/chart/candlestick-chart.html)
 
-- [瀑布图](https://datahu.cn/docs/chart/waterfall-chart)
+- [瀑布图](https://datahu.cn/docs/chart/waterfall-chart.html)
 
-- [矩形树图](https://datahu.cn/docs/chart/treemap-chart)
+- [矩形树图](https://datahu.cn/docs/chart/treemap-chart.html)
 
-- [仪表盘](https://datahu.cn/docs/chart/gauge-chart)
+- [仪表盘](https://datahu.cn/docs/chart/gauge-chart.html)
 
-- [漏斗图](https://datahu.cn/docs/chart/funnel-chart)
+- [漏斗图](https://datahu.cn/docs/chart/funnel-chart.html)
 
-- [雷达图](https://datahu.cn/docs/chart/radar-chart)
+- [雷达图](https://datahu.cn/docs/chart/radar-chart.html)
 
-- [数据表](https://datahu.cn/docs/chart/data-table)
+- [数据表](https://datahu.cn/docs/chart/data-table.html)
 
-- [密度地图](https://datahu.cn/docs/chart/density-map-chart)
+- [密度地图](https://datahu.cn/docs/chart/density-map-chart.html)
 
-- [热点地图](https://datahu.cn/docs/chart/heat-amap-chart)
+- [热点地图](https://datahu.cn/docs/chart/heat-amap-chart.html)
 
-- [路径地图](https://datahu.cn/docs/chart/lines-amap-chart)
+- [路径地图](https://datahu.cn/docs/chart/lines-amap-chart.html)
 
-- [散点地图](https://datahu.cn/docs/chart/scatter-amap-chart)
+- [散点地图](https://datahu.cn/docs/chart/scatter-amap-chart.html)
 
-- [卡片](https://datahu.cn/docs/chart/card)
+- [卡片](https://datahu.cn/docs/chart/card.html)
 
-- [富文本](https://datahu.cn/docs/chart/rich-text)
+- [富文本](https://datahu.cn/docs/chart/rich-text.html)
 
-- [过滤器](https://datahu.cn/docs/chart/simple-slicer)
+- [过滤器](https://datahu.cn/docs/chart/simple-slicer.html)
 
 ##### 数据源
 
-- [excel](https://datahu.cn/docs/datasource/excel)
+- [excel](https://datahu.cn/docs/datasource/excel.html)
 
-- [Influx DB](https://datahu.cn/docs/datasource/influx)
+- [Influx DB](https://datahu.cn/docs/datasource/influx.html)
 
-- [MySql 数据库](https://datahu.cn/docs/datasource/mysql)
+- [MySql 数据库](https://datahu.cn/docs/datasource/mysql.html)
 
-- [Sql Server 数据库](https://datahu.cn/docs/datasource/sqlserver)
+- [Sql Server 数据库](https://datahu.cn/docs/datasource/sqlserver.html)
 
-- [Oracle 数据库](https://datahu.cn/docs/datasource/oracle)
+- [Oracle 数据库](https://datahu.cn/docs/datasource/oracle.html)
 
-- [Restful API](https://datahu.cn/docs/datasource/restful)
+- [Restful API](https://datahu.cn/docs/datasource/restful.html)
