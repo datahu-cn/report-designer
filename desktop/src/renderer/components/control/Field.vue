@@ -29,7 +29,7 @@
       :size="size"
       :disabled="disabled"
       v-if="config.type == 'password'"
-      v-model:value="innerValue"
+      v-model:value="passwordInnerValue"
       @change="change"
       :placeholder="config.title"
     />
@@ -217,7 +217,8 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, computed, ref, onMounted, watch} from 'vue'
+import {defineComponent, computed, ref, onMounted, watch, Ref} from 'vue'
+import {Util, Crypto} from '@datahu/core'
 import {useI18n} from '../../use/state'
 import CodeEditor from './CodeEditor.vue'
 import ColorPicker from './ColorPicker.vue'
@@ -264,7 +265,7 @@ export default defineComponent({
   setup(props: any, {emit}) {
     let i18n = useI18n()
 
-    let innerValue = computed({
+    let innerValue: Ref<any> = computed({
       get() {
         if (props.config.value && props.config.value.get) {
           return props.config.value.get(props.data, props.index)
@@ -280,6 +281,23 @@ export default defineComponent({
       }
     })
 
+    let passwordInnerValue = computed({
+      get() {
+        if (innerValue.value) {
+          return Crypto.Decrypt(innerValue.value, 'sjwkdjsklwjfdlks')
+        } else {
+          return innerValue.value
+        }
+      },
+      set(v: any) {
+        if (v) {
+          innerValue.value = Crypto.Encrypt(v, 'sjwkdjsklwjfdlks')
+        } else {
+          innerValue.value = v
+        }
+      }
+    })
+
     let change = (v: any) => {
       emit('change', v)
     }
@@ -287,7 +305,8 @@ export default defineComponent({
     return {
       i18n,
       innerValue,
-      change
+      change,
+      passwordInnerValue
     }
   }
 })

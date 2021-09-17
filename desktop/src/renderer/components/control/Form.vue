@@ -118,8 +118,8 @@ export default defineComponent({
     const {validate, validateInfos} = useForm(formRef, ruleRef)
 
     return {
-      labelCol: {span: 4},
-      wrapperCol: {span: 14},
+      labelCol: {span: 5},
+      wrapperCol: {span: 13},
       i18n,
       formRef,
       fieldFunction,

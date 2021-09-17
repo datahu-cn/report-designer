@@ -1,5 +1,6 @@
 import * as dataSources from '@datahu/datasource'
 import {IDataSource, Util} from '@datahu/core'
+import {getDataSourceTables, getDataSourceData} from './ServerRequest'
 export function getSupportDataSources(arg: any): Promise<any> {
   var results = []
   for (let d in dataSources) {
@@ -20,28 +21,51 @@ export function getSupportDataSources(arg: any): Promise<any> {
 }
 
 export async function getTables(arg: any): Promise<any> {
-  let type = arg.connector.type
-
-  for (let d in dataSources) {
-    var dsClass = (dataSources as any)[d] as any
-    if (dsClass.name == type) {
-      var ds = new dsClass(arg.language, arg.connector.config) as IDataSource
-      let results = await ds.getTables()
+  if (arg.connector.proxy && arg.connector.proxy.designEnabled) {
+    if (arg.connector.proxy.url && arg.connector.proxy.secret) {
+      let results = await getDataSourceTables(
+        arg.connector.proxy.url,
+        arg,
+        arg.connector.proxy.secret
+      )
       return results
+    }
+    throw new Error('代理网关地址或密钥未设置')
+  } else {
+    let type = arg.connector.type
+    for (let d in dataSources) {
+      var dsClass = (dataSources as any)[d] as any
+      if (dsClass.name == type) {
+        var ds = new dsClass(arg.language, arg.connector.config) as IDataSource
+        let results = await ds.getTables()
+        return results
+      }
     }
   }
   return
 }
 
 export async function getData(arg: any): Promise<any> {
-  let type = arg.connector.type
-
-  for (let d in dataSources) {
-    var dsClass = (dataSources as any)[d] as any
-    if (dsClass.name == type) {
-      var ds = new dsClass(arg.language, arg.connector.config) as IDataSource
-      let results = await ds.getData(arg.tables)
+  if (arg.connector.proxy && arg.connector.proxy.designEnabled) {
+    if (arg.connector.proxy.url && arg.connector.proxy.secret) {
+      let results = await getDataSourceData(
+        arg.connector.proxy.url,
+        arg,
+        arg.connector.proxy.secret
+      )
       return results
+    }
+    throw new Error('代理网关地址或密钥未设置')
+  } else {
+    let type = arg.connector.type
+
+    for (let d in dataSources) {
+      var dsClass = (dataSources as any)[d] as any
+      if (dsClass.name == type) {
+        var ds = new dsClass(arg.language, arg.connector.config) as IDataSource
+        let results = await ds.getData(arg.tables)
+        return results
+      }
     }
   }
   return

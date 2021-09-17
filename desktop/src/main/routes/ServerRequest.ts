@@ -171,3 +171,23 @@ export async function getTableDetail(arg: any) {
   )
   return result.data
 }
+
+export async function getDataSourceTables(
+  url: string,
+  arg: any,
+  token: string
+) {
+  let apiUrl = url.endsWith('/') ? url + 'getTables' : url + '/getTables'
+  let result = await http.post(apiUrl, arg, {
+    headers: {authorization: token}
+  })
+  return result.data
+}
+
+export async function getDataSourceData(url: string, arg: any, token: string) {
+  let apiUrl = url.endsWith('/') ? url + 'getData' : url + '/getData'
+  let result = await http.post(apiUrl, arg, {
+    headers: {authorization: token}
+  })
+  return result.data
+}

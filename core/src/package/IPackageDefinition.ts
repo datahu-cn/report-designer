@@ -1,8 +1,16 @@
 import {IFilterInfo} from '../data'
 import {ITableDefinition} from '../common'
+export interface IConnectorProxy {
+  designEnabled: boolean
+  publishEnabled: boolean
+  url: string
+  secret: string
+}
+
 export interface IConnectorDefinition {
   type: string
   id: string
+  proxy: IConnectorProxy
   config: object
 }
 export enum RelationshipType {
