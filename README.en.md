@@ -6,30 +6,97 @@ Data Hu 报表设计器, 用于数据分析、数据建模、报表设计。
 网站地址： [https://datahu.cn](https://datahu.cn)
 文档地址： [https://datahu.cn/docs/](https://datahu.cn/docs/)
 
-![](https://datahu.oss-cn-beijing.aliyuncs.com/desktop/datahu.gif)
+![](/datahu.gif)
 
-#### 开发开始教程
+#### 开始开发
 
-1.  克隆项目，从仓库克隆源码到本地
+1. 克隆项目，从仓库克隆源码到本地
 
-    ```
-    git clone git@gitee.com:datahu-cn/report-designer.git`
-    cd report-designer
-    ```
+   ```
+   git clone git@github.com:datahu-cn/report-designer.git`
+   cd report-designer
+   ```
 
-2.  初始化项目
+2. 初始化项目
 
-    ```
-    yarn preinit
-    ```
+   ```
+   yarn preinit
+   ```
 
-3.  启动项目，此时为开发模式
+3. 启动项目，此时为开发模式
 
-    ```
-    yarn start
-    ```
+   ```
+   yarn start
+   ```
 
-4.  打包项目，打包成功后，将在 desktop/dist 下生成对应环境的安装包
-    ```
-    yarn package
-    ```
+4. 打包项目，打包成功后，将在 desktop/dist 下生成对应环境的安装包
+
+   ```
+   yarn package
+   ```
+
+#### 支持的功能
+
+##### 布局容器
+
+- [多页布局](https://datahu.cn/docs/chart/page-layout)
+
+- [响应式栅格布局](https://datahu.cn/docs/chart/grid-layout)
+
+- [拆分行列布局](https://datahu.cn/docs/chart/split-layout)
+
+##### 图表组件
+
+- [线性图](https://datahu.cn/docs/chart/line-chart)
+
+- [面积图](https://datahu.cn/docs/chart/area-chart)
+
+- [柱状图](https://datahu.cn/docs/chart/bar-chart)
+
+- [条形图](https://datahu.cn/docs/chart/bar-horizontal-chart)
+
+- [饼图](https://datahu.cn/docs/chart/pie-chart)
+
+- [散点图](https://datahu.cn/docs/chart/scatter-chart)
+
+- [K 线图](https://datahu.cn/docs/chart/candlestick-chart)
+
+- [瀑布图](https://datahu.cn/docs/chart/waterfall-chart)
+
+- [矩形树图](https://datahu.cn/docs/chart/treemap-chart)
+
+- [仪表盘](https://datahu.cn/docs/chart/gauge-chart)
+
+- [漏斗图](https://datahu.cn/docs/chart/funnel-chart)
+
+- [雷达图](https://datahu.cn/docs/chart/radar-chart)
+
+- [数据表](https://datahu.cn/docs/chart/data-table)
+
+- [密度地图](https://datahu.cn/docs/chart/density-map-chart)
+
+- [热点地图](https://datahu.cn/docs/chart/heat-amap-chart)
+
+- [路径地图](https://datahu.cn/docs/chart/lines-amap-chart)
+
+- [散点地图](https://datahu.cn/docs/chart/scatter-amap-chart)
+
+- [卡片](https://datahu.cn/docs/chart/card)
+
+- [富文本](https://datahu.cn/docs/chart/rich-text)
+
+- [过滤器](https://datahu.cn/docs/chart/simple-slicer)
+
+##### 数据源
+
+- [excel](https://datahu.cn/docs/datasource/excel)
+
+- [Influx DB](https://datahu.cn/docs/datasource/influx)
+
+- [MySql 数据库](https://datahu.cn/docs/datasource/mysql)
+
+- [Sql Server 数据库](https://datahu.cn/docs/datasource/sqlserver)
+
+- [Oracle 数据库](https://datahu.cn/docs/datasource/oracle)
+
+- [Restful API](https://datahu.cn/docs/datasource/restful)
