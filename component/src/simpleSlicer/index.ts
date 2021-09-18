@@ -330,6 +330,10 @@ class SlicerComponentOption {
     title: '其他标注',
     array: true,
     addable: true,
+    codeDescription: {
+      params: [],
+      return: '标注的值'
+    },
     show(opt: any) {
       return (
         [
@@ -458,6 +462,10 @@ class SlicerComponentOption {
 
   @ComponentControl({
     type: ControlType.code,
+    codeDescription: {
+      params: [],
+      return: '默认值'
+    },
     title: '默认值',
     show(opt: any) {
       return (
@@ -481,6 +489,10 @@ class SlicerComponentOption {
   @ComponentControl({
     type: ControlType.code,
     title: '默认值',
+    codeDescription: {
+      params: [],
+      return: '默认值'
+    },
     array: true,
     addable: (opt: any): boolean => {
       return opt.type == 'multipleselect'

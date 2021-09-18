@@ -49,6 +49,21 @@ class EchartsOptionComponentOption {
 
   @ComponentControl({
     type: ControlType.code,
+    codeDescription: {
+      params: [
+        {name: 'option', description: 'echarts选项'},
+        {name: 'data', description: '数据数组'},
+        {name: 'myChart', description: 'echarts实例对象'},
+        {name: 'http', description: 'ajax操作工具类'},
+        {name: 'echarts', description: 'echarts全局对象类'},
+        {
+          name: 'ROOT_PATH',
+          description:
+            'https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/examples'
+        }
+      ],
+      return: ''
+    },
     title: '代码'
   })
   code: string = `option = {

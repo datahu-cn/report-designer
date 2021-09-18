@@ -81,7 +81,13 @@
                         </div>
                       </a-form-item>
                       <a-form-item label="代码">
-                        <CodeEditor v-model="selectedTable.sourceCode" />
+                        <CodeEditor
+                          v-model="selectedTable.sourceCode"
+                          :code-description="{
+                            params: [],
+                            return: 'SQL语句'
+                          }"
+                        />
                       </a-form-item>
                       <a-form-item>
                         <a-button

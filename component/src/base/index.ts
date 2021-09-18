@@ -2549,6 +2549,15 @@ class EventActionComponentOption {
   @ComponentControl({
     type: ControlType.code,
     title: '执行代码',
+    codeDescription: {
+      params: [
+        {name: 'chart', description: '当前组件定义对象'},
+        {name: 'chartData', description: '当前组件数据示例'},
+        {name: 'instance', description: '当前组件Vue组件示例对象'},
+        {name: 'chartState', description: '全局状态信息'}
+      ],
+      return: ''
+    },
     show(opt: any) {
       return opt.handler == 'run_code'
     }

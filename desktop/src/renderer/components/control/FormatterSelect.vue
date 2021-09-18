@@ -72,7 +72,14 @@
               </div>
             </div>
             <div v-else class="c-formatter-list">
-              <CodeEditor height="350px" v-model="sample.value"></CodeEditor>
+              <CodeEditor
+                height="350px"
+                v-model="sample.value"
+                :code-description="{
+                  params: [{name: 'value', description: '当前需要格式化的值'}],
+                  return: '格式化结果'
+                }"
+              ></CodeEditor>
             </div>
           </a-tab-pane>
         </a-tabs>

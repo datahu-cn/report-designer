@@ -70,6 +70,13 @@
                 <a-menu-item v-if="field.mergeType == 'code'">
                   <CodeEditor
                     @click.stop="emptyClick($event)"
+                    :code-description="{
+                      params: [
+                        {name: 'rows', description: '合并的对象数组'},
+                        {name: 'column', description: '合并列名称'}
+                      ],
+                      return: '合并结果值'
+                    }"
                     v-model="field.mergeCode"
                   />
                 </a-menu-item>

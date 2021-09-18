@@ -49,11 +49,17 @@ export default defineComponent({
       let desc = null
       if (state.selectedColumn) {
         desc = {
-          params: [{name: 'row', description: '当前行对象'}],
+          params: [
+            {name: 'table', description: '当前表格数据数组'},
+            {name: 'row', description: '当前行对象'}
+          ],
           return: '新栏目值'
         }
       } else {
-        desc = {params: [], return: '对象数组'}
+        desc = {
+          params: [{name: 'data', description: '所有表格数据对象'}],
+          return: '对象数组'
+        }
       }
       return desc
     })

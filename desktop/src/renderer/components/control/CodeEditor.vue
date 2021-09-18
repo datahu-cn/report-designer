@@ -18,23 +18,33 @@
       @ok="handleOk"
     >
       <div class="c-code-description">
-        <div
-          v-if="
-            codeDescription &&
-            codeDescription.params &&
-            codeDescription.params.length > 0
-          "
-        >
-          <h4>参数：</h4>
-          <p v-for="param in codeDescription.params" :key="param.name">
-            {{ param.name }}
-            <span v-if="param.description">{{ param.description }}</span>
-          </p>
-        </div>
-        <div v-if="codeDescription && codeDescription.return">
-          <h4>返回值：</h4>
-          <p>{{ codeDescription.return }}</p>
-        </div>
+        <table>
+          <tr
+            v-if="
+              codeDescription &&
+              codeDescription.params &&
+              codeDescription.params.length > 0
+            "
+            v-for="(param, index) in codeDescription.params"
+            :key="param.name"
+          >
+            <td v-if="index == 0" :rowspan="codeDescription.params.length">
+              <h4>参数：</h4>
+            </td>
+            <td>
+              <p>{{ param.name }}</p>
+            </td>
+            <td>
+              <p>{{ param.description }}</p>
+            </td>
+          </tr>
+          <tr v-if="codeDescription && codeDescription.return">
+            <td><h4>返回值：</h4></td>
+            <td colspan="2">
+              <p>{{ codeDescription.return }}</p>
+            </td>
+          </tr>
+        </table>
       </div>
       <div class="c-code-editor">
         <div class="c-code-modal-ref" ref="codeModalRef"></div>
@@ -416,14 +426,16 @@ export default defineComponent({
     padding: 10px 10px 5px 10px;
     margin-bottom: 10px;
     border-radius: var(--border-radius-base);
+    td {
+      vertical-align: top;
+    }
     h4 {
-      display: inline-block;
-      width: auto;
+      margin: 2px 10px;
     }
     p {
-      display: inline-block;
+      // display: inline-block;
       width: auto;
-      margin-bottom: 7px;
+      margin: 2px 10px;
     }
   }
 }

@@ -54,14 +54,14 @@
               <icon type="datasource" />
               <p v-if="showText">{{ i18n.main_dataSource }}</p>
             </li>
-            <li
+            <!-- <li
               :title="i18n.main_options"
               @click="selectTab('options')"
               :class="{selected: route.name == 'options'}"
             >
               <icon type="options" />
               <p v-if="showText">{{ i18n.main_options }}</p>
-            </li>
+            </li> -->
           </ul>
         </div>
         <div class="c-main-left-bottom">
