@@ -14,7 +14,8 @@ export function getSupportDataSources(arg: any): Promise<any> {
       description: ds.description,
       icon: ds.icon,
       sourceCode: ds.sourceCode,
-      disableNew: ds.disableNew
+      disableNew: ds.disableNew,
+      supportPager: ds.supportPager
     })
   }
   return Promise.resolve(results)
@@ -37,7 +38,7 @@ export async function getTables(arg: any): Promise<any> {
       var dsClass = (dataSources as any)[d] as any
       if (dsClass.name == type) {
         var ds = new dsClass(arg.language, arg.connector.config) as IDataSource
-        let results = await ds.getTables()
+        let results = await ds.getTables(arg.pager)
         return results
       }
     }

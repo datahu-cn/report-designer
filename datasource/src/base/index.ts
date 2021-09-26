@@ -9,7 +9,8 @@ import {
   StyleType,
   Util,
   IPackageDefinition,
-  DataMergeMethod
+  DataMergeMethod,
+  ITableQueryPager
 } from '@datahu/core'
 import {I18n} from '../i18n'
 
@@ -36,7 +37,9 @@ export class BaseDataSource implements IDataSource {
     // 数据源配置界面的配置控件
   }
 
-  getTables(): Promise<ITableDefinition[]> {
+  getTables(
+    pager: ITableQueryPager | null = null
+  ): Promise<ITableDefinition[]> {
     throw new Error('Method not implemented.')
   }
   getData(tables: ITableDefinition[]): Promise<object[]> {

@@ -8,36 +8,39 @@
       width="80%"
       v-model:visible="visible"
     >
-      <a-spin :spinning="loading">
-        <div class="c-select-tables">
-          <div class="c-select-actions">
-            <a-button
-              v-if="modelValue"
-              type="primary"
-              @click="editDataSource()"
-            >
-              编辑数据连接
-            </a-button>
-            <a-button
-              v-if="modelValue && modelValue.ds.sourceCode == 2"
-              type="primary"
-              @click="newSourceCodeTable()"
-            >
-              自定义代码
-            </a-button>
-          </div>
+      <div class="c-select-tables">
+        <div class="c-select-actions">
+          <a-button v-if="modelValue" type="primary" @click="editDataSource()">
+            编辑数据连接
+          </a-button>
+          <a-button
+            v-if="modelValue && modelValue.ds.sourceCode == 2"
+            type="primary"
+            @click="newSourceCodeTable()"
+          >
+            自定义代码
+          </a-button>
+        </div>
+        <a-spin :spinning="loading">
           <div class="c-layouts">
             <div class="c-layout-left">
+              <a-input-search
+                :default-value="tablePager.searchText"
+                placeholder="搜索表格名称"
+                style="width: 100%"
+                @search="onSearch"
+              />
               <a-table
                 :scroll="{x: true, y: true}"
                 size="small"
                 row-key="name"
-                :pagination="false"
                 :row-selection="computedSelection"
                 :columns="columns"
-                :data-source="tables"
+                :data-source="tableData"
                 :custom-row="customRow"
                 :row-class-name="rowClassName"
+                @change="handleTableChange"
+                :pagination="pagination"
               ></a-table>
             </div>
             <div class="c-layout-right">
@@ -115,8 +118,8 @@
               {{ i18n.common_submit }}
             </a-button>
           </div>
-        </div>
-      </a-spin>
+        </a-spin>
+      </div>
     </a-drawer>
   </div>
 </template>
@@ -125,7 +128,6 @@
 import {
   computed,
   defineComponent,
-  defineEmit,
   onMounted,
   reactive,
   toRefs,
@@ -137,11 +139,12 @@ import {useI18n, useState, useLanguage} from '../../use/state'
 import http from '../../use/http'
 import DataSourceTableViewer from './DataSourceTableViewer.vue'
 import DataSourceTableColumn from './DataSourceTableColumn.vue'
-import {message} from 'ant-design-vue'
+import {message, Pagination} from 'ant-design-vue'
 import {
   DataSourceHelper,
   IColumnDefinition,
   ITableDefinition,
+  ITableQueryPager,
   Util
 } from '@datahu/core'
 import CodeEditor from '../control/CodeEditor.vue'
@@ -225,15 +228,76 @@ export default defineComponent({
       selectedColumns.value = selected
     }
 
+    /** 开始 分页表格 */
+    let tablePagerTotal = ref(0)
+    let tablePager: Ref<ITableQueryPager> = ref({
+      current: 0,
+      pageSize: 20,
+      desc: false,
+      searchText: ''
+    })
+    const pagination: Ref<any> = computed(() => {
+      if (props.modelValue.ds.supportPager) {
+        return {
+          total: tablePagerTotal.value,
+          current: tablePager.value.current,
+          pageSize: tablePager.value.pageSize
+        }
+      }
+      return false
+    })
+
+    const handleTableChange = async (pag: any, filters: any, sorter: any) => {
+      tablePager.value.current = pag.current
+      tablePager.value.desc = sorter.order != 'descend'
+      if (props.modelValue.ds.supportPager) {
+        getTablesFromConnector()
+      }
+    }
+
+    let onSearch = (value: string) => {
+      tablePager.value.searchText = value
+      if (props.modelValue.ds.supportPager) {
+        getTablesFromConnector()
+      }
+    }
+    /** 结束 分页表格 */
+
     let tables: Ref<Array<any>> = ref([])
+    let tableData = computed(() => {
+      if (props.modelValue.ds.supportPager || !tablePager.value.searchText) {
+        return tables.value
+      } else {
+        return Util.filter(tables.value, (item: any) => {
+          return (
+            item.name
+              .toLowerCase()
+              .indexOf(tablePager.value.searchText.toLowerCase()) >= 0
+          )
+        })
+      }
+    })
     let getTablesFromConnector = async () => {
-      let arg = {
+      let arg: any = {
         connector: props.modelValue.connector,
         language: language.value
       }
+      if (props.modelValue.ds.supportPager) {
+        arg.pager = {
+          current: pagination.value.current,
+          pageSize: pagination.value.pageSize,
+          desc: tablePager.value.desc,
+          searchText: tablePager.value.searchText
+        }
+      }
       loading.value = true
-      let result = await http.request('DataSource/getTables', arg)
-      tables.value = result as any
+      let result: any = await http.request('DataSource/getTables', arg)
+      if (props.modelValue.ds.supportPager) {
+        tablePagerTotal.value = result.total
+        tables.value = result.tables as any
+      } else {
+        tables.value = result as any
+      }
       loading.value = false
       for (let t of sourceCodeTables.value) {
         tables.value.push(t)
@@ -590,7 +654,12 @@ export default defineComponent({
       tabSeletedChange,
       sourceCodeTableError,
       checkTableName,
-      editDataSource
+      editDataSource,
+      handleTableChange,
+      tablePager,
+      pagination,
+      onSearch,
+      tableData
     }
   }
 })
@@ -656,6 +725,9 @@ export default defineComponent({
       height: 100%;
       overflow-y: auto;
       border: 1px solid var(--border-color-base);
+      .ant-input-affix-wrapper {
+        border-color: transparent;
+      }
     }
     .c-layout-right {
       float: right;

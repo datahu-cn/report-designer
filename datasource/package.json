@@ -14,7 +14,8 @@
     "influx": "^5.9.0",
     "mssql": "^6.3.1",
     "mysql": "^2.18.1",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "sqlstring": "^2.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.13",
@@ -25,6 +26,7 @@
     "@types/mysql": "^2.15.17",
     "@types/node": "^14.14.22",
     "@types/oracledb": "^5.2.1",
+    "@types/sqlstring": "^2.3.0",
     "@vue/test-utils": "^2.0.0-rc.0",
     "babel-jest": "^26.6.3",
     "jest": "^26.6.3",

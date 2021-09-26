@@ -4,8 +4,10 @@ import {
   IColumnDefinition,
   ColumnType,
   Util,
-  Crypto
+  Crypto,
+  ITableQueryPager
 } from '@datahu/core'
+import {escape} from 'sqlstring'
 
 let db: any = (oracledb as any).initOracleClient
   ? oracledb
@@ -66,14 +68,28 @@ export class OracleHelper {
     }
   }
 
-  async getTables(): Promise<Array<ITableDefinition>> {
-    var data: any = await this
-      .query(`select  (col.OWNER || '.' || col.TABLE_NAME)  TABLE_NAME, 
+  async getTables(pager: ITableQueryPager): Promise<any> {
+    let startNum = pager.current * pager.pageSize
+    let endNum = startNum + pager.pageSize
+    let sql = `select  (col.OWNER || '.' || col.TABLE_NAME)  TABLE_NAME, 
        col.column_name COLUMN_NAME, 
        col.data_type DATA_TYPE
 from sys.all_tab_columns col
-inner join sys.all_objects t on col.owner = t.owner and (t.object_type = 'TABLE' or t.object_type = 'VIEW')
-and col.table_name = t.object_name and instr(col.table_name, '$') = 0`)
+inner join 
+( 
+select  OWNER, OBJECT_NAME from (
+select  OWNER, OBJECT_NAME, ROWNUM AS rowno from (
+select OWNER, OBJECT_NAME from sys.all_objects where (object_type = 'TABLE' or object_type = 'VIEW') ${
+      pager.searchText
+        ? " and   (OWNER || '.' || OBJECT_NAME) like " +
+          escape('%' + pager.searchText.toUpperCase() + '%')
+        : ''
+    } order by (OWNER || '.' || OBJECT_NAME) ${pager.desc ? 'desc' : ''}
+) p1 where ROWNUM < ${endNum} ) p2 where rowno >= ${startNum}
+ )
+ t on col.owner = t.owner
+and col.table_name = t.object_name`
+    let data: any = await this.query(sql)
     var groupColumns = Util.groupBy(data.rows as Array<any>, [0])
     var tables: Array<ITableDefinition> = []
     for (let t of groupColumns) {
@@ -98,7 +114,16 @@ and col.table_name = t.object_name and instr(col.table_name, '$') = 0`)
         table.columns.push(col)
       }
     }
-    return tables
+
+    let totalSql = `select count(*) COUNTTOYAL from sys.all_objects where (object_type = 'TABLE' or object_type = 'VIEW') ${
+      pager.searchText
+        ? " and   (OWNER || '.' || OBJECT_NAME) like " +
+          escape('%' + pager.searchText.toUpperCase() + '%')
+        : ''
+    }`
+    let totalData = await this.query(totalSql)
+    let total = totalData.rows[0][0]
+    return {tables, total}
   }
 
   private getSql(table: ITableDefinition): string {

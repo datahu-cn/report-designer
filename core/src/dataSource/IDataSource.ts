@@ -8,6 +8,16 @@ export enum SourceCode {
   JSON,
   Text
 }
+export interface ITableQueryPager {
+  // 当前页
+  current: number
+  pageSize: number
+  // 表格名称搜索
+  searchText: String
+
+  // 表格名称排序，是否降序
+  desc: boolean
+}
 
 export interface IDataSource {
   /** 当前环境语言，在构造数据源实例时传入 */
@@ -29,7 +39,7 @@ export interface IDataSource {
   sourceCode: SourceCode
 
   /** 获取该数据源下所有的表格定义 */
-  getTables(): Promise<Array<ITableDefinition>>
+  getTables(pager: ITableQueryPager | null): Promise<Array<ITableDefinition>>
 
   /** 获取指定表格下的数据 */
   getData(tables: Array<ITableDefinition>): Promise<Array<object>>
@@ -38,4 +48,7 @@ export interface IDataSource {
 
   /** 是否禁用新建 */
   disableNew?: boolean
+
+  /** 是否支持查询数据源表格时分页， 主要用户oracle数据源，内置表格数视图太多，需要分页查询 */
+  supportPager?: boolean
 }

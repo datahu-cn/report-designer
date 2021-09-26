@@ -349,7 +349,7 @@ export class ChartData {
    * 当只有一组栏目时， 第一组栏目可以进行汇总，用于卡片组件中
    * @returns
    */
-  private merge(): Array<any> {
+  private merge() {
     this.ralationshipCache = {}
     if (!this.mainField) {
       return []
