@@ -1,0 +1,15 @@
+{
+  "name": "@datahu/docs",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs & node build.js",
+    "serve": "vitepress serve docs"
+  },
+  "devDependencies": {
+    "fs-extra": "^10.0.0",
+    "vitepress": "^0.15.6"
+  }
+}
