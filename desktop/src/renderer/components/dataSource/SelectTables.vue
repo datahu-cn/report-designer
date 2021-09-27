@@ -40,8 +40,16 @@
                 :custom-row="customRow"
                 :row-class-name="rowClassName"
                 @change="handleTableChange"
-                :pagination="pagination"
+                :pagination="false"
               ></a-table>
+              <a-pagination
+                v-if="pagination"
+                v-model:current="pagination.current"
+                v-model:pageSize="pagination.pageSize"
+                :total="pagination.total"
+                show-less-items
+                @change="handleTableChange"
+              />
             </div>
             <div class="c-layout-right">
               <a-tabs
@@ -231,7 +239,7 @@ export default defineComponent({
     /** 开始 分页表格 */
     let tablePagerTotal = ref(0)
     let tablePager: Ref<ITableQueryPager> = ref({
-      current: 0,
+      current: 1,
       pageSize: 20,
       desc: false,
       searchText: ''
@@ -248,9 +256,14 @@ export default defineComponent({
     })
 
     const handleTableChange = async (pag: any, filters: any, sorter: any) => {
-      tablePager.value.current = pag.current
-      tablePager.value.desc = sorter.order != 'descend'
+      if (pag) {
+        tablePager.value.current = pag
+      }
+      if (sorter && sorter.order) {
+        tablePager.value.desc = sorter.order != 'descend'
+      }
       if (props.modelValue.ds.supportPager) {
+        selectedTable.value = null
         getTablesFromConnector()
       }
     }
@@ -258,6 +271,7 @@ export default defineComponent({
     let onSearch = (value: string) => {
       tablePager.value.searchText = value
       if (props.modelValue.ds.supportPager) {
+        selectedTable.value = null
         getTablesFromConnector()
       }
     }
@@ -610,7 +624,8 @@ export default defineComponent({
         isFormula: false,
         rows: undefined
       } as ITableDefinition
-      tables.value.push(table)
+      tables.value.splice(0, 0, table)
+      sourceCodeTables.value.splice(0, 0, table)
       selectedTable.value = table
       tabSelectedKey.value = '3'
       resetTableSelectColumns(table, '')

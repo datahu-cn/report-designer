@@ -75,7 +75,7 @@ export class PostgresqlHelper {
   }
 
   async getTables(pager: ITableQueryPager): Promise<any> {
-    let startNum = pager.current * pager.pageSize
+    let startNum = (pager.current - 1) * pager.pageSize
 
     let tableSql = `   from information_schema.tables ${
       pager.searchText
@@ -126,7 +126,7 @@ export class PostgresqlHelper {
     let sql = 'select '
     for (let col of table.columns) {
       if (!col.formula) {
-        sql += '' + col.name + '' + ','
+        sql += '"' + col.name + '"' + ','
       }
     }
     sql = sql.substring(0, sql.length - 1)

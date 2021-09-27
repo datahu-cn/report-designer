@@ -16,14 +16,14 @@ test('postgresql get tables / data', async () => {
   )
   let datasource = new PostgresqlDataSource('zh-cn', config)
   let pager: ITableQueryPager = {
-    current: 0,
+    current: 1,
     pageSize: 2000,
     desc: false,
     searchText: ''
   }
   let data = await datasource.getTables(pager)
   for (let t of data.tables) {
-    if (t.name == 'public.testtable') {
+    if (t.name == 'public.testtable2') {
       let data = await datasource.getData([t])
       expect(data.length == 1).toBeTruthy()
     }
