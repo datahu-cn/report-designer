@@ -33,6 +33,7 @@ export class BaseDataSource implements IDataSource {
   icon: string = ''
   constructor(language: string, config?: object) {
     this.language = language
+    this.config = config
     var i18n = I18n.get(this.language)
     // 数据源配置界面的配置控件
   }

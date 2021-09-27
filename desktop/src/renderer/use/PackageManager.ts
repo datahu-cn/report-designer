@@ -179,14 +179,18 @@ export class PackageManager {
   }
 
   getName(): string {
+    let splitPathChar = '/'
+    if(this.path.lastIndexOf('\\') >= 0){
+      splitPathChar = '\\'
+    }
     return this.path.substring(
-      this.path.lastIndexOf('/') + 1,
+      this.path.lastIndexOf(splitPathChar) + 1,
       this.path.length - '.datahu'.length
     )
   }
 
   hasPath(): boolean {
-    return this.path.lastIndexOf('/') >= 0
+    return this.path.lastIndexOf('/') >= 0 || this.path.lastIndexOf('\\') >= 0
   }
 
   async save(showMessage = true): Promise<void> {

@@ -30,7 +30,7 @@ export class MysqlHelper {
   createPool() {
     var option = {
       host: this.config.host,
-      // port: this.config.port,
+      port: this.config.port,
       user: this.config.user,
       password: Crypto.Decrypt(this.config.password, 'sjwkdjsklwjfdlks'),
       database: this.config.database,

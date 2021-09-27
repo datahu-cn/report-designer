@@ -24,7 +24,7 @@ module.exports = {
     // '<rootDir>/tests/mysql/MysqlDataSource.spec.ts?(x)',
     // '<rootDir>/tests/excel/ExcelDataSource.spec.ts?(x)',
     // '<rootDir>/tests/restful/RestfulDataSource.spec.ts?(x)',
-    '<rootDir>/tests/oracle/*.spec.ts?(x)'
+    '<rootDir>/tests/postgresql/*.spec.ts?(x)'
   ],
 
   transform: {

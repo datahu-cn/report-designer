@@ -53,7 +53,8 @@ module.exports.builtins = [
   'jszip',
   'form-data',
   'influx',
-  'oracledb'
+  'oracledb',
+  'pg'
 ]
 
 module.exports.default = [
