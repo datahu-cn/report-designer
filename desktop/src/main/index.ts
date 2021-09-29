@@ -3,6 +3,7 @@ import fs from 'fs'
 import {join, resolve} from 'path'
 import {format} from 'url'
 import ipc from './ipc'
+import {setMenu} from './menu'
 
 let isHandleSchemeWhenStart = false
 const gotTheLock = app.requestSingleInstanceLock()
@@ -16,6 +17,8 @@ if (!gotTheLock) {
    */
   const env = import.meta.env
   console.log('env', env)
+
+  setMenu()
 
   // Install "Vue.js devtools BETA"
   if (env.MODE === 'development') {
@@ -118,16 +121,6 @@ if (!gotTheLock) {
   app
     .whenReady()
     .then(() => {
-      let menu: any = Menu.getApplicationMenu()
-      // remove edit menu
-      for (let i = 0; i < menu.items.length; i++) {
-        let item = menu.items[i]
-        if (item.label == 'Edit' || item.label == 'Help') {
-          menu.items.splice(i, 1)
-          i--
-        }
-      }
-      Menu.setApplicationMenu(menu)
       createWindow()
     })
     .catch((e) => console.error('Failed create window:', e))

@@ -1,4 +1,3 @@
-import {Pool} from 'pg'
 import {
   ITableDefinition,
   IColumnDefinition,
@@ -9,9 +8,13 @@ import {
 } from '@datahu/core'
 import {escape} from 'sqlstring'
 
+// 使用 import {Pool} from 'pg', 编译时自动变成了 require('pg-native') 导致出错
+let pg = require('pg')
+let Pool: any = pg.Pool
+
 export class PostgresqlHelper {
   config: any
-  pool?: Pool
+  pool?: any
   constructor(config: any) {
     this.config = config
   }

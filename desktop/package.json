@@ -1,6 +1,6 @@
 {
   "name": "datahu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "main": "main/index.cjs.js",
   "scripts": {
@@ -81,6 +81,7 @@
     "jszip": "^3.6.0",
     "leader-line-vue": "^2.1.1",
     "lodash.debounce": "^4.0.8",
+    "moment": "^2.29.1",
     "mssql": "^6.3.1",
     "mysql": "^2.18.1",
     "oracledb": "^5.2.0",

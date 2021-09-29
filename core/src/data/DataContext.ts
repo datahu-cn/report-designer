@@ -8,7 +8,8 @@ import {
   Util
 } from '../common'
 import {IFilterInfo, DataFilter, IFieldInfo, DataMergeType} from './DataFilter'
-import * as moment from 'moment'
+import * as mt from 'moment'
+let moment = (mt as any).default || mt
 export enum ChartScopeType {
   global = 'global',
   self = 'self',
