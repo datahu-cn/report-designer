@@ -50,7 +50,9 @@
         type="link"
         :title="lock ? '解锁' : '锁定'"
       >
-        <template #icon><icon :type="lock ? 'lock' : 'unlock'" /></template>
+        <template #icon>
+          <ComponentIcon :type="lock ? 'lock' : 'unlock'" />
+        </template>
       </a-button>
       <a-button
         v-if="parent"
@@ -60,7 +62,7 @@
         type="link"
         title="刷新"
       >
-        <template #icon><icon type="refresh" /></template>
+        <template #icon><ComponentIcon type="refresh" /></template>
       </a-button>
       <a-button
         v-if="parent"
@@ -70,7 +72,7 @@
         type="link"
         title="置底"
       >
-        <template #icon><icon type="down" /></template>
+        <template #icon><ComponentIcon type="down" /></template>
       </a-button>
       <a-button
         v-if="parent"
@@ -80,7 +82,7 @@
         type="link"
         title="置顶"
       >
-        <template #icon><icon type="up" /></template>
+        <template #icon><ComponentIcon type="up" /></template>
       </a-button>
       <a-button
         v-if="parent"
@@ -90,7 +92,7 @@
         type="link"
         title="复制"
       >
-        <template #icon><icon type="copy" /></template>
+        <template #icon><ComponentIcon type="copy" /></template>
       </a-button>
       <a-button
         v-if="parent"
@@ -100,7 +102,7 @@
         type="link"
         title="剪切"
       >
-        <template #icon><icon type="cut" /></template>
+        <template #icon><ComponentIcon type="cut" /></template>
       </a-button>
       <a-button
         v-if="parent"
@@ -110,7 +112,7 @@
         type="link"
         title="格式刷"
       >
-        <template #icon><icon type="formatpainter" /></template>
+        <template #icon><ComponentIcon type="formatpainter" /></template>
       </a-button>
       <a-button
         v-if="parent"
@@ -120,7 +122,7 @@
         type="link"
         title="删除"
       >
-        <template #icon><icon type="close" /></template>
+        <template #icon><ComponentIcon type="close" /></template>
       </a-button>
     </div>
     <div class="c-drag-resize-panel" :style="panelStyle">
@@ -145,7 +147,7 @@
             title="下钻"
           >
             <template #icon>
-              <icon type="restore" />
+              <ComponentIcon type="restore" />
             </template>
           </a-button>
           <a-button
@@ -157,7 +159,7 @@
             title="下钻"
           >
             <template #icon>
-              <icon type="down" />
+              <ComponentIcon type="down" />
             </template>
           </a-button>
           <a-button
@@ -169,7 +171,7 @@
             title="上钻"
           >
             <template #icon>
-              <icon type="up" />
+              <ComponentIcon type="up" />
             </template>
           </a-button>
         </template>
@@ -185,7 +187,7 @@
           title="数据"
         >
           <template #icon>
-            <icon type="data" />
+            <ComponentIcon type="data" />
           </template>
         </a-button>
         <a-button
@@ -200,7 +202,9 @@
           title="全屏缩放"
         >
           <template #icon>
-            <icon :type="isFullScreen ? 'smallscreen' : 'fullscreen'" />
+            <ComponentIcon
+              :type="isFullScreen ? 'smallscreen' : 'fullscreen'"
+            />
           </template>
         </a-button>
       </div>
@@ -285,10 +289,11 @@ import {ChartData} from '@datahu/core'
 import ChartDataViewer from './ChartDataViewer.vue'
 import {getContext, gotoPage, goBack, userChartState} from './chartState'
 import {IChartEvent} from './ChartHandler'
+import ComponentIcon from '../components/ComponentIcon.vue'
 
 export default defineComponent({
   name: 'ComponentPanel',
-  components: {DragResize, ChartDataViewer},
+  components: {DragResize, ChartDataViewer, ComponentIcon},
   props: ['chart', 'parent', 'resizeData'],
   setup(props: any, {emit}) {
     let context = getContext()

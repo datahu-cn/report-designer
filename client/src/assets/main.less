@@ -1,0 +1,178 @@
+@import 'ant-design-vue/dist/antd.less'; // 引入官方提供的 less 样式入口文件
+
+:root {
+  --primary-color: #f9896b; // 全局主色
+  --dark-primary-color: #fa805e;
+  --light-primary-color: #ffefeb;
+  --second-color: #7678ed;
+  --light-second-color: #f5f6ff;
+
+  --link-color: #f9896b; // 链接色
+  --success-color: #66ba66; // 成功色
+  --warning-color: #fed666; // 警告色
+  --error-color: #ec6d79; // 错误色
+  --font-size-base: 14px; // 主字号
+  --heading-color: #707070; // 标题色
+  --text-color: #707070; // 主文本色
+  --text-color-secondary: #707070aa; // 次文本色
+  --disabled-color: rgba(0, 0, 0, 0.25); // 失效色
+  --border-radius-base: 2px; // 组件/浮层圆角
+  --border-color-base: #d9d9d9; // 边框色
+  --border-color-light: #f0f0f0; // 浅边框色
+  --box-shadow-base: 0 2px 8px #41464b22; // 浮层阴影
+  --table-row-hover-bg: @table-row-hover-bg;
+  --layout-header-background: #41464b;
+  --light-warning-color: #fde49e; // 警告色
+  --select-background-color: #e6f7ff;
+  --select-color: #f9896b;
+}
+
+// @primary-color: #f9896b; // 全局主色
+// @dark-primary-color: #f9896b;
+// @light-primary-color: #fdc3b4;
+
+@primary-color: #f9896b; // 全局主色
+@dark-primary-color: #fa805e;
+@light-primary-color: #ffefeb;
+
+@second-color: #7678ed;
+@light-second-color: #f5f6ff;
+
+@link-color: #7678ed; // 链接色
+@success-color: #66ba66; // 成功色
+@warning-color: #fed666; // 警告色
+@error-color: #ec6d79; // 错误色
+@font-size-base: 14px; // 主字号
+@heading-color: #707070; // 标题色
+@text-color: #707070; // 主文本色
+@text-color-secondary: #707070aa; // 次文本色
+@disabled-color: rgba(0, 0, 0, 0.25); // 失效色
+@border-radius-base: 2px; // 组件/浮层圆角
+@border-color-base: #d9d9d9; // 边框色
+@border-color-light: #f0f0f0; // 浅边框色
+// @box-shadow-base: 0 2px 8px 41464b22; // 浮层阴影
+@layout-header-background: #41464b;
+
+.xkd(@n, @i: 1) when (@i =< @n) {
+  .c-m@{i} {
+    margin: (@i*2px);
+  }
+  .c-mt@{i} {
+    margin-top: (@i*2px);
+  }
+  .c-mr@{i} {
+    margin-right: (@i*2px);
+  }
+  .c-mb@{i} {
+    margin-bottom: (@i*2px);
+  }
+  .c-ml@{i} {
+    margin-left: (@i*2px);
+  }
+  .c-p@{i} {
+    padding: (@i*2px);
+  }
+  .c-pt@{i} {
+    padding-top: (@i*2px);
+  }
+  .c-pr@{i} {
+    padding-right: (@i*2px);
+  }
+  .c-pb@{i} {
+    padding-bottom: (@i*2px);
+  }
+  .c-pl@{i} {
+    padding-left: (@i*2px);
+  }
+  .xkd(@n, (@i + 1));
+}
+
+.xkd(10);
+
+#app {
+  height: 100%;
+}
+body {
+  overflow: hidden;
+}
+
+.ant-input-prefix {
+  .c-icon {
+    fill: #a5a5a7;
+  }
+}
+.ant-menu-item {
+  .c-icon {
+    fill: var(--text-color);
+  }
+  &.ant-menu-item-selected,
+  &.ant-menu-item-active {
+    .c-icon {
+      fill: var(--primary-color);
+    }
+  }
+}
+
+.ant-btn-link {
+  &:hover {
+    color: var(--second-color);
+  }
+}
+
+.ant-btn-primary {
+  background-color: var(--second-color);
+  border-color: var(--second-color);
+  &:hover {
+    background-color: var(--second-color);
+    border-color: var(--second-color);
+  }
+  &:focus {
+    background-color: var(--second-color);
+    border-color: var(--second-color);
+  }
+  .c-icon {
+    fill: #ffffff;
+  }
+}
+
+.ant-btn-link {
+  .c-icon {
+    fill: var(--second-color);
+  }
+  &:hover {
+    color: var(--second-color);
+  }
+  &:focus {
+    color: var(--second-color);
+  }
+}
+
+.ant-slider-rail {
+  background-color: var(--light-primary-color);
+}
+.ant-slider-track {
+  background-color: var(--primary-color);
+}
+
+.c-no-data {
+  text-align: center;
+  .ant-result-icon > img {
+    height: 250px;
+    display: inline-block;
+  }
+}
+
+li.ant-dropdown-menu-item {
+  a {
+    color: var(--text-color);
+  }
+}
+
+.amap-logo {
+  img {
+    display: none;
+  }
+}
+.amap-copyright {
+  display: none !important;
+}

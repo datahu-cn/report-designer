@@ -35,6 +35,14 @@ Data Hu 报表设计器, 用于数据分析、数据建模、报表设计。
    yarn package
    ```
 
+5. 在浏览器端加载设计完成的报表文件
+
+```
+   new DataHuClient().render('#app', '/线性图.datahu')
+```
+
+具体代码参见 client/public/demo.html
+
 #### 支持的功能
 
 ##### 布局容器
@@ -100,3 +108,5 @@ Data Hu 报表设计器, 用于数据分析、数据建模、报表设计。
 - [Oracle 数据库](https://datahu.cn/docs/datasource/oracle.html)
 
 - [Restful API](https://datahu.cn/docs/datasource/restful.html)
+
+- [PostgreSQL](https://datahu.cn/docs/datasource/postgresql.html)

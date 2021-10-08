@@ -1,6 +1,6 @@
 <template>
   <div class="c-echarts">
-    <icon type="nodata" v-if="!option && !disableSkeleton" />
+    <ComponentIcon type="nodata" v-if="!option && !disableSkeleton" />
 
     <div ref="echartsContainer" class="com-echarts"></div>
   </div>
@@ -13,8 +13,10 @@ import 'echarts-gl'
 import 'echarts/extension/bmap/bmap'
 import {Resize, Util} from '@datahu/core'
 import {ChartUtil} from '../base'
+import ComponentIcon from '../components/ComponentIcon.vue'
 export default defineComponent({
   name: 'Echarts',
+  components: {ComponentIcon},
   props: ['option', 'theme', 'partRefresh', 'disableSkeleton'],
   setup(props: any, {emit}) {
     var echartsContainer = ref(null)

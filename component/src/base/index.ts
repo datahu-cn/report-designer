@@ -327,7 +327,7 @@ export class BodyComponentOption {
   //     {label: '显示', value: 'visible'}
   //   ]
   // })
-  // overflow: string = 'hidden'
+  overflow: string = ''
 
   constructor(defaultValues: any = null) {
     Util.cloneTo(defaultValues, this, true)
