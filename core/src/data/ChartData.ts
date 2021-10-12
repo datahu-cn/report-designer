@@ -491,29 +491,35 @@ export class ChartData {
     // 如果2个表之间有关联，则循环直到目标表的所有数据
     let filterRows = [mainRow]
     for (let relation of relations) {
-      filterRows = this.filterRelationRows(mainRow, relation)
+      filterRows = this.filterRelationRows(filterRows, relation)
     }
     return filterRows
   }
 
   private filterRelationRows(
-    mainRow: any,
+    filterRows: Array<any>,
     relationship: IRelationshipDefinition
   ): Array<any> {
-    let fromColumn = this.structure[relationship.from[1]]
     let results = []
-    let keyValue = mainRow[fromColumn]
-    let cacheKey = `${relationship.from[1]}|${relationship.to[1]}|${keyValue}`
-    if (this.relationshipDataCache[cacheKey]) {
-      return this.relationshipDataCache[cacheKey]
-    }
+    for (let mainRow of filterRows) {
+      let fromColumn = this.structure[relationship.from[1]]
+      let keyValue = mainRow[fromColumn]
+      let cacheKey = `${relationship.from[1]}|${relationship.to[1]}|${keyValue}`
+      let rows = []
+      if (this.relationshipDataCache[cacheKey]) {
+        rows = this.relationshipDataCache[cacheKey]
+      } else {
+        let mapData = this.getGroupByMap(relationship.to[0], relationship.to[1])
 
-    let mapData = this.getGroupByMap(relationship.to[0], relationship.to[1])
-
-    if (mapData.has(keyValue)) {
-      results = mapData.get(keyValue)!
+        if (mapData.has(keyValue)) {
+          rows = mapData.get(keyValue)!
+        }
+        this.relationshipDataCache[cacheKey] = rows
+      }
+      for (let r of rows) {
+        results.push(r)
+      }
     }
-    this.relationshipDataCache[cacheKey] = results
     return results
   }
 
