@@ -30,6 +30,11 @@ export class ChartData {
   // rows: Array<any> = []
 
   private ralationshipCache: any = {}
+
+  // 查询2个表建的关联数据时，主表关联字段值相同时，对应的关联数据相同
+  private relationshipDataCache: any = {}
+  // 将表格数据按指定栏目分组后转换成map存储
+  private mapTableCache: any = {}
   fields: Array<IFieldInfo> = []
 
   mainFields: Array<IFieldInfo> = []
@@ -351,6 +356,8 @@ export class ChartData {
    */
   private merge() {
     this.ralationshipCache = {}
+    this.relationshipDataCache = {}
+    this.mapTableCache = []
     if (!this.mainField) {
       return []
     }
@@ -484,29 +491,54 @@ export class ChartData {
     // 如果2个表之间有关联，则循环直到目标表的所有数据
     let filterRows = [mainRow]
     for (let relation of relations) {
-      filterRows = this.filterRelationRows(filterRows, relation)
+      filterRows = this.filterRelationRows(mainRow, relation)
     }
     return filterRows
   }
 
   private filterRelationRows(
-    fromRows: Array<any>,
+    mainRow: any,
     relationship: IRelationshipDefinition
   ): Array<any> {
-    let toRows = this.data[this.structure[relationship.to[0]]]
     let fromColumn = this.structure[relationship.from[1]]
-    let toColumn = this.structure[relationship.to[1]]
-
     let results = []
-    for (let toRow of toRows) {
-      for (let fromRow of fromRows) {
-        if (Formula.eq(fromRow[fromColumn], toRow[toColumn])) {
-          results.push(toRow)
-          break
-        }
-      }
+    let keyValue = mainRow[fromColumn]
+    let cacheKey = `${relationship.from[1]}|${relationship.to[1]}|${keyValue}`
+    if (this.relationshipDataCache[cacheKey]) {
+      return this.relationshipDataCache[cacheKey]
     }
+
+    let mapData = this.getGroupByMap(relationship.to[0], relationship.to[1])
+
+    if (mapData.has(keyValue)) {
+      results = mapData.get(keyValue)!
+    }
+    this.relationshipDataCache[cacheKey] = results
     return results
+  }
+
+  private getGroupByMap(
+    tableId: string,
+    columnId: string
+  ): Map<any, Array<any>> {
+    let key = `${tableId}|${columnId}`
+    if (this.mapTableCache[key]) {
+      return this.mapTableCache[key]
+    }
+
+    let rows = this.data[this.structure[tableId]]
+    let toColumn = this.structure[columnId]
+    let mapData = new Map<any, Array<any>>()
+    for (let row of rows) {
+      let v = row[toColumn]
+      if (!mapData.has(v)) {
+        mapData.set(v, [])
+      }
+      mapData.get(v)!.push(row)
+    }
+
+    this.mapTableCache[key] = mapData
+    return mapData
   }
 
   private getConnectRelationships(

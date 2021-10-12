@@ -49,7 +49,7 @@
         </a-dropdown>
       </div>
 
-      <div v-if="table == state.selectedTable" class="c-columns">
+      <div v-if="table == expandTable" class="c-columns">
         <div
           class="c-column-item"
           v-for="column in table.columns"
@@ -167,6 +167,8 @@ export default defineComponent({
     onMounted(async () => {})
 
     let state = useState()
+    let expandTable = ref(null)
+
     let tables = state.pkg.definition.tables
     if (tables.length > 0) {
       state.selectedTable = tables[0]
@@ -178,6 +180,12 @@ export default defineComponent({
         state.selectedTable = t
       }
       state.selectedColumn = undefined
+
+      if (expandTable.value == t) {
+        expandTable.value = null
+      } else {
+        expandTable.value = t
+      }
     }
 
     let columnClick = (table: ITableDefinition, column: IColumnDefinition) => {
@@ -306,7 +314,8 @@ export default defineComponent({
       getColumnIcon,
       dragendHandle,
       dragstartHandle,
-      columnClick
+      columnClick,
+      expandTable
     }
   }
 })
@@ -329,7 +338,6 @@ export default defineComponent({
     font-weight: bold;
   }
   .c-tables {
-    max-height: 32px;
     transition: max-height 1s;
     overflow: auto;
     cursor: pointer;
@@ -348,6 +356,7 @@ export default defineComponent({
         }
       }
       &:hover {
+        background-color: var(--light-primary-color);
         .c-dropdown {
           display: inline-block;
         }
@@ -369,6 +378,9 @@ export default defineComponent({
           border-radius: 18px;
           .c-dropdown {
             display: inline-block;
+          }
+          .c-icon {
+            fill: white;
           }
         }
         &.c-selected {

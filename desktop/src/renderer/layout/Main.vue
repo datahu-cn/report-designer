@@ -125,10 +125,13 @@ export default defineComponent({
     })
 
     let avatar = computed(() => {
-      if (user.value && user.value.avatar) {
-        if (state.store.server)
+      if (state.store && state.store.user) {
+        if (state.store.user.server)
           return (
-            state.store.server + '/file/download/' + user.value.avatar + '/'
+            state.store.user.server +
+            '/file/download/' +
+            state.store.user.user.avatar +
+            '/'
           )
       }
     })

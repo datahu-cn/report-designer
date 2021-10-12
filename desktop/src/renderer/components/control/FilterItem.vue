@@ -241,6 +241,8 @@ export default defineComponent({
       top: 4px;
       border-radius: 50%;
       padding: 2px;
+      fill: white;
+      background-color: var(--primary-color);
       &:hover {
         fill: white;
         background-color: var(--error-color);

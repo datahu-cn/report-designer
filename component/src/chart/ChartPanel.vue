@@ -533,7 +533,8 @@ export default defineComponent({
           if (key == 'pos') {
             for (let posKey in state.formatPainterChart.option.pos) {
               if (['left', 'top'].indexOf(posKey) < 0) {
-                chart.item.option[key] = state.formatPainterChart.option[key]
+                chart.item.option.pos[posKey] =
+                  state.formatPainterChart.option.pos[posKey]
               }
             }
           }

@@ -252,16 +252,29 @@ export class DataFilter {
     let fromRows = this.data[fromTable]
     let toRows = this.data[toTable]
 
+    let fromSet = new Set()
+    for (let fromRow of fromRows) {
+      let fv = fromRow[fromColumn]
+      if (!fromSet.has(fv)) {
+        fromSet.add(fv)
+      }
+    }
+
     let results = []
     for (let toRow of toRows) {
-      let pass = false
-      for (let fromRow of fromRows) {
-        if (Formula.eq(fromRow[fromColumn], toRow[toColumn])) {
-          pass = true
-          break
-        }
-      }
-      if (pass) {
+      // let pass = false
+      // for (let fromRow of fromRows) {
+      //   if (Formula.eq(fromRow[fromColumn], toRow[toColumn])) {
+      //     pass = true
+      //     break
+      //   }
+      // }
+      // if (pass) {
+      //   results.push(toRow)
+      // }
+
+      // 优化循环性能问题
+      if (fromSet.has(toRow[toColumn])) {
         results.push(toRow)
       }
     }

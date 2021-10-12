@@ -505,6 +505,13 @@ export default defineComponent({
       for (let tArr of result.updatedTables) {
         let t = tArr[1]
         let existTable = tArr[0]
+
+        if (t.rows) {
+          existTable.rows = t.rows
+        }
+        existTable.useSourceCode = t.useSourceCode
+        existTable.sourceCode = t.sourceCode
+
         const visibilityColumns: any = []
         t.columns.forEach((column: any) => {
           if (selectedColumns.value[t.name][column.name]) {
@@ -543,6 +550,8 @@ export default defineComponent({
             state.pkg.removeColumn(existTable, ecol)
           }
         }
+
+        state.pkg.updateTableProperties(existTable)
       }
 
       try {

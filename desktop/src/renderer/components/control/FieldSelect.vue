@@ -380,6 +380,7 @@ export default defineComponent({
           top: 7px;
           border-radius: 50%;
           padding: 2px;
+          fill: white;
           &:hover {
             fill: white;
             background-color: var(--error-color);

@@ -1,4 +1,4 @@
-import {ExcelDataSource} from '@/excel/ExcelDataSource'
+import {ExcelDataSource} from '@/excel'
 
 // test('test1', () => {
 //   var datasource = new SqlServerDataSource('zh-cn')
@@ -6,12 +6,15 @@ import {ExcelDataSource} from '@/excel/ExcelDataSource'
 // })
 
 test('get excel tables / data', async () => {
-  var config = {
+  var config: any = {
     title: '测试数据库连接',
     customStart: false,
     startRow: 1,
     startColumn: 1,
-    source: ['', '/Users/zhengliu/Desktop/workspace/test/阿米巴数据.xlsx']
+    source: [
+      '',
+      '/Users/zhengliu/Desktop/workspace/logs/线下课堂学生活动所占时间变化分析图1.xlsx'
+    ]
   }
   let datasource = new ExcelDataSource('zh-cn', config)
   let tables = await datasource.getTables()

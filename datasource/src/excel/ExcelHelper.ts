@@ -137,7 +137,10 @@ export class ExcelHelper {
     ) {
       for (let sheet of this.workbook.worksheets) {
         if (sheet.name === selectInfo.name) {
-          const rows: excel.Row[] | undefined = sheet.getRows(0, sheet.rowCount)
+          const rows: excel.Row[] | undefined = sheet.getRows(
+            0,
+            sheet.rowCount + 1
+          )
           if (rows && rows.length > 0) {
             let start: any = this.getStart(rows)
             const columns: IColumnDefinition[] = selectInfo.columns

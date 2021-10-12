@@ -180,7 +180,7 @@ export class PackageManager {
 
   getName(): string {
     let splitPathChar = '/'
-    if(this.path.lastIndexOf('\\') >= 0){
+    if (this.path.lastIndexOf('\\') >= 0) {
       splitPathChar = '\\'
     }
     return this.path.substring(
@@ -504,6 +504,10 @@ export class PackageManager {
 
   updateTablePosition(table: ITablePosition) {
     this.addAction('update_table_position', table)
+  }
+
+  updateTableProperties(table: ITablePosition) {
+    this.addAction('update_table_properties', table)
   }
 
   updateOption(chart: IChartDefinition) {
