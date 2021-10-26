@@ -9,8 +9,8 @@
 <script lang="ts">
 import {defineComponent, ref, onMounted, watch, watchEffect} from 'vue'
 import * as echarts from 'echarts'
-import 'echarts-gl'
-import 'echarts/extension/bmap/bmap'
+// import 'echarts-gl'
+// import 'echarts/extension/bmap/bmap'
 import {Resize, Util} from '@datahu/core'
 import {ChartUtil} from '../base'
 import ComponentIcon from '../components/ComponentIcon.vue'

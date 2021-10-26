@@ -5,10 +5,11 @@ import 'ant-design-vue/dist/antd.less' // 引入官方提供的 less 样式入�
 
 import 'xe-utils'
 import VXETable from 'vxe-table'
-import VXETablePluginExportXLSX from 'vxe-table-plugin-export-xlsx'
+// // xlsx 文件比较大， 改为导出csv
+// import VXETablePluginExportXLSX from 'vxe-table-plugin-export-xlsx'
 import '../assets/main.less'
 import 'vxe-table/lib/style.css'
-VXETable.use(VXETablePluginExportXLSX)
+// VXETable.use(VXETablePluginExportXLSX)
 
 import {DataHuClient} from './DataHuClient'
 import ReportPanel from './ReportPanel.vue'

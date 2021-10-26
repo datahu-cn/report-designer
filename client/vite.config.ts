@@ -32,7 +32,9 @@ export default ({mode}) => {
         fileName: 'datahu.client',
         formats: ['cjs', 'es', 'umd']
       },
-      external: ['vue'],
+      rollupOptions: {
+        external: []
+      },
       output: {
         globals: {
           vue: 'vue'

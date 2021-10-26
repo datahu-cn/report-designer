@@ -58,7 +58,6 @@
 <script lang="ts">
 import {defineComponent, ref, createVNode, Ref, computed} from 'vue'
 import {Modal} from 'ant-design-vue'
-import {CloseOutlined, ExclamationCircleOutlined} from '@ant-design/icons-vue'
 import {IChartDefinition, Util} from '@datahu/core'
 import DropPanel from '../chart/DropPanel.vue'
 import {userChartState, gotoPage, getContext} from '../chart/chartState'
@@ -175,7 +174,6 @@ export default defineComponent({
       if (removeTab.children.length > 0) {
         Modal.confirm({
           title: '删除确认',
-          icon: createVNode(ExclamationCircleOutlined),
           content: '',
           okText: '确认',
           cancelText: '取消',

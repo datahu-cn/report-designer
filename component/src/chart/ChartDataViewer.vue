@@ -8,8 +8,8 @@
           ref="vxeTable"
           height="600px"
           :export-config="{
-            type: 'xlsx',
-            types: ['xlsx']
+            type: 'csv',
+            types: ['csv']
           }"
           :highlight-hover-row="true"
           :border="true"
