@@ -110,3 +110,5 @@ Data Hu 报表设计器, 用于数据分析、数据建模、报表设计。
 - [Restful API](https://datahu.cn/docs/datasource/restful.html)
 
 - [PostgreSQL](https://datahu.cn/docs/datasource/postgresql.html)
+
+- [Domino](https://datahu.cn/docs/datasource/domino.html)
