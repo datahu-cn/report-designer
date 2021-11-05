@@ -22,9 +22,10 @@ module.exports = {
     // '<rootDir>/tests/*.spec.ts?(x)',
     // '<rootDir>/tests/sqlserver/SqlServerDataSource.spec.ts?(x)',
     // '<rootDir>/tests/mysql/MysqlDataSource.spec.ts?(x)',
-    '<rootDir>/tests/excel/ExcelDataSource.spec.ts?(x)'
+    // '<rootDir>/tests/excel/ExcelDataSource.spec.ts?(x)'
     // '<rootDir>/tests/restful/RestfulDataSource.spec.ts?(x)',
-    // '<rootDir>/tests/postgresql/*.spec.ts?(x)'
+    // '<rootDir>/tests/postgresql/*.spec.ts?(x)',
+    '<rootDir>/tests/domino/DominoDataSource.spec.ts?(x)'
   ],
 
   transform: {

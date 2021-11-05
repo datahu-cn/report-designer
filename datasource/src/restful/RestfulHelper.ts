@@ -4,7 +4,8 @@ import {
   ITableDefinition,
   IColumnDefinition,
   ColumnType,
-  Util
+  Util,
+  Crypto
 } from '@datahu/core'
 import {DataSourceHelper} from '@datahu/core'
 export interface IRestfulConfig {
@@ -64,7 +65,7 @@ export class RestfulHelper {
     if (this.config.openAuth) {
       axiosConfig.auth = {
         username: this.config.username,
-        password: this.config.password
+        password: Crypto.Decrypt(this.config.password, 'sjwkdjsklwjfdlks')
       }
     }
 
