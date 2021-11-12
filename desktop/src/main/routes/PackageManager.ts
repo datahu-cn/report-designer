@@ -5,6 +5,7 @@ import JSZip from 'jszip'
 import fs from 'fs'
 import Store from 'electron-store'
 import {downloadFromServer} from './ServerRequest'
+import {IPackageDefinition} from '@datahu/core'
 const store = new Store()
 
 export function load(arg: any): Promise<any> {
@@ -64,7 +65,13 @@ export async function loadFromServer(arg: any): Promise<any> {
   })
 }
 
-function writeZipFile(path: string, content: string) {
+function writeZipFile(path: string, pkg: IPackageDefinition) {
+  for (let table of pkg.tables) {
+    if (table.formula) {
+      table.rows = undefined
+    }
+  }
+  let content = JSON.stringify(pkg)
   return new Promise((resolve: any) => {
     var zip = new JSZip()
     zip.file('file', content)
@@ -82,9 +89,7 @@ function writeZipFile(path: string, content: string) {
 }
 
 export async function save(arg: any): Promise<any> {
-  await writeZipFile(arg.path, JSON.stringify(arg.pkg))
-  // fs.writeFileSync(arg.path, JSON.stringify(arg.pkg), 'utf-8')
-  // return Promise.resolve()
+  await writeZipFile(arg.path, arg.pkg)
 }
 
 export async function saveAs(arg: any, mainWindow: any): Promise<any> {
@@ -97,8 +102,7 @@ export async function saveAs(arg: any, mainWindow: any): Promise<any> {
   const result = await dialog.showSaveDialog(mainWindow, options)
   if (result.filePath) {
     let newPath = result.filePath as string
-    // fs.writeFileSync(newPath, JSON.stringify(arg.pkg), 'utf-8')
-    await writeZipFile(newPath, JSON.stringify(arg.pkg))
+    await writeZipFile(newPath, arg.pkg)
     storeRecenty(newPath)
   }
 

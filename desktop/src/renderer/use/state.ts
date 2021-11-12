@@ -181,25 +181,57 @@ export async function loadStore() {
     initThemes()
     var store = await http.request('LocalStore/getStore', {})
     state.store = store as any
-    let pkg = null
-    if (state.store && state.store.recenty && state.store.recenty.length > 0) {
-      let recenty = state.store.recenty[0]
-      try {
-        pkg = await PackageManager.load(recenty.path, true)
-      } catch (e) {}
-    }
-    if (!pkg) {
-      pkg = PackageManager.emptyPkg()
-    }
-    state.pkg = pkg
-    state.pkg.init()
-
-    // await loadComponents()
-    state.loaded = true
+    state.loading = false
   } catch (e) {
     console.error(e)
+    state.loading = false
   }
-  state.loading = false
+}
+
+export async function loadPkg() {
+  let newPkg = await PackageManager.loadFrom()
+  if (newPkg) {
+    state.pkg = newPkg
+    state.pkg.init()
+    state.loaded = false
+
+    resetState()
+    nextTick(() => {
+      state.loaded = true
+    })
+  }
+}
+
+export async function loadPkgFromPath(recenty: any) {
+  state.loading = true
+  try {
+    let pkg: any = await PackageManager.load(recenty.path)
+    if (pkg) {
+      state.pkg = pkg
+      state.pkg.init()
+      state.loaded = false
+      resetState()
+      nextTick(() => {
+        state.loaded = true
+      })
+      state.loading = false
+    } else {
+      state.loading = false
+    }
+  } catch (e) {
+    console.error(e)
+    state.loading = false
+  }
+}
+
+export async function newPkg() {
+  state.loaded = false
+  let newPkg = PackageManager.emptyPkg()
+  state.pkg = newPkg
+  state.pkg.init()
+  nextTick(() => {
+    state.loaded = true
+  })
 }
 
 export async function loadComponents() {

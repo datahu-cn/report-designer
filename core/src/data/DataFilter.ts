@@ -150,10 +150,11 @@ export class DataFilter {
         let table = this.structure[tableId]
         let result = []
         let codeExpression = this.getCodeExpression(tableFilters)
+        let codeInfos = this.getCodeFilterInfos(tableFilters)
         for (let row of this.data[table]) {
           if (
             this.filterRowWithExpression(row, codeExpression) &&
-            this.filterRowWithCode(row, tableFilters)
+            this.filterRowWithCode(row, codeInfos)
           ) {
             result.push(row)
           }
@@ -178,8 +179,24 @@ export class DataFilter {
     }
   }
 
+  private getCodeFilterInfos(filters: Array<IFilterInfo>) {
+    let infos = []
+    for (let filterInfo of filters) {
+      if (
+        filterInfo.filterType == FilterType.code &&
+        typeof filterInfo.code == 'function'
+      ) {
+        infos.push(filterInfo)
+      }
+    }
+    return infos
+  }
+
   private filterRowWithCode(row: any, filters: Array<IFilterInfo>) {
     let result = true
+    if (filters.length == 0) {
+      return result
+    }
     for (let filterInfo of filters) {
       if (
         filterInfo.filterType == FilterType.code &&

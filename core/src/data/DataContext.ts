@@ -316,7 +316,64 @@ export class DataContext {
     }
   }
 
+  private convertValueType2(obj: any, key: string, columnType: ColumnType) {
+    let v = obj[key]
+    switch (columnType) {
+      case ColumnType.Boolean:
+        obj[key] = v ? true : false
+        break
+      case ColumnType.DateTime:
+        if (v) {
+          if (v) {
+            if (!(v instanceof Date)) {
+              let parseV = moment(v).toDate()
+              if (parseV.getFullYear()) {
+                obj[key] = parseV
+              } else {
+                obj[key] = null
+              }
+            }
+          } else {
+            obj[key] = null
+          }
+        } else {
+          obj[key] = null
+        }
+        break
+      case ColumnType.Number:
+        if (v || v === 0) {
+          if (typeof v != 'number') {
+            let parseV = parseFloat(v)
+            if (parseV != null && parseV != undefined) {
+              obj[key] = parseV
+            } else {
+              obj[key] = null
+            }
+          }
+        } else {
+          obj[key] = null
+        }
+        break
+      case ColumnType.String:
+        if (v || v === '') {
+          if (!(typeof v == 'string')) {
+            if (v.toString) {
+              obj[key] = v.toString()
+            } else {
+              obj[key] = '' + v
+            }
+          }
+        } else {
+          v = null
+        }
+        break
+    }
+  }
+
   private convertValueType(obj: any, key: string, columnType: ColumnType) {
+    if (columnType == ColumnType.Any) {
+      return
+    }
     let v = obj[key]
     if (columnType == ColumnType.Boolean) {
       obj[key] = v ? true : false
@@ -376,12 +433,23 @@ export class DataContext {
     this.dataBeforeTableFilter[table.alias || table.name] =
       rowsBeforeTableFilter
     if (table.rows) {
+      let codeMap: any = {}
+      for (let col of table.columns) {
+        if (col.formula) {
+          codeMap[col.id] = new CodeExpression(
+            col.formula,
+            ['row', 'table'],
+            false
+          )
+        }
+      }
+
       for (let row of table.rows) {
         let formatRow: any = {}
         for (let col of table.columns) {
           let key = col.alias || col.name
           if (col.formula) {
-            let code = new CodeExpression(col.formula, ['row', 'table'], false)
+            let code = codeMap[col.id]
             formatRow[key] = code.run(row, table.rows)
           } else {
             formatRow[key] = row[col.name]
@@ -433,7 +501,7 @@ export class DataContext {
     let rows: Array<any> = []
     this.data[table.alias || table.name] = rows
     for (let row of rowsBeforeTableFilter) {
-      if (dataFilter.filterRow(row)) {
+      if (filters.length == 0 || dataFilter.filterRow(row)) {
         rows.push(row)
       }
     }

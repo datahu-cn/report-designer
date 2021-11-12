@@ -1,6 +1,5 @@
 <template>
   <a-spin :spinning="state.loading">
-    <a-skeleton v-if="!state.loaded" />
     <div @click="mainClick()" v-if="state.loaded" class="c-main">
       <div class="c-main-left">
         <div :collapsed="true">
@@ -76,7 +75,8 @@
     <Preview v-if="state.preview"></Preview>
     <Login v-if="state.login"></Login>
     <Publish v-if="state.publish"></Publish>
-    <SchemeHandle v-if="schemeHangle && state.loaded" v-model="schemeHangle" />
+    <SchemeHandle v-if="schemeHangle" v-model="schemeHangle" />
+    <WelcomePage v-if="welcomePageVisible" v-model="welcomePageVisible" />
   </a-spin>
 </template>
 <script lang="ts">
@@ -91,8 +91,9 @@ import Publish from '../components/actions/Publish.vue'
 import {useHandle} from '../use/electron'
 import {Util} from '@datahu/core'
 import SchemeHandle from '../components/actions/SchemeHandle.vue'
+import WelcomePage from '../components/actions/WelcomePage.vue'
 export default defineComponent({
-  components: {Header, Preview, Login, Publish, SchemeHandle},
+  components: {Header, Preview, Login, Publish, SchemeHandle, WelcomePage},
   setup() {
     let i18n = useI18n()
     let route = useRoute()
@@ -103,14 +104,16 @@ export default defineComponent({
     }
     let language = useLanguage()
 
+    let welcomePageVisible = ref(false)
+    let openWelcomePage = () => {
+      welcomePageVisible.value = true
+    }
+
     // 自定义schema 触发事件
     let schemeHangle = ref(null)
     useHandle(async (message: any) => {
       schemeHangle.value = message
-    })
-
-    onMounted(async () => {
-      await loadStore()
+      welcomePageVisible.value = false
     })
 
     let login = () => {
@@ -172,11 +175,13 @@ export default defineComponent({
       pressedKey[e.key] = false
     }
 
-    onMounted(() => {
+    onMounted(async () => {
       nextTick(() => {
         document.addEventListener('keyup', onKeyUp)
         document.addEventListener('keydown', onKeyDown)
       })
+      await loadStore()
+      openWelcomePage()
     })
 
     return {
@@ -192,7 +197,8 @@ export default defineComponent({
       openHomeLink,
       mainClick,
       onKeyDown,
-      onKeyUp
+      onKeyUp,
+      welcomePageVisible
     }
   }
 })

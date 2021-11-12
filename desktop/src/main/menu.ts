@@ -22,12 +22,10 @@ const template: any = [
         }
       ]
     : []),
-  // { role: 'fileMenu' }
   {
     label: 'File',
     submenu: [isMac ? {role: 'close'} : {role: 'quit'}]
   },
-  {role: 'editMenu'},
   {
     label: 'Edit',
     submenu: [
@@ -51,7 +49,6 @@ const template: any = [
       //   : [{role: 'delete'}, {type: 'separator'}, {role: 'selectAll'}])
     ]
   },
-  {role: 'viewMenu'},
   {
     label: 'View',
     submenu: [

@@ -2,6 +2,7 @@ export class CodeExpression {
   code: string
   isFunction: boolean = false
   args: any
+  codeFunction?: Function
   constructor(
     code: string,
     args: any | Array<any>,
@@ -10,8 +11,10 @@ export class CodeExpression {
     this.code = code
     this.args = args
     this.isFunction = isFunction
+    this.codeFunction = this.getCodeFunction()
   }
-  run(...values: Array<any>) {
+
+  getCodeFunction() {
     let code = this.code
     if (code) {
       if (!this.isFunction) {
@@ -23,9 +26,21 @@ export class CodeExpression {
         }
       }
       try {
-        return new Function('return ' + code)().apply(null, values)
+        return new Function('return ' + code)()
       } catch (e) {
         console.error('run code ' + code, e)
+      }
+    } else {
+      return null
+    }
+  }
+
+  run(...values: Array<any>) {
+    if (this.codeFunction) {
+      try {
+        return this.codeFunction.apply(null, values)
+      } catch (e) {
+        console.error('run code ' + this.code, e)
       }
     } else {
       return null

@@ -178,9 +178,12 @@ export default defineComponent({
     }
 
     let publish = async () => {
+      if (loading.value) {
+        return
+      }
+      loading.value = true
       if (validate()) {
         try {
-          loading.value = true
           chart.name = state.pkg.getName()
           chart.chartCode = state.pkg.definition.id
           state.pkg.definition.description = chart.description
@@ -214,11 +217,11 @@ export default defineComponent({
           } else {
             await sendPublish()
           }
-        } catch (e) {
+        } catch (e: any) {
           errorMessage.value = e.message
         }
-        loading.value = false
       }
+      loading.value = false
     }
 
     let sendPublish = async () => {

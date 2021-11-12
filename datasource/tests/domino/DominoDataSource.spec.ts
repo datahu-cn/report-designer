@@ -7,13 +7,15 @@ import {Crypto} from '../../../core'
 // })
 
 test('domino get tables / data', async () => {
+  //http://10.211.55.11/flow/flowprocess.nsf/api/data/collections/name/vwFlowInfomation?start=0&count=100
   var config: any = {
     title: '测试数据库连接',
     url: 'http://10.211.55.11',
     database: 'admin4.nsf',
     view: 'All Requests by Server',
     username: 'f m zhengliu/ZHENGLIU5E80',
-    password: Crypto.Encrypt('fengye1314', 'sjwkdjsklwjfdlks')
+    password: Crypto.Encrypt('fengye1314', 'sjwkdjsklwjfdlks'),
+    queryAll: true
   }
   try {
     let datasource = new DominoDataSource('zh-cn', config)

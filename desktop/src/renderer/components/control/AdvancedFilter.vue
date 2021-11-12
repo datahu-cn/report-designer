@@ -166,13 +166,13 @@ export default defineComponent({
     if (props.filter.conditions && props.filter.conditions.length > 0) {
       if (props.filter.conditions.length === 1) {
         firstSelect.value = props.filter.conditions[0].expression
-        firstInput.value = props.filter.conditions[0].value.trim()
+        firstInput.value = props.filter.conditions[0].value
       }
       if (props.filter.conditions.length === 2) {
         firstSelect.value = props.filter.conditions[0].expression
         firstInput.value = props.filter.conditions[0].value
         secondSelect.value = props.filter.conditions[1].expression
-        secondInput.value = props.filter.conditions[1].value.trim()
+        secondInput.value = props.filter.conditions[1].value
       }
     }
 

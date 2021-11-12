@@ -1,4 +1,12 @@
 import axios from 'axios'
+import {
+  ITableDefinition,
+  IColumnDefinition,
+  ColumnType,
+  Util,
+  Crypto,
+  DataSourceHelper
+} from '@datahu/core'
 const path = require('path')
 // 创建axios实例
 axios.defaults.adapter = require('axios/lib/adapters/http')
@@ -30,20 +38,15 @@ http.interceptors.response.use(
     return Promise.reject(error.detail || error)
   }
 )
-import {
-  ITableDefinition,
-  IColumnDefinition,
-  ColumnType,
-  Util,
-  Crypto
-} from '@datahu/core'
-import {DataSourceHelper} from '@datahu/core'
+
 export interface IDominoConfig {
   url: string
   username: string
   password: string
   database: string
   view: string
+  queryAll: boolean
+  params: Array<any>
 }
 
 export class DominoHelper {
@@ -72,29 +75,65 @@ export class DominoHelper {
     if (datas && datas.length > 0) {
       let table = DataSourceHelper.getTableDefinitionFromArray(datas)
       table.name = this.config.view
-      table.rows = datas
       tables.push(table)
     }
 
     return tables
   }
 
-  private getUrl(url: string) {
+  private getUrl(start: number = 0) {
+    let result
+    let params: any = {}
     if (this.config.url.endsWith('/')) {
-      return this.config.url + this.config.database + url
+      result =
+        this.config.url +
+        this.config.database +
+        '/api/data/collections/name/' +
+        this.config.view
     } else {
-      return this.config.url + '/' + this.config.database + url
+      result =
+        this.config.url +
+        '/' +
+        this.config.database +
+        '/api/data/collections/name/' +
+        this.config.view
     }
+    if (this.config.params && this.config.params.length > 0) {
+      for (let p of this.config.params) {
+        params[p.key] = p.value
+      }
+    }
+    if (this.config.queryAll) {
+      params['count'] = 100
+    }
+    params['start'] = start
+
+    result = Util.Url.setQuery(result, params)
+    return result
   }
 
   async getTables(): Promise<Array<ITableDefinition>> {
     let config = this.getAxiosConig()
-    let result = await http.get(
-      this.getUrl('/api/data/collections/name/' + this.config.view),
-      config
-    )
+    let result = await http.get(this.getUrl(0), config)
     var tables = this.formatData(result.data)
     return tables
+  }
+
+  async getAllData(config: any) {
+    let start = 0
+    let allData = []
+    while (true) {
+      let result = await http.get(this.getUrl(start), config)
+      if (result && result.data && result.data.length > 0) {
+        start += result.data.length
+        for (let item of result.data) {
+          allData.push(item)
+        }
+      } else {
+        break
+      }
+    }
+    return allData
   }
 
   async getData(tables: Array<ITableDefinition>): Promise<Array<object>> {
@@ -102,9 +141,9 @@ export class DominoHelper {
     let config = this.getAxiosConig()
 
     for (let t of tables) {
-      let url = this.getUrl('/api/data/collections/name/' + this.config.view)
-      var result = await http.get(url, config)
-      results.push(result.data)
+      let url = this.getUrl()
+      let result = await this.getAllData(config)
+      results.push(result)
     }
     return results
   }

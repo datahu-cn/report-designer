@@ -128,7 +128,8 @@ function getDatasourceSidebar() {
         {text: 'Sql Server数据库', link: '/datasource/sqlserver'},
         {text: 'Oracle 数据库', link: '/datasource/oracle'},
         {text: 'Restful API', link: '/datasource/restful'},
-        {text: 'PostgreSQL', link: '/datasource/postgresql'}
+        {text: 'PostgreSQL', link: '/datasource/postgresql'},
+        {text: 'Domino', link: '/datasource/domino'}
       ]
     }
   ]

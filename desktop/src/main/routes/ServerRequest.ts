@@ -10,7 +10,8 @@ import {shell} from 'electron'
 axios.defaults.adapter = require('axios/lib/adapters/http')
 const http = axios.create({
   baseURL: '', // api的base_url
-  timeout: 120000 // 请求超时时间
+  timeout: 600000, // 请求超时时间,
+  maxContentLength: 26214400 // 25MB
 })
 
 // request拦截器

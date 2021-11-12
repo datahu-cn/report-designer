@@ -220,6 +220,9 @@
       <div class="c-component-content">
         <component
           class="c-component-item"
+          :style="
+            optionAfterTheme.content ? optionAfterTheme.content.style : {}
+          "
           :chart="chart.item"
           :pkg="state.pkg"
           :is="chart.com.getComponent()"
@@ -245,20 +248,22 @@
       v-model:visible="isFullScreen"
       title="全屏"
     >
-      <component
-        class="c-component-item"
-        :chart="chart.item"
-        :pkg="state.pkg"
-        :is="chart.com.getComponent()"
-        :data="chartData"
-        :option-after-theme="optionAfterTheme"
-        :view="state.preview"
-        :language="language"
-        v-if="!refreshing"
-        @dblclick="handleEvent('body_dblclick')"
-        @click="handleEvent('body_click')"
-        @mousedown="checkHandleEvent()"
-      ></component>
+      <div class="c-component-content">
+        <component
+          class="c-component-item"
+          :chart="chart.item"
+          :pkg="state.pkg"
+          :is="chart.com.getComponent()"
+          :data="chartData"
+          :option-after-theme="optionAfterTheme"
+          :view="state.preview"
+          :language="language"
+          v-if="!refreshing"
+          @dblclick="handleEvent('body_dblclick')"
+          @click="handleEvent('body_click')"
+          @mousedown="checkHandleEvent()"
+        ></component>
+      </div>
       <template #footer>
         <span></span>
       </template>
@@ -793,6 +798,7 @@ export default defineComponent({
       width: 100%;
       margin: 0px;
       flex: 1 1 auto;
+      overflow: auto;
       // overflow: hidden;
       .c-component-item {
         width: 100%;
@@ -817,9 +823,15 @@ export default defineComponent({
   .ant-modal-body {
     flex: 1;
     height: 100%;
-    .c-component-item {
+    .c-component-content {
       width: 100%;
-      height: 100%;
+      margin: 0px;
+      flex: 1 1 auto;
+      overflow: auto;
+      .c-component-item {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 }

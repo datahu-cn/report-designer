@@ -75,26 +75,30 @@ export class Util {
   }
 
   static orderByMultiple(arr: Array<any>, orders: Array<any>) {
-    return arr.sort((a: any, b: any) => {
-      for (let order of orders) {
-        let pro = order.pro
-        let desc = order.desc
-        if (a[pro] != b[pro]) {
-          if (!desc) {
-            let r =
-              (((a[pro] as any) > b[pro]) as any) -
-              (((b[pro] as any) > a[pro]) as any)
-            return r
-          } else {
-            let r =
-              (((b[pro] as any) > a[pro]) as any) -
-              (((a[pro] as any) > b[pro]) as any)
-            return r
+    if (orders && orders.length > 0) {
+      return arr.sort((a: any, b: any) => {
+        for (let order of orders) {
+          let pro = order.pro
+          let desc = order.desc
+          if (a[pro] != b[pro]) {
+            if (!desc) {
+              let r =
+                (((a[pro] as any) > b[pro]) as any) -
+                (((b[pro] as any) > a[pro]) as any)
+              return r
+            } else {
+              let r =
+                (((b[pro] as any) > a[pro]) as any) -
+                (((a[pro] as any) > b[pro]) as any)
+              return r
+            }
           }
         }
-      }
-      return 0
-    })
+        return 0
+      })
+    } else {
+      return arr
+    }
   }
 
   static copy(v: any, replacer?: any): any {

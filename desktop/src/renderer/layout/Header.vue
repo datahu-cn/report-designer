@@ -5,7 +5,7 @@
     </div>
     <div class="c-right">
       <div class="c-action">
-        <a-button type="link" @click="newPkg()">
+        <a-button type="link" @click="newPkgHandle()">
           <icon type="new" />
           新建
         </a-button>
@@ -221,7 +221,14 @@ import {
   nextTick,
   useCssModule
 } from 'vue'
-import {useState, useI18n, useLanguage, resetState} from '../use/state'
+import {
+  useState,
+  useI18n,
+  useLanguage,
+  newPkg,
+  loadPkg,
+  loadPkgFromPath
+} from '../use/state'
 import {
   SaveOutlined,
   DownOutlined,
@@ -254,43 +261,7 @@ export default defineComponent({
     let state = useState()
     let chartState = userChartState()
 
-    let loadPkg = async () => {
-      let newPkg = await PackageManager.loadFrom()
-      if (newPkg) {
-        state.pkg = newPkg
-        state.pkg.init()
-        state.loaded = false
-
-        resetState()
-        nextTick(() => {
-          state.loaded = true
-        })
-      }
-    }
-
-    let loadPkgFromPath = async (recenty: any) => {
-      state.loading = true
-      try {
-        let pkg: any = await PackageManager.load(recenty.path)
-        if (pkg) {
-          state.pkg = pkg
-          state.pkg.init()
-          state.loaded = false
-          resetState()
-          nextTick(() => {
-            state.loaded = true
-          })
-          state.loading = false
-        } else {
-          state.loading = false
-        }
-      } catch (e) {
-        console.error(e)
-        state.loading = false
-      }
-    }
-
-    let newPkg = async () => {
+    let newPkgHandle = async () => {
       Modal.confirm({
         title: '',
         icon: '',
@@ -298,13 +269,7 @@ export default defineComponent({
         okText: '确认',
         cancelText: '取消',
         onOk() {
-          state.loaded = false
-          let newPkg = PackageManager.emptyPkg()
-          state.pkg = newPkg
-          state.pkg.init()
-          nextTick(() => {
-            state.loaded = true
-          })
+          newPkg()
         }
       })
     }
@@ -427,7 +392,7 @@ export default defineComponent({
       themes,
       theme,
       getThemeHtml,
-      newPkg,
+      newPkgHandle,
       loading,
       loaded,
       currentChartProxy,

@@ -42,6 +42,23 @@ export class DominoDataSourceOption extends BaseDataSourceOption {
     title: '视图'
   })
   view: string = ''
+
+  @ComponentControl({
+    type: ControlType.boolean,
+    title: '查询所有数据'
+  })
+  queryAll: boolean = true
+
+  @ComponentControl({
+    type: ControlType.objectSet,
+    title: '自定义查询参数'
+  })
+  params: Array<any> = [
+    {
+      key: '',
+      value: ''
+    }
+  ]
 }
 
 export class DominoDataSource extends BaseDataSource {

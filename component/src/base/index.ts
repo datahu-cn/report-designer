@@ -283,9 +283,7 @@ export class ContentComponentOption {
       StyleType.backgroundImage
     ]
   })
-  style: StyleComponentOption = new StyleComponentOption({
-    display: 'flex'
-  })
+  style: StyleComponentOption = new StyleComponentOption({})
 }
 
 export class BodyComponentOption {
@@ -2797,6 +2795,14 @@ export class BaseComponentOption {
     defaultValue: new TitleComponentOption()
   })
   title?: TitleComponentOption = new TitleComponentOption()
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '正文',
+    children: ContentComponentOption.controls,
+    defaultValue: new ContentComponentOption()
+  })
+  content?: ContentComponentOption = new ContentComponentOption()
 
   @ComponentControl({
     type: ControlType.subset,
