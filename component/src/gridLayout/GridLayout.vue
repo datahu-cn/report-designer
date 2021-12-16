@@ -24,7 +24,15 @@
 
 <script lang="ts">
 import {ChartData, Formula, IChartDefinition, Util} from '@datahu/core'
-import {defineComponent, ref, onMounted, watch, computed, PropType} from 'vue'
+import {
+  defineComponent,
+  ref,
+  onMounted,
+  onUnmounted,
+  watch,
+  computed,
+  PropType
+} from 'vue'
 import {DropPanel} from '../chart'
 export default defineComponent({
   name: 'GridLayout',
@@ -36,7 +44,13 @@ export default defineComponent({
     view: Boolean
   },
   components: {DropPanel},
-  setup(props) {
+  setup(props, {emit}) {
+    onMounted(() => {
+      emit('mounted')
+    })
+    onUnmounted(() => {
+      emit('unmounted')
+    })
     var container = ref(null)
     let chart: any = props.chart!
 

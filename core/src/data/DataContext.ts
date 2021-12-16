@@ -1,10 +1,11 @@
-import {IChartDefinition, IPackageDefinition, eachChart} from '../package'
+import {IChartDefinition, IPackageDefinition, PackageHelper} from '../package'
 import {
   CodeExpression,
   ColumnOrderBy,
   ColumnType,
   IColumnDefinition,
   ITableDefinition,
+  TableCacheType,
   Util
 } from '../common'
 import {IFilterInfo, DataFilter, IFieldInfo, DataMergeType} from './DataFilter'
@@ -61,8 +62,12 @@ export class DataContext {
     this.definition = definition
   }
 
-  init() {
-    this.formatData()
+  init(formCache: boolean = false) {
+    this.formatData(formCache)
+    this.resetFilterData()
+  }
+
+  resetData() {
     this.resetFilterData()
   }
 
@@ -142,8 +147,6 @@ export class DataContext {
 
     // 全局临时过滤
     let tempFilters = []
-    // 局部临时过滤
-    let chartTempFilters: any = {}
     for (let mapItem of this.chartTempData) {
       let templateData = mapItem[1]
       let selfChartId = mapItem[0]
@@ -156,25 +159,6 @@ export class DataContext {
           for (let f of templateData.filters) {
             tempFilters.push(f)
           }
-        } else if (
-          templateData.scope &&
-          templateData.scope.type == ChartScopeType.self
-        ) {
-          if (!chartTempFilters[selfChartId]) {
-            chartTempFilters[selfChartId] = []
-          }
-          for (let f of templateData.filters) {
-            chartTempFilters[selfChartId].push(f)
-          }
-        } else if (templateData.scope && templateData.scope.chartIds) {
-          for (let chartId of templateData.scope.chartIds) {
-            if (!chartTempFilters[chartId]) {
-              chartTempFilters[chartId] = []
-            }
-            for (let f of templateData.filters) {
-              chartTempFilters[chartId].push(f)
-            }
-          }
         }
       }
     }
@@ -185,12 +169,15 @@ export class DataContext {
     )
     let chartFilterData: any = {}
 
-    eachChart(this.definition.chart, (chart: IChartDefinition) => {
-      chartFilterData[chart.id] = this.getDataAfterFilter(
-        this.globalFilterData,
-        this.getChartFilters(chart)
-      )
-    })
+    PackageHelper.eachChart(
+      this.definition.chart,
+      (chart: IChartDefinition) => {
+        chartFilterData[chart.id] = this.getDataAfterFilter(
+          this.globalFilterData,
+          this.getChartFilters(chart)
+        )
+      }
+    )
 
     this.chartFilterData = chartFilterData
   }
@@ -219,11 +206,17 @@ export class DataContext {
             templateData.scope.chartIds
           ) {
             for (let id of templateData.scope.chartIds) {
-              if (id == chart.id) {
-                for (let f of templateData.filters) {
-                  chartTempFilters.push(f)
+              PackageHelper.eachChartById(
+                this.definition.chart,
+                id,
+                (item: IChartDefinition) => {
+                  if (item.id == chart.id) {
+                    for (let f of templateData.filters) {
+                      chartTempFilters.push(f)
+                    }
+                  }
                 }
-              }
+              )
             }
           }
         }
@@ -234,7 +227,7 @@ export class DataContext {
 
   /** 只刷新指定图表的筛选数据集 */
   private resetChartFilterData(chart: IChartDefinition) {
-    eachChart(chart, (item: IChartDefinition) => {
+    PackageHelper.eachChart(chart, (item: IChartDefinition) => {
       this.chartFilterData[item.id] = this.getDataAfterFilter(
         this.globalFilterData,
         this.getChartFilters(item)
@@ -250,11 +243,14 @@ export class DataContext {
     return cloneData
   }
 
-  private formatData(): void {
+  private formatData(formCache: boolean = false): void {
     this.formatDataStructure()
-
     for (let table of this.definition.tables) {
-      this.formatTableData(table)
+      try {
+        this.formatTableData(table, formCache)
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 
@@ -422,7 +418,21 @@ export class DataContext {
     }
   }
 
-  private formatTableData(table: ITableDefinition): void {
+  private formatTableData(
+    table: ITableDefinition,
+    fromCache: boolean = false
+  ): void {
+    // 处理表格缓存逻辑
+    let tableName = table.alias || table.name
+    if (
+      fromCache &&
+      this.definition.cacheData &&
+      this.definition.cacheData[tableName] &&
+      table.cacheType == TableCacheType.Enabled
+    ) {
+      this.data[tableName] = this.definition.cacheData[tableName]
+      return
+    }
     // 计算表格
     if (table.formula) {
       this.formatFormulaTableRows(table)
@@ -430,8 +440,7 @@ export class DataContext {
 
     let rowsBeforeTableFilter: Array<any> = []
 
-    this.dataBeforeTableFilter[table.alias || table.name] =
-      rowsBeforeTableFilter
+    this.dataBeforeTableFilter[tableName] = rowsBeforeTableFilter
     if (table.rows) {
       let codeMap: any = {}
       for (let col of table.columns) {
@@ -472,12 +481,12 @@ export class DataContext {
     for (let col of table.columns) {
       if (col.orderBy) {
         orders.push({
-          pro: this.structure[col.id],
+          pro: col.alias || col.name,
           desc: col.orderBy == ColumnOrderBy.Desc
         })
       }
     }
-    let tableName = this.structure[table.id]
+    let tableName = table.alias || table.name
     let arr = this.data[tableName]
     if (arr && arr.length > 0) {
       this.data[tableName] = Util.orderByMultiple(arr, orders)
@@ -485,6 +494,7 @@ export class DataContext {
   }
 
   private filterTableData(table: ITableDefinition) {
+    let tableName = table.alias || table.name
     let filters = []
     for (let col of table.columns) {
       if (col.filters) {
@@ -496,10 +506,10 @@ export class DataContext {
 
     let dataFilter = new DataFilter(filters, this.structure)
     let rowsBeforeTableFilter: Array<any> =
-      this.dataBeforeTableFilter[table.alias || table.name]
+      this.dataBeforeTableFilter[tableName]
 
     let rows: Array<any> = []
-    this.data[table.alias || table.name] = rows
+    this.data[tableName] = rows
     for (let row of rowsBeforeTableFilter) {
       if (filters.length == 0 || dataFilter.filterRow(row)) {
         rows.push(row)
@@ -604,7 +614,7 @@ export class DataContext {
   }
 
   removeChart(chart: IChartDefinition) {
-    eachChart(chart, (item: IChartDefinition) => {
+    PackageHelper.eachChart(chart, (item: IChartDefinition) => {
       delete this.chartFilterData[item.id]
       this.updateFields(item)
     })

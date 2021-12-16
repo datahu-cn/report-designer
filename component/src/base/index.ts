@@ -9,7 +9,8 @@ import {
   StyleType,
   Util,
   IPackageDefinition,
-  DataMergeMethod
+  DataMergeMethod,
+  IControlOption
 } from '@datahu/core'
 import {Axis, number} from 'echarts'
 import {I18n} from '../i18n'
@@ -2495,12 +2496,22 @@ class EventActionComponentOption {
   @ComponentControl({
     type: ControlType.select,
     title: '触发',
-    options: [
-      {label: '单击', value: 'body_click'},
-      {label: '双击', value: 'body_dblclick'},
-      {label: '标题单击', value: 'title_click'},
-      {label: '标题双击', value: 'title_click'}
-    ]
+    options: (opt: any, chart: any) => {
+      let opts = [
+        {label: '单击', value: 'body_click'},
+        {label: '双击', value: 'body_dblclick'},
+        {label: '标题单击', value: 'title_click'},
+        {label: '标题双击', value: 'title_click'}
+      ]
+      if (
+        chart.item.option &&
+        chart.item.option.event &&
+        chart.item.option.event.customEvents
+      ) {
+        return [...opts, ...chart.item.option.event.customEvents]
+      }
+      return opts
+    }
   })
   trigger: string = 'body_click'
 
@@ -2552,7 +2563,8 @@ class EventActionComponentOption {
         {name: 'chart', description: '当前组件定义对象'},
         {name: 'chartData', description: '当前组件数据示例'},
         {name: 'instance', description: '当前组件Vue组件示例对象'},
-        {name: 'chartState', description: '全局状态信息'}
+        {name: 'chartHelper', description: '图表组件帮助类'},
+        {name: 'args', description: '当前事件参数'}
       ],
       return: ''
     },
@@ -2575,6 +2587,8 @@ class EventComponentOption {
     defaultValue: new EventActionComponentOption()
   })
   actions: Array<EventActionComponentOption> = []
+
+  customEvents?: Array<IControlOption> = undefined
 }
 
 export class DataZoomComponentOption {

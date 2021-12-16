@@ -6,7 +6,7 @@
           <span>配置</span>
         </template>
         <GroupForm
-          @change="onChange()"
+          @change="onChange"
           v-if="option"
           v-model="option"
           :parent="configParent"
@@ -18,7 +18,7 @@
           <span>事件</span>
         </template>
         <GroupForm
-          @change="onChange()"
+          @change="onChange"
           v-if="option"
           v-model="option"
           :parent="eventParent"
@@ -125,8 +125,8 @@ export default defineComponent({
       return null
     })
 
-    let onChange = () => {
-      state.pkg.updateOption(state.focusItem.item)
+    let onChange = (arg: any) => {
+      state.pkg.updateOption(state.focusItem.item, arg)
     }
 
     let sliderRate = computed({

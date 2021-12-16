@@ -245,7 +245,7 @@ export default defineComponent({
 .c-relationship-panel {
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow: overlay;
   > div {
     width: 10000px;
     height: 10000px;

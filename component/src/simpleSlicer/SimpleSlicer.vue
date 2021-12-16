@@ -215,14 +215,29 @@ import {
   IFilterInfo,
   Util
 } from '@datahu/core'
-import {defineComponent, ref, onMounted, watch, computed, Ref} from 'vue'
+import {
+  defineComponent,
+  ref,
+  onMounted,
+  onUnmounted,
+  watch,
+  computed,
+  Ref
+} from 'vue'
 import moment from 'moment'
 export default defineComponent({
   name: 'SimpleSlicer',
   props: ['chart', 'data', 'pkg', 'view', 'optionAfterTheme'],
-  setup(props) {
+  setup(props, {emit}) {
     var container = ref(null)
     let chart = props.chart
+
+    onMounted(() => {
+      emit('mounted')
+    })
+    onUnmounted(() => {
+      emit('unmounted')
+    })
 
     let isTime = (): boolean => {
       return (
@@ -1024,7 +1039,7 @@ export default defineComponent({
 
   &.com-simple-slicer-singlelist,
   &.com-simple-slicer-multiplelist {
-    overflow: auto;
+    overflow: overlay;
     .com-simple-slicer-block {
       > div {
         height: 100%;
@@ -1038,7 +1053,7 @@ export default defineComponent({
     }
   }
   .com-simple-slicer-slider {
-    overflow: auto;
+    overflow: overlay;
     padding: 24px;
     width: 100%;
     height: 100%;

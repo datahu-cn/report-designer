@@ -108,7 +108,7 @@ export default defineComponent({
   height: 100%;
   min-width: 100px;
   min-height: 100px;
-  overflow: auto;
+  overflow: overlay;
 }
 .c-virtual-scroller-scroll {
   box-sizing: border-box;

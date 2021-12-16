@@ -10,11 +10,12 @@ import {
   IChartDefinition,
   IRelationshipDefinition,
   DataContext,
-  eachChart,
   ITablePosition,
   FilterType,
   DataMergeType,
-  FilterExpression
+  FilterExpression,
+  PackageHelper,
+  ControlType
 } from '@datahu/core'
 export class PackageManager {
   static emptyPkg() {
@@ -159,23 +160,31 @@ export class PackageManager {
 
     for (let connectorId in loadTables) {
       if (connectorId) {
-        let loadArg = loadTables[connectorId]
-        // true 开始查询
-        loadTables[connectorId].loading.value = true
-        let requestData = (await http.request(
-          'DataSource/getData',
-          loadArg.args
-        )) as any
-        // false 查询完成
-        loadTables[connectorId].loading.value = false
-        for (let i = 0; i < requestData.length; i++) {
-          loadArg.tables[i].rows = requestData[i]
-          this.dataContext.setTableData(loadArg.tables[i])
+        try {
+          let loadArg = loadTables[connectorId]
+          // true 开始查询
+          loadTables[connectorId].loading.value = true
+          let requestData = (await http.request(
+            'DataSource/getData',
+            loadArg.args
+          )) as any
+          // false 查询完成
+          loadTables[connectorId].loading.value = false
+          for (let i = 0; i < requestData.length; i++) {
+            loadArg.tables[i].rows = requestData[i]
+            this.dataContext.setTableData(loadArg.tables[i])
+          }
+        } catch (e: any) {
+          console.error('reload data error', e)
         }
       }
     }
     this.dataContext.resetFormulaTables()
     this.addAction('reload_data', {})
+  }
+
+  resetData() {
+    this.dataContext.resetData()
   }
 
   getName(): string {
@@ -267,33 +276,36 @@ export class PackageManager {
     }
 
     // 删除数据和过滤相关的栏目
-    eachChart(this.definition.chart, (chart: IChartDefinition) => {
-      if (chart.option && chart.option.fields) {
-        for (let fieldKey in chart.option.fields) {
+    PackageHelper.eachChart(
+      this.definition.chart,
+      (chart: IChartDefinition) => {
+        if (chart.option && chart.option.fields) {
+          for (let fieldKey in chart.option.fields) {
+            let removed = []
+            let fields = chart.option.fields[fieldKey]
+            for (let field of fields) {
+              if (field.tableId == table.id) {
+                removed.push(field)
+              }
+            }
+            for (let removeItem of removed) {
+              fields.splice(fields.indexOf(removeItem, 1))
+            }
+          }
+        }
+        if (chart.filters) {
           let removed = []
-          let fields = chart.option.fields[fieldKey]
-          for (let field of fields) {
-            if (field.tableId == table.id) {
-              removed.push(field)
+          for (let f of chart.filters) {
+            if (f.field.tableId == table.id) {
+              removed.push(f)
             }
           }
           for (let removeItem of removed) {
-            fields.splice(fields.indexOf(removeItem, 1))
+            chart.filters.splice(chart.filters.indexOf(removeItem, 1))
           }
         }
       }
-      if (chart.filters) {
-        let removed = []
-        for (let f of chart.filters) {
-          if (f.field.tableId == table.id) {
-            removed.push(f)
-          }
-        }
-        for (let removeItem of removed) {
-          chart.filters.splice(chart.filters.indexOf(removeItem, 1))
-        }
-      }
-    })
+    )
 
     this.definition.tables.splice(this.definition.tables.indexOf(table), 1)
     this.dataContext.removeTable(table)
@@ -460,6 +472,10 @@ export class PackageManager {
     this.addAction('rename_table', table)
   }
 
+  changeTableCacheType(table: ITableDefinition) {
+    this.addAction('change_table_cache_type', table)
+  }
+
   editTableFormula(table: ITableDefinition) {
     this.dataContext.editTableFormula(table)
     this.addAction('edit_table_formula', table)
@@ -472,7 +488,7 @@ export class PackageManager {
   }
 
   addChart(parent: IChartDefinition, chart: IChartDefinition) {
-    eachChart(chart, (item: IChartDefinition) => {
+    PackageHelper.eachChart(chart, (item: IChartDefinition) => {
       item.id = Util.uniqueId()
     })
     parent.children.push(chart)
@@ -510,7 +526,10 @@ export class PackageManager {
     this.addAction('update_table_properties', table)
   }
 
-  updateOption(chart: IChartDefinition) {
+  updateOption(chart: IChartDefinition, arg: any) {
+    if (arg && arg.type == ControlType.chartScope) {
+      this.resetData()
+    }
     this.addAction('update_option', chart)
   }
 

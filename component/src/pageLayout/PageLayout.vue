@@ -56,7 +56,15 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref, createVNode, Ref, computed} from 'vue'
+import {
+  defineComponent,
+  ref,
+  createVNode,
+  Ref,
+  computed,
+  onMounted,
+  onUnmounted
+} from 'vue'
 import {Modal} from 'ant-design-vue'
 import {IChartDefinition, Util} from '@datahu/core'
 import DropPanel from '../chart/DropPanel.vue'
@@ -65,7 +73,13 @@ export default defineComponent({
   name: 'PageLayout',
   props: ['chart', 'pkg', 'view', 'optionAfterTheme'],
   components: {DropPanel},
-  setup(props) {
+  setup(props, {emit}) {
+    onMounted(() => {
+      emit('mounted')
+    })
+    onUnmounted(() => {
+      emit('unmounted')
+    })
     let chart = props.chart
     let context = getContext()
     let state = context.state
@@ -268,7 +282,7 @@ export default defineComponent({
   }
   .com-page-layout-container {
     height: 100%;
-    overflow: auto;
+    overflow: overlay;
     -webkit-overflow-scrolling: touch;
     .com-page-content {
       min-width: 20px;

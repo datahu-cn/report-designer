@@ -339,7 +339,7 @@ export default defineComponent({
   }
   .c-tables {
     transition: max-height 1s;
-    overflow: auto;
+    overflow: overlay;
     cursor: pointer;
     text-overflow: ellipsis;
 
@@ -363,7 +363,7 @@ export default defineComponent({
       }
     }
     .c-columns {
-      overflow: auto;
+      overflow: overlay;
       .c-column-item {
         margin: 5px 0px;
         padding: 4px 16px 4px 16px;

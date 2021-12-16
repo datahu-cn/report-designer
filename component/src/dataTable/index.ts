@@ -453,6 +453,10 @@ export class DataTableComponent extends BaseComponent {
     this.option.body!.style.borderRightWidth = '0px'
     this.option.body!.style.borderBottomWidth = '0px'
     this.option.body!.style.borderLeftWidth = '0px'
+    this.option.event.customEvents = [
+      {label: '单元格单击', value: 'cell_click'},
+      {label: '单元格双击', value: 'cell_dblclick'}
+    ]
   }
   title: string = '数据表'
   option: DataTableComponentOption = new DataTableComponentOption()

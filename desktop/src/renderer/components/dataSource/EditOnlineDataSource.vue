@@ -325,7 +325,7 @@ export default defineComponent({
         display: inline-block;
         width: 20%;
         height: 100%;
-        overflow-y: auto;
+        overflow-y: overlay;
         background-color: #f8f9fe;
         .c-layout-left-item {
           padding: 20px;

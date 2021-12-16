@@ -28,6 +28,36 @@
               v-model="tableName"
             />
           </div>
+          <div class="c-action">
+            <div>缓存方式</div>
+            <div>
+              <a-select
+                size="small"
+                :dropdown-match-select-width="false"
+                @change="change(state.selectedTable, 'change_table_cache_type')"
+                v-model:value="tableCacheType"
+              >
+                <a-select-option
+                  value="Realtime"
+                  title="永远使用实时数据， 不使用缓存"
+                >
+                  实时数据
+                </a-select-option>
+                <a-select-option
+                  value="Disabled"
+                  title="禁用缓存，同时表示该表为设计中的数据中转表，在报表发布后没有作用 "
+                >
+                  禁用缓存
+                </a-select-option>
+                <a-select-option
+                  value="Enabled"
+                  title="使用缓存，同时表示该表数据在发布后数据将不再变化， 数据过滤条件中没有随时间、登录用户角色变化的过滤条件"
+                >
+                  启用缓存
+                </a-select-option>
+              </a-select>
+            </div>
+          </div>
         </div>
       </a-collapse-panel>
       <a-collapse-panel v-if="state.selectedColumn" key="2" header="栏目">
@@ -164,6 +194,7 @@ import {
   IColumnDefinition,
   IFilterInfo,
   ITableDefinition,
+  TableCacheType,
   Util
 } from '@datahu/core'
 import {message, Modal} from 'ant-design-vue'
@@ -194,6 +225,20 @@ export default defineComponent({
       set(v: any) {
         if (state.selectedTable) {
           changedTableName = v
+        }
+      }
+    })
+
+    let tableCacheType = computed({
+      get() {
+        if (state.selectedTable && state.selectedTable.cacheType) {
+          return state.selectedTable.cacheType
+        }
+        return TableCacheType.Realtime
+      },
+      set(v: any) {
+        if (state.selectedTable) {
+          state.selectedTable.cacheType = v
         }
       }
     })
@@ -272,6 +317,8 @@ export default defineComponent({
         state.pkg.editColumnFilter(state.selectedTable!, item)
       } else if (action == 'edit_column_orderBy') {
         state.pkg.editColumnOrderBy(state.selectedTable!, item)
+      } else if (action == 'change_table_cache_type') {
+        state.pkg.changeTableCacheType(item)
       }
     }
 
@@ -312,7 +359,8 @@ export default defineComponent({
         connectorId: '',
         rows: [],
         formula: `[{ '栏目1': 1 }]`,
-        isFormula: true
+        isFormula: true,
+        cacheType: TableCacheType.Realtime
       }
       state.pkg.addTable(newTable)
       state.selectedTable = newTable
@@ -398,6 +446,7 @@ export default defineComponent({
       activeKey,
       filters,
       tableName,
+      tableCacheType,
       columnName,
       change,
       changedTableName,
@@ -424,7 +473,7 @@ export default defineComponent({
     height: 100%;
   }
   .ant-collapse-content-box {
-    overflow-y: auto;
+    overflow-y: overlay;
   }
 }
 </style>

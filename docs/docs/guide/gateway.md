@@ -41,9 +41,9 @@ node dist/main -port 3000 -secret "xx your secret" -https "ssl key" "ssl crt"
 ```
 
 > -port: 网关服务使用的端口号， 默认 3000
->
+> 
 > -secret： 网关密钥， 默认 datahu
->
+> 
 > -https: 如果启用 ssl，需设置 ssl 证书 key 和 crt 的文件路径， 默认不启用 ssl
 
 命令执行完后，浏览器中输入 http://127.0.0.1:3000, 具体地址根据您设置的设置相应调整，访问效果如图：

@@ -1,3 +1,4 @@
+import {IPackageDefinition} from '@datahu/core'
 import {reactive} from 'vue'
 import {ChartHandler} from './ChartHandler'
 let context: any = {
@@ -10,13 +11,14 @@ interface IChartState {
   currentPage: string
   chartHandler: ChartHandler
   unit: string
+  pageHistories: Array<string>
 }
 
-let pageHistories: Array<string> = []
 const chartState = reactive({
   currentPage: '',
   chartHandler: new ChartHandler(),
-  unit: '%'
+  unit: '%',
+  pageHistories: []
 }) as IChartState
 
 export function setContext(state: any, i18n: any, language: any) {
@@ -30,14 +32,14 @@ export function getContext(): any {
 }
 
 export function gotoPage(id: string) {
-  pageHistories.push(id)
+  chartState.pageHistories.push(id)
   chartState.currentPage = id
 }
 
 export function goBack() {
-  let index = pageHistories.indexOf(chartState.currentPage)
+  let index = chartState.pageHistories.indexOf(chartState.currentPage)
   if (index > 0) {
-    chartState.currentPage = pageHistories[index - 1]
+    chartState.currentPage = chartState.pageHistories[index - 1]
     return 1
   }
   return 0

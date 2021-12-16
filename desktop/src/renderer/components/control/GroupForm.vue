@@ -44,7 +44,7 @@
                 </a-button>
                 <ControlList
                   :field-function="fieldFunction"
-                  @change="onChange()"
+                  @change="onChange"
                   :parent="control"
                   v-model="modelValue[control.name][index]"
                 ></ControlList>
@@ -78,7 +78,7 @@
               </a-button>
               <ControlList
                 :field-function="fieldFunction"
-                @change="onChange()"
+                @change="onChange"
                 :parent="control"
                 v-model="modelValue[control.name]"
               ></ControlList>
@@ -103,8 +103,8 @@ export default defineComponent({
   setup(props: any, {emit}) {
     let i18n = useI18n()
 
-    let onChange = () => {
-      emit('change', props.modelValue)
+    let onChange = (arg: any) => {
+      emit('change', arg)
     }
 
     let activeKey = ref([])
@@ -123,7 +123,7 @@ export default defineComponent({
         // 删除
         arr.splice(index, 1)
       }
-      onChange()
+      onChange(null)
     }
 
     let resetToDefault = (control: any, formData: any, index: number) => {
@@ -150,7 +150,7 @@ export default defineComponent({
 
 <style lang="less">
 .c-group-form {
-  overflow: auto;
+  overflow: overlay;
   height: 100%;
   .ant-collapse {
     border-width: 0px;

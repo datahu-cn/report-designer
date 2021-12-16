@@ -53,24 +53,6 @@ export interface IPackageDefinition {
   connectors: Array<IConnectorDefinition>
   tables: Array<ITableDefinition>
   relationships: Array<IRelationshipDefinition>
-}
-
-export function eachChart(chart: IChartDefinition, handle: Function) {
-  let innerEachChart = (
-    charts: Array<any>,
-    parent: IChartDefinition | null = null
-  ) => {
-    for (let chart of charts) {
-      if (typeof chart == 'object' && chart.option) {
-        handle(chart, parent)
-      }
-      if (chart.children && chart.children.length > 0) {
-        innerEachChart(chart.children, chart)
-      }
-      if (chart.length > 0) {
-        innerEachChart(chart, parent)
-      }
-    }
-  }
-  innerEachChart([chart])
+  /** 数据缓存功能，在报表发布时，将数据表中已经处理后的数据缓存下来，优化报表发布后的数据加载速度，设计器中不使用缓存，无优化 */
+  cacheData?: any
 }

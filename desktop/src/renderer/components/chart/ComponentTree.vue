@@ -107,7 +107,7 @@ import {message, Modal} from 'ant-design-vue'
 import CodeEditor from '../control/CodeEditor.vue'
 import {
   DataMergeType,
-  eachChart,
+  PackageHelper,
   IChartDefinition,
   IColumnDefinition,
   ITableDefinition,
@@ -206,7 +206,7 @@ export default defineComponent({
           cancelText: '取消',
           onOk() {
             let parent: IChartDefinition | null = null
-            eachChart(
+            PackageHelper.eachChart(
               state.pkg.definition.chart,
               (chart: IChartDefinition, p: IChartDefinition) => {
                 if (chart == node.dataRef.chart) {

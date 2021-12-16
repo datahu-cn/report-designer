@@ -266,7 +266,7 @@ export default defineComponent({
     }
   }
   .c-table-columns {
-    overflow: auto;
+    overflow: overlay;
     height: calc(100% - 32px);
     .c-column-item {
       padding: 4px 16px 4px 16px;

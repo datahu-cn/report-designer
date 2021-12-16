@@ -14,7 +14,15 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref, onMounted, PropType, watch, computed} from 'vue'
+import {
+  defineComponent,
+  ref,
+  onMounted,
+  onUnmounted,
+  PropType,
+  watch,
+  computed
+} from 'vue'
 import {
   IChartDefinition,
   Util,
@@ -34,7 +42,13 @@ export default defineComponent({
     optionAfterTheme: Object
   },
   components: {Echarts},
-  setup(props) {
+  setup(props, {emit}) {
+    onMounted(() => {
+      emit('mounted')
+    })
+    onUnmounted(() => {
+      emit('unmounted')
+    })
     let chartInstance = ref(null)
 
     let chartOption = ref(null)

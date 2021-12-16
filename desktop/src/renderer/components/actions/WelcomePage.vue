@@ -6,6 +6,7 @@
       :closable="false"
       class="c-welcome-page-modal"
       v-model:visible="visible"
+      :maskClosable="false"
       width="800px"
       :footer="null"
     >

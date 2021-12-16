@@ -223,6 +223,9 @@
           :style="
             optionAfterTheme.content ? optionAfterTheme.content.style : {}
           "
+          @componentCustomEvent="handleCustomEvent"
+          @mounted="componentMounted(chartComponent)"
+          @unmounted="componentUnmounted(chartComponent)"
           :chart="chart.item"
           :pkg="state.pkg"
           :is="chart.com.getComponent()"
@@ -254,6 +257,9 @@
           :chart="chart.item"
           :pkg="state.pkg"
           :is="chart.com.getComponent()"
+          @componentCustomEvent="handleCustomEvent"
+          @mounted="componentMounted(modalChartComponent)"
+          @unmounted="componentUnmounted(modalChartComponent)"
           :data="chartData"
           :option-after-theme="optionAfterTheme"
           :view="state.preview"
@@ -262,6 +268,7 @@
           @dblclick="handleEvent('body_dblclick')"
           @click="handleEvent('body_click')"
           @mousedown="checkHandleEvent()"
+          ref="modalChartComponent"
         ></component>
       </div>
       <template #footer>
@@ -293,8 +300,9 @@ import DragResize from './DragResize.vue'
 import {ChartData} from '@datahu/core'
 import ChartDataViewer from './ChartDataViewer.vue'
 import {getContext, gotoPage, goBack, userChartState} from './chartState'
-import {IChartEvent} from './ChartHandler'
+import {EventNames, IChartEvent} from './ChartHandler'
 import ComponentIcon from '../components/ComponentIcon.vue'
+import {ChartHelper} from './ChartHelper'
 
 export default defineComponent({
   name: 'ComponentPanel',
@@ -307,9 +315,12 @@ export default defineComponent({
     let language = context.language
     let chartState = userChartState()
 
+    let chartHelper = new ChartHelper(chartState, state)
+
     let chart = props.chart
 
     let chartComponent: Ref<any> = ref(null)
+    let modalChartComponent: Ref<any> = ref(null)
 
     let initChartOption = () => {
       let defaultOption = chart.com.option
@@ -409,6 +420,11 @@ export default defineComponent({
       if (chart.isNew) {
         state.focusItem = chart
       }
+      chartState.chartHandler.triggerEvent(
+        chart.item,
+        EventNames.ChartMounted,
+        instance
+      )
     })
 
     let chartData = computed(() => {
@@ -636,7 +652,7 @@ export default defineComponent({
       }
       canHandle = true
     }
-    let handleEvent = async (trigger: string) => {
+    let handleEvent = async (trigger: string, args: any) => {
       if (!canHandle) {
         return
       }
@@ -657,17 +673,22 @@ export default defineComponent({
               if (action.code) {
                 CodeExpression.runCode(
                   action.code,
-                  ['chart', 'chartData', 'instance', 'chartState'],
+                  ['chart', 'chartData', 'instance', 'chartHelper', 'args'],
                   chart,
                   chartData.value,
                   instance,
-                  chartState
+                  chartHelper,
+                  args
                 )
               }
             }
           }
         }
       }
+    }
+
+    let handleCustomEvent = async (e: any) => {
+      handleEvent(e.trigger, e.args)
     }
 
     let switchLock = () => {
@@ -679,11 +700,31 @@ export default defineComponent({
     chartState.chartHandler.addEvents(events)
     chartState.chartHandler.addInstance(instance)
     onUnmounted(() => {
+      chartState.chartHandler.triggerEvent(
+        chart.item,
+        EventNames.ChartUnmounted,
+        instance
+      )
       chartState.chartHandler.removeEvents(events)
       chartState.chartHandler.removeInstance(instance)
     })
 
     let isFullScreen = ref(false)
+
+    let componentMounted = (e: any) => {
+      chartState.chartHandler.triggerEvent(
+        chart.item,
+        EventNames.ComponentMounted,
+        instance
+      )
+    }
+    let componentUnmounted = (e: any) => {
+      chartState.chartHandler.triggerEvent(
+        chart.item,
+        EventNames.ComponentUnmounted,
+        instance
+      )
+    }
 
     return {
       chartState,
@@ -712,10 +753,14 @@ export default defineComponent({
       language,
       checkHandleEvent,
       handleEvent,
+      handleCustomEvent,
       isFullScreen,
       chartPanelStyle,
       chartPanelClick,
-      chartComponent
+      chartComponent,
+      modalChartComponent,
+      componentMounted,
+      componentUnmounted
     }
   }
 })
@@ -798,7 +843,7 @@ export default defineComponent({
       width: 100%;
       margin: 0px;
       flex: 1 1 auto;
-      overflow: auto;
+      overflow: overlay;
       // overflow: hidden;
       .c-component-item {
         width: 100%;
@@ -827,7 +872,7 @@ export default defineComponent({
       width: 100%;
       margin: 0px;
       flex: 1 1 auto;
-      overflow: auto;
+      overflow: overlay;
       .c-component-item {
         width: 100%;
         height: 100%;

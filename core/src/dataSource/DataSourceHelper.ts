@@ -1,4 +1,9 @@
-import {ColumnType, ITableDefinition, IColumnDefinition} from '../common'
+import {
+  ColumnType,
+  ITableDefinition,
+  IColumnDefinition,
+  TableCacheType
+} from '../common'
 
 export class DataSourceHelper {
   static getTableDefinitionFromObject(obj: any) {
@@ -10,7 +15,8 @@ export class DataSourceHelper {
       sourceCode: '',
       columns: [],
       connectorId: '',
-      isFormula: false
+      isFormula: false,
+      cacheType: TableCacheType.Realtime
     } as ITableDefinition
 
     for (let key in obj) {
@@ -34,7 +40,8 @@ export class DataSourceHelper {
       sourceCode: '',
       columns: [],
       connectorId: '',
-      isFormula: false
+      isFormula: false,
+      cacheType: TableCacheType.Realtime
     } as ITableDefinition
 
     let keys = new Set()

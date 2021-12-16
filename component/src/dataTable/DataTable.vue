@@ -30,6 +30,7 @@ import {
   defineComponent,
   ref,
   onMounted,
+  onUnmounted,
   watch,
   computed,
   nextTick,
@@ -54,10 +55,17 @@ interface IDataTableColumn {
   children?: Array<IDataTableColumn>
 }
 export default defineComponent({
-  name: 'GridLayout',
+  name: 'DataTable',
   props: ['chart', 'view', 'data'],
-  setup(props) {
+  setup(props, {emit}) {
     let chart = props.chart
+
+    onMounted(() => {
+      emit('mounted')
+    })
+    onUnmounted(() => {
+      emit('unmounted')
+    })
 
     let getColOption = (colName: string): ColumnStyleComponentOption => {
       let defaultOpt: any = null
@@ -614,6 +622,17 @@ export default defineComponent({
         let chartData = props.data as ChartData
         let mainFieldName = chartData.getFieldName(chartData.mainField!)
         chartData.drillDown(row[mainFieldName])
+
+        emit('componentCustomEvent', {
+          trigger: 'cell_dblclick',
+          args: arg
+        })
+      },
+      cellClick(arg: any) {
+        emit('componentCustomEvent', {
+          trigger: 'cell_click',
+          args: arg
+        })
       }
     }
 

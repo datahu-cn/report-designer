@@ -75,7 +75,7 @@ export default defineComponent({
   top: 0px;
   z-index: 100;
   background-color: white;
-  overflow: auto;
+  overflow: overlay;
   min-width: 10px;
   min-height: 10px;
   .c-preview-image {

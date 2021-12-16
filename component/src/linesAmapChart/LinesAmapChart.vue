@@ -15,7 +15,15 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref, onMounted, PropType, watch, computed} from 'vue'
+import {
+  defineComponent,
+  ref,
+  onMounted,
+  onUnmounted,
+  PropType,
+  watch,
+  computed
+} from 'vue'
 import {IChartDefinition, Util, ChartData, IFieldInfo} from '@datahu/core'
 import AmapEcharts from '../components/AmapEcharts.vue'
 import {ChartUtil, ITooltip} from '../base'
@@ -30,7 +38,13 @@ export default defineComponent({
     view: Object as PropType<boolean>
   },
   components: {AmapEcharts},
-  setup(props) {
+  setup(props, {emit}) {
+    onMounted(() => {
+      emit('mounted')
+    })
+    onUnmounted(() => {
+      emit('unmounted')
+    })
     let option = computed(() => {
       let option = ChartUtil.getChartOption(props.chart!)
       let chartData: ChartData = props.data!

@@ -299,7 +299,7 @@ export default defineComponent({
     })
 
     let change = (v: any) => {
-      emit('change', v)
+      emit('change', props.config)
     }
 
     return {

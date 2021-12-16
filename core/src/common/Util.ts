@@ -215,12 +215,16 @@ export class Util {
     for (let attr in from) {
       if (from.hasOwnProperty(attr)) {
         let v = from[attr]
-        if (deep) {
+        if (deep && to[attr] != null && to[attr] != undefined) {
           let toV = to[attr]
           if (v instanceof Array) {
-            for (let i = 0; i < v.length; i++) {
-              if (toV && toV.length > i) {
-                Util.assignTo(v[i], toV[i], deep)
+            if (toV.length == 0) {
+              to[attr] = v
+            } else {
+              for (let i = 0; i < v.length; i++) {
+                if (toV && toV.length > i) {
+                  Util.assignTo(v[i], toV[i], deep)
+                }
               }
             }
             continue

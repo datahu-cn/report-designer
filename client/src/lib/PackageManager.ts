@@ -7,7 +7,6 @@ import {
   IChartDefinition,
   IRelationshipDefinition,
   DataContext,
-  eachChart,
   ITablePosition
 } from '@datahu/core'
 export class PackageManager {

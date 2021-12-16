@@ -153,6 +153,7 @@ import {
   IColumnDefinition,
   ITableDefinition,
   ITableQueryPager,
+  TableCacheType,
   Util
 } from '@datahu/core'
 import CodeEditor from '../control/CodeEditor.vue'
@@ -195,7 +196,8 @@ export default defineComponent({
               sourceCode: t.sourceCode,
               columns: Util.copy(t.columns),
               connectorId: t.connectorId,
-              isFormula: t.isFormula
+              isFormula: t.isFormula,
+              cacheType: TableCacheType.Realtime
             })
           }
         }
@@ -631,7 +633,8 @@ export default defineComponent({
         columns: [],
         connectorId: connectorId,
         isFormula: false,
-        rows: undefined
+        rows: undefined,
+        cacheType: TableCacheType.Realtime
       } as ITableDefinition
       tables.value.splice(0, 0, table)
       sourceCodeTables.value.splice(0, 0, table)
@@ -747,7 +750,7 @@ export default defineComponent({
       display: inline-block;
       width: 25%;
       height: 100%;
-      overflow-y: auto;
+      overflow-y: overlay;
       border: 1px solid var(--border-color-base);
       .ant-input-affix-wrapper {
         border-color: transparent;

@@ -656,7 +656,7 @@ export default defineComponent({
       margin-top: 10px;
       .ant-list {
         max-height: 500px;
-        overflow: auto;
+        overflow: overlay;
         .ant-list-item {
           padding: 4px 8px;
         }

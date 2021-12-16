@@ -169,8 +169,8 @@ export default defineComponent({
 
     let init = () => {}
 
-    let change = () => {
-      emit('change', formData.value)
+    let change = (arg: any) => {
+      emit('change', arg)
     }
 
     let updateField = (control: IControl, isAdd: boolean) => {

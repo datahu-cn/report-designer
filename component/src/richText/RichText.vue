@@ -35,6 +35,7 @@ import {
   defineComponent,
   ref,
   onMounted,
+  onUnmounted,
   watch,
   computed,
   createVNode,
@@ -60,7 +61,13 @@ export default defineComponent({
   name: 'RichText',
   props: ['chart', 'data', 'pkg', 'view', 'language'],
   components: {DropPanel},
-  setup(props) {
+  setup(props, {emit}) {
+    onMounted(() => {
+      emit('mounted')
+    })
+    onUnmounted(() => {
+      emit('unmounted')
+    })
     let chart = props.chart
 
     let dropPanelRef: any = ref(null)
@@ -445,7 +452,7 @@ export default defineComponent({
 .com-rich-text {
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow: overlay;
   .cdx-input.image-tool__caption {
     display: none;
   }

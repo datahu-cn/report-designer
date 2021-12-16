@@ -21,6 +21,15 @@ export enum ColumnOrderBy {
   Desc = 'desc'
 }
 
+export enum TableCacheType {
+  /** 永远使用实时数据， 不使用缓存 */
+  Realtime = 'Realtime',
+  /** 禁用缓存，同时表示该表为设计中的数据中转表，在报表发布后没有作用 */
+  Disabled = 'Disabled',
+  /** 使用缓存，同时表示该表数据在发布后数据将不再变化， 数据过滤条件中没有随时间、登录用户角色变化的过滤条件 */
+  Enabled = 'Enabled'
+}
+
 export interface IColumnDefinition {
   id: string
   name: string
@@ -47,4 +56,5 @@ export interface ITableDefinition {
   position?: ITablePosition
   isFormula: boolean
   formula?: string
+  cacheType?: TableCacheType
 }

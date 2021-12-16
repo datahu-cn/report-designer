@@ -118,7 +118,7 @@ function createStyles() {
         '.resize-triggers { ' +
         (animationStyle ? animationStyle : '') +
         'visibility: hidden; opacity: 0; } ' +
-        '.resize-triggers, .resize-triggers > div, .contract-trigger:before { content: " "; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; } .resize-triggers > div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }',
+        '.resize-triggers, .resize-triggers > div, .contract-trigger:before { content: " "; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; } .resize-triggers > div { background: #eee; overflow: overlay; } .contract-trigger:before { width: 200%; height: 200%; }',
       head = document.head || document.getElementsByTagName('head')[0],
       style = document.createElement('style')
 

@@ -33,12 +33,25 @@ import {
   IFilterInfo,
   Util
 } from '@datahu/core'
-import {defineComponent, ref, onMounted, watch, computed} from 'vue'
+import {
+  defineComponent,
+  ref,
+  onMounted,
+  onUnmounted,
+  watch,
+  computed
+} from 'vue'
 import moment from 'moment'
 export default defineComponent({
   name: 'SimpleSlicer',
   props: ['chart', 'data', 'pkg', 'view', 'optionAfterTheme'],
-  setup(props) {
+  setup(props, {emit}) {
+    onMounted(() => {
+      emit('mounted')
+    })
+    onUnmounted(() => {
+      emit('unmounted')
+    })
     let chart = props.chart
 
     let getCardItem = (index: number) => {

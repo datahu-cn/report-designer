@@ -1,9 +1,18 @@
 import {IChartDefinition} from '@datahu/core'
 
+export enum EventNames {
+  ChartMounted = 'ChartMounted',
+  ChartUnmounted = 'ChartUnmounted',
+  ComponentMounted = 'ComponentMounted',
+  ComponentUnmounted = 'ComponentUnmounted'
+}
+
 export interface IChartEvent {
   chart: IChartDefinition
   // 事件名称，事件标识符
-  name: string
+  name: EventNames
+  // 避免重复事件
+  key: String
   // 预览模式下是否可用
   enabledWhenView: boolean
   // 事件的显示名称
@@ -45,8 +54,24 @@ export class ChartHandler {
     this.instances.splice(this.instances.indexOf(instance), 1)
   }
 
+  checkExist(chartEvent: IChartEvent) {
+    for (let evt of this.events) {
+      if (evt.key == chartEvent.key) {
+        return evt
+      }
+    }
+    return null
+  }
+
   addEvent(chartEvent: IChartEvent) {
-    this.events.push(chartEvent)
+    let exist = this.checkExist(chartEvent)
+    if (exist) {
+      exist.handle = chartEvent.handle
+      exist.title = chartEvent.title
+      exist.enabledWhenView = chartEvent.enabledWhenView
+    } else {
+      this.events.push(chartEvent)
+    }
   }
 
   removeEvent(chartEvent: IChartEvent) {
@@ -62,6 +87,14 @@ export class ChartHandler {
   removeEvents(events: Array<IChartEvent>) {
     for (let h of events) {
       this.removeEvent(h)
+    }
+  }
+
+  triggerEvent(chart: IChartDefinition, name: EventNames, args: any) {
+    for (let evt of this.events) {
+      if (evt.chart == chart && evt.name == name) {
+        evt.handle(args)
+      }
     }
   }
 }

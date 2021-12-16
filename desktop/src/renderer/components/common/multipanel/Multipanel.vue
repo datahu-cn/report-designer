@@ -192,11 +192,11 @@ export default defineComponent({
     flex-direction: column;
     .c-pane {
       text-align: left;
-      overflow: auto;
+      overflow: overlay;
       // border-top: 1px solid var(--border-color-base);
       // border-bottom: 1px solid var(--border-color-base);
       > div {
-        overflow-x: auto;
+        overflow-x: overlay;
         width: 100%;
       }
     }
@@ -212,11 +212,11 @@ export default defineComponent({
     flex-direction: row;
     .c-pane {
       text-align: left;
-      overflow: auto;
+      overflow: overlay;
       // border-right: 1px solid var(--border-color-base);
       // border-left: 1px solid var(--border-color-base);
       > div {
-        overflow-y: auto;
+        overflow-y: overlay;
         height: 100%;
       }
     }

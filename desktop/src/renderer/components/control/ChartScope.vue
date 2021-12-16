@@ -62,8 +62,7 @@ export default defineComponent({
               value: chart.id,
               title: com ? com.title : '页面',
               children: [],
-              chart: chart,
-              disabled: !(com && chart.option && chart.option.fields)
+              chart: chart
             }
             if (chart.option.title && chart.option.title.name != '标题') {
               node.title += `[${chart.option.title.name}]`
@@ -86,13 +85,13 @@ export default defineComponent({
       let root = state.pkg.definition.chart
       buildNode(trees, root)
       for (let node of trees) {
-        node.disabled = true
+        node.disabled = false
       }
       return trees
     })
 
     let change = () => {
-      emit('change', props.modelVale)
+      emit('change', props.modelValue)
     }
     return {
       i18n,
