@@ -4,6 +4,12 @@ import {join, resolve} from 'path'
 import {format} from 'url'
 import ipc from './ipc'
 import {setMenu} from './menu'
+import * as console from 'electron-log'
+import {autoUpdater} from 'electron-updater'
+
+console.transports.console.level = 'silly'
+console.transports.file.level = 'info'
+autoUpdater.logger = console
 
 let isHandleSchemeWhenStart = false
 const gotTheLock = app.requestSingleInstanceLock()
@@ -132,13 +138,12 @@ if (!gotTheLock) {
   })
 
   // Auto-updates
-  if (env.PROD) {
-    app
-      .whenReady()
-      .then(() => import('electron-updater'))
-      .then(({autoUpdater}) => autoUpdater.checkForUpdatesAndNotify())
-      .catch((e) => console.error('Failed check updates:', e))
-  }
+  // if (env.MODE !== 'development') {
+  app
+    .whenReady()
+    .then(() => autoUpdater.checkForUpdatesAndNotify())
+    .catch((e) => console.error('Failed check updates:', e))
+  // }
 
   // custom scheme url
   const PROTOCOL = 'datahu'
