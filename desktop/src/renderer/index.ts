@@ -14,6 +14,14 @@ import VXETablePluginExportXLSX from 'vxe-table-plugin-export-xlsx'
 
 VXETable.use(VXETablePluginExportXLSX)
 
+import * as Vue from 'vue'
+import * as DatahuCore from '@datahu/core'
+import * as DatahuComponentBase from '@datahu/component-base'
+let _w: any = window
+_w.Vue = Vue
+_w.DatahuCore = DatahuCore
+_w.DatahuComponentBase = DatahuComponentBase
+
 createApp(App)
   .use(router)
   .use(Antd)

@@ -10,7 +10,7 @@ import {
   VisualMapComponentOption,
   XAxisComponentOption,
   YAxisComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import {IControl, ControlType, ComponentControl, Util} from '@datahu/core'
 import Cartesian2dChart from '../cartesian2dChart/Cartesian2dChart.vue'
 import {

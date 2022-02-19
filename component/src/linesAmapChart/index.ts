@@ -26,7 +26,7 @@ import {
   MarkAreaComponentOption,
   AmapComponentOption,
   LineStyleComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import LinesAmapChart from './LinesAmapChart.vue'
 
 export class FieldComponentOption {

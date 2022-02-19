@@ -20,7 +20,7 @@ import {
   RadiusAxisComponentOption,
   DataOperationComponentOption,
   SeriesLabelComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import DensityMapChart from './DensityMapChart.vue'
 
 export class FieldComponentOption {

@@ -113,7 +113,7 @@ import {
   ITableDefinition,
   Util
 } from '@datahu/core'
-import {userChartState} from '@datahu/component'
+import {userChartState} from '@datahu/component-base'
 import {DownOutlined} from '@ant-design/icons-vue'
 export default defineComponent({
   name: 'TableTree',

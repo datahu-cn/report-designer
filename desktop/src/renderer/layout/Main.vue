@@ -1,5 +1,5 @@
 <template>
-  <a-spin :spinning="state.loading">
+  <a-spin class="c-main-spin" :spinning="state.loading">
     <div @click="mainClick()" v-if="state.loaded" class="c-main">
       <div class="c-main-left">
         <div :collapsed="true">
@@ -53,14 +53,14 @@
               <icon type="datasource" />
               <p v-if="showText">{{ i18n.main_dataSource }}</p>
             </li>
-            <!-- <li
+            <li
               :title="i18n.main_options"
               @click="selectTab('options')"
               :class="{selected: route.name == 'options'}"
             >
               <icon type="options" />
               <p v-if="showText">{{ i18n.main_options }}</p>
-            </li> -->
+            </li>
           </ul>
         </div>
         <div class="c-main-left-bottom">
@@ -84,6 +84,7 @@ import Header from './Header.vue'
 import {defineComponent, ref, nextTick, onMounted, computed} from 'vue'
 import http from '../use/http'
 import {loadStore, useState, useI18n, useLanguage, openLink} from '../use/state'
+import {loadPlugins} from '../use/plugin'
 import {useRoute, useRouter} from 'vue-router'
 import Preview from '../components/preview/Preview.vue'
 import Login from '../components/actions/Login.vue'
@@ -181,6 +182,7 @@ export default defineComponent({
         document.addEventListener('keydown', onKeyDown)
       })
       await loadStore()
+      await loadPlugins()
       openWelcomePage()
     })
 
@@ -204,6 +206,13 @@ export default defineComponent({
 })
 </script>
 <style lang="less">
+.c-main-spin {
+  width: 100%;
+  height: 100%;
+  > .ant-spin-dot {
+    margin-top: 50px;
+  }
+}
 .ant-spin-nested-loading {
   height: 100%;
   .ant-spin-container {

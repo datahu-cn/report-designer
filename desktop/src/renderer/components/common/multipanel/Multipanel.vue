@@ -3,7 +3,6 @@
     class="c-multi-panel"
     :class="classnames"
     :style="{cursor, userSelect}"
-    :ref="panelRef"
     @mousedown="onMouseDown"
     @dblclick="onDblclick"
   >

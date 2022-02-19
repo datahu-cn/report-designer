@@ -17,6 +17,7 @@ import {
   PackageHelper,
   ControlType
 } from '@datahu/core'
+import {setPackagePlugins, loadPackagePlugins} from './plugin'
 export class PackageManager {
   static emptyPkg() {
     var definition = {
@@ -82,17 +83,19 @@ export class PackageManager {
     path: string,
     disabledError?: boolean
   ): Promise<PackageManager> {
-    let definition = await http.request(
+    let definition = (await http.request(
       'PackageManager/load',
       {path},
       disabledError
-    )
-    return new PackageManager(definition as IPackageDefinition, path)
+    )) as IPackageDefinition
+    await loadPackagePlugins(definition)
+    return new PackageManager(definition, path)
   }
 
   static async loadFrom(): Promise<PackageManager> {
     let result = (await http.request('PackageManager/loadFrom', {})) as any
     if (result && result.path) {
+      await loadPackagePlugins(result.data)
       return new PackageManager(result.data, result.path)
     }
     throw new Error('未能成功加载')
@@ -104,6 +107,7 @@ export class PackageManager {
       params
     )) as any
     if (result) {
+      await loadPackagePlugins(result.data)
       return new PackageManager(result.data, result.path)
     }
     throw new Error('未能成功加载')
@@ -203,6 +207,7 @@ export class PackageManager {
   }
 
   async save(showMessage = true): Promise<void> {
+    await setPackagePlugins(this.definition)
     await http.request('PackageManager/save', {
       path: this.path,
       pkg: this.definition
@@ -214,6 +219,7 @@ export class PackageManager {
   }
 
   async saveAs(showMessage = true): Promise<void> {
+    await setPackagePlugins(this.definition)
     let path = await http.request('PackageManager/saveAs', {
       path: this.path,
       pkg: this.definition

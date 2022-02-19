@@ -12,7 +12,7 @@ import {
   PolarComponentOption,
   AngleAxisComponentOption,
   RadiusAxisComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import LineChart from './LineChart.vue'
 
 class FieldComponentOption {

@@ -9,19 +9,22 @@ module.exports = {
   alias: {
     '/@/': join(process.cwd(), './src/preload') + '/'
   },
+  esbuild: {
+    keepNames: true
+  },
   build: {
     target: `chrome${chrome}`,
     outDir: 'dist/source/preload',
     assetsDir: '.',
     sourcemap: 'true',
-    minify: process.env.MODE === 'development' ? 'terser' : 'terser',
-    terserOptions: {
-      compress: false,
-      mangle: false,
-      sourceMap: true,
-      keep_classnames: true,
-      keep_fnames: true
-    },
+    // minify: process.env.MODE === 'development' ? 'terser' : 'terser',
+    // terserOptions: {
+    //   compress: false,
+    //   mangle: false,
+    //   sourceMap: true,
+    //   keep_classnames: true,
+    //   keep_fnames: true
+    // },
     lib: {
       name: 'index',
       entry: 'src/preload/index.ts',

@@ -24,7 +24,7 @@ import {
   MarkLineComponentOption,
   MarkAreaComponentOption,
   AmapComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import ScatterAmapChart from './ScatterAmapChart.vue'
 
 export class FieldComponentOption {

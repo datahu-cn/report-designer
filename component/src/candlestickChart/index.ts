@@ -25,7 +25,7 @@ import {
   RangeComponentOption,
   StyleComponentOption,
   VisualMapComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import CandlestickChart from './CandlestickChart.vue'
 
 export class FieldComponentOption {

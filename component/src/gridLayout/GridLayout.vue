@@ -1,7 +1,7 @@
 <template>
   <div class="com-grid-layout">
-    <a-row type="flex">
-      <a-col
+    <Row type="flex">
+      <Col
         class="com-grid-layout-item"
         v-for="(cell, index) in chart.children"
         :key="index"
@@ -17,12 +17,13 @@
         <div :style="cellStyle(chart.option.cells[index].style)">
           <DropPanel :chart="cell"></DropPanel>
         </div>
-      </a-col>
-    </a-row>
+      </Col>
+    </Row>
   </div>
 </template>
 
 <script lang="ts">
+import {Row, Col} from 'ant-design-vue'
 import {ChartData, Formula, IChartDefinition, Util} from '@datahu/core'
 import {
   defineComponent,
@@ -33,7 +34,7 @@ import {
   computed,
   PropType
 } from 'vue'
-import {DropPanel} from '../chart'
+import {DropPanel} from '@datahu/component-base'
 export default defineComponent({
   name: 'GridLayout',
   props: {
@@ -43,7 +44,7 @@ export default defineComponent({
     optionAfterTheme: Object,
     view: Boolean
   },
-  components: {DropPanel},
+  components: {DropPanel, Row, Col},
   setup(props, {emit}) {
     onMounted(() => {
       emit('mounted')

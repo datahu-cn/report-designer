@@ -15,7 +15,7 @@
         ></DropPanel>
       </div>
     </div>
-    <a-tabs
+    <Tabs
       v-else
       v-model:activeKey="activeKey"
       :type="getTabType()"
@@ -24,7 +24,7 @@
       :hide-add="view"
       @edit="onEdit"
     >
-      <a-tab-pane
+      <TabPane
         v-for="page in chart.children"
         :key="page.id"
         :closable="chart.children.length > 1 && !view"
@@ -50,12 +50,13 @@
             <DropPanel v-if="page.id == activeKey" :chart="page"></DropPanel>
           </div>
         </div>
-      </a-tab-pane>
-    </a-tabs>
+      </TabPane>
+    </Tabs>
   </div>
 </template>
 
 <script lang="ts">
+import {Modal, Tabs, TabPane} from 'ant-design-vue'
 import {
   defineComponent,
   ref,
@@ -65,14 +66,17 @@ import {
   onMounted,
   onUnmounted
 } from 'vue'
-import {Modal} from 'ant-design-vue'
 import {IChartDefinition, Util} from '@datahu/core'
-import DropPanel from '../chart/DropPanel.vue'
-import {userChartState, gotoPage, getContext} from '../chart/chartState'
+import {
+  userChartState,
+  gotoPage,
+  getContext,
+  DropPanel
+} from '@datahu/component-base'
 export default defineComponent({
   name: 'PageLayout',
   props: ['chart', 'pkg', 'view', 'optionAfterTheme'],
-  components: {DropPanel},
+  components: {DropPanel, Tabs, TabPane},
   setup(props, {emit}) {
     onMounted(() => {
       emit('mounted')

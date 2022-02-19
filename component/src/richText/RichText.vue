@@ -42,7 +42,7 @@ import {
   nextTick
 } from 'vue'
 import {SplitLayoutComponent} from '../splitLayout'
-import DropPanel from '../chart/DropPanel.vue'
+import {DropPanel} from '@datahu/component-base'
 import EditorJS from '@editorjs/editorjs'
 import Paragraph from '@editorjs/paragraph'
 import Header from '@editorjs/header'

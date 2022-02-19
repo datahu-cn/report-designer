@@ -11,6 +11,23 @@
         </a-button>
       </div>
       <div class="c-action">
+        <a-dropdown @click="reloadDevEnv()">
+          <a-button type="link">
+            <icon type="open" />
+            开发
+            <DownOutlined />
+          </a-button>
+          <template #overlay>
+            <a-menu>
+              <a-menu-item @click="reloadDevEnv()" key="2">
+                <icon type="open" />
+                加载开发组件
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
+      </div>
+      <div class="c-action">
         <a-dropdown @click="loadPkg()">
           <a-button type="link">
             <icon type="open" />
@@ -229,6 +246,7 @@ import {
   loadPkg,
   loadPkgFromPath
 } from '../use/state'
+import {loadDevComponents} from '../use/plugin'
 import {
   SaveOutlined,
   DownOutlined,
@@ -242,7 +260,7 @@ import DataSourceList from '../components/dataSource/DataSourceList.vue'
 import {PackageManager} from '../use/PackageManager'
 import {getThemes} from '@datahu/core'
 import ReloadTables from '../components/table/ReloadTables.vue'
-import {userChartState} from '@datahu/component'
+import {userChartState} from '@datahu/component-base'
 import DataRole from '../components/actions/DataRole.vue'
 export default defineComponent({
   components: {
@@ -282,18 +300,22 @@ export default defineComponent({
       }
     }
 
-    let loading = ref(false)
     let reloadData = async () => {
-      loading.value = true
+      state.loading = true
       await state.pkg.loadData(language.value, true)
       // 定时器演示使用
       setTimeout(() => {
-        loading.value = false
+        state.loading = false
       }, 1000)
     }
 
-    const loaded = () => {
-      loading.value = false
+    let refreshPkg = async () => {
+      state.loading = true
+      state.loaded = false
+      setTimeout(() => {
+        state.loading = false
+        state.loaded = true
+      }, 500)
     }
 
     let showDataRole = ref(false)
@@ -379,6 +401,11 @@ export default defineComponent({
       state.viewMode = viewMode
     }
 
+    let reloadDevEnv = async () => {
+      await loadDevComponents()
+      refreshPkg()
+    }
+
     return {
       i18n,
       state,
@@ -393,12 +420,12 @@ export default defineComponent({
       theme,
       getThemeHtml,
       newPkgHandle,
-      loading,
-      loaded,
       currentChartProxy,
       viewModes,
       viewMode,
-      switchViewMode
+      switchViewMode,
+      refreshPkg,
+      reloadDevEnv
     }
   }
 })

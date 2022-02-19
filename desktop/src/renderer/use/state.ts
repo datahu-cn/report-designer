@@ -4,19 +4,20 @@ import {
   computed,
   onMounted,
   ComputedRef,
+  WritableComputedRef,
   isReactive,
   isRef,
   UnwrapRef,
   nextTick
 } from 'vue'
-import {getThemes, IFieldInfo, Util} from '@datahu/core'
+import {getThemes, IFieldInfo, Util, IComponentPlugin} from '@datahu/core'
 import http from './http'
 import {I18n, I18nStrings} from '../i18n'
 import enUS from 'ant-design-vue/es/locale/en_US'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import {PackageManager} from './PackageManager'
 import * as echarts from 'echarts'
-import {getComponents} from '@datahu/component'
+import {getComponents, EmptyChartComponent} from '@datahu/component'
 import {
   Formula,
   IComponent,
@@ -47,6 +48,7 @@ interface IState {
   store: any
   pkg: PackageManager
   components: any
+  emptyChartComponent: any
 
   /**
    * 打开预览
@@ -106,6 +108,7 @@ const state = reactive({
   store: null,
   pkg: null as any,
   components: getComponents(),
+  emptyChartComponent: EmptyChartComponent,
   preview: false,
   login: false,
   loginEnd: null,
@@ -209,6 +212,7 @@ export async function loadPkgFromPath(recenty: any) {
     if (pkg) {
       state.pkg = pkg
       state.pkg.init()
+      console.log('state after loadPkgFromPath', state)
       state.loaded = false
       resetState()
       nextTick(() => {
@@ -234,12 +238,6 @@ export async function newPkg() {
   })
 }
 
-export async function loadComponents() {
-  var results: any = await import('@datahu/component')
-
-  state.components = results.Components
-}
-
 export function useState(): IState {
   return state
 }
@@ -249,16 +247,16 @@ export function resetState() {
   state.selectedColumn = null as any
 }
 
-export function useLanguage(): ComputedRef<string> {
+export function useLanguage(): WritableComputedRef<string> {
   return computed({
-    get() {
+    get(): string {
       let language = 'zh-cn'
       if (state.store && state.store.language) {
         language = state.store.language
       }
       return language
     },
-    set(v) {
+    set(v: string) {
       state.store.language = v
       http.request('LocalStore/setLanguageStore', {language: v})
     }
@@ -282,4 +280,15 @@ export function useAntLocale(): ComputedRef<any> {
     }
   })
   return locale
+}
+
+export function findChartComponent(type: string) {
+  if (state) {
+    let result = state.components[type]
+    if (!result) {
+      result = state.emptyChartComponent
+    }
+    return result
+  }
+  return null
 }

@@ -6,7 +6,11 @@ import {
   FieldSelectType,
   DataMergeMethod
 } from '@datahu/core'
-import {BaseComponent, BaseComponentOption, StyleComponentOption} from '../base'
+import {
+  BaseComponent,
+  BaseComponentOption,
+  StyleComponentOption
+} from '@datahu/component-base'
 import SingleCard from './SingleCard.vue'
 
 class CardItemComponentOption {

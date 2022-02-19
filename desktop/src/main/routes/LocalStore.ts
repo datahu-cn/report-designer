@@ -95,3 +95,31 @@ export async function openDirectorySelect(arg: any, mainWindow: any) {
   })
   return result.filePaths
 }
+
+export function addPlugin(arg: any) {
+  let plugins = store.get(arg.type) as Array<any>
+  if (!plugins) {
+    plugins = []
+  }
+  for (let item of plugins) {
+    if (item.name == arg.plugin.name) {
+      plugins.splice(plugins.indexOf(item), 1)
+      break
+    }
+  }
+  plugins.push(arg.plugin)
+  store.set(arg.type, plugins)
+}
+
+export function removePlugin(arg: any) {
+  let plugins = store.get(arg.type) as Array<any>
+  if (plugins) {
+    for (let item of plugins) {
+      if (item.name == arg.plugin.name) {
+        plugins.splice(plugins.indexOf(item), 1)
+        break
+      }
+    }
+  }
+  store.set(arg.type, plugins)
+}

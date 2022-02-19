@@ -1,12 +1,11 @@
 {
   "name": "@datahu/all",
-  "version": "0.1.0",
+  "version": "1.1.7",
   "scripts": {
-    "preinit": "cd core && yarn && yarn link && cd ../component && yarn link && yarn link @datahu/core && yarn && cd ../datasource && yarn link && yarn link @datahu/core && yarn && cd ../desktop && yarn link @datahu/core && yarn link @datahu/component && yarn link @datahu/datasource && yarn && cd ../client && yarn link @datahu/core && yarn link @datahu/component && cd ..",
-    "build": "cd desktop && yarn build && cd ..",
+    "preinit": "cd core && yarn && cd ../component-base && yarn && cd ../component && yarn && cd ../datasource && yarn  cd ../desktop && yarn && cd ..",
+    "build": "cd core && yarn build && yarn build:types && cd ../component-base && yarn build && yarn build:types && cd ../component && yarn build && yarn build:types && cd ../datasource && yarn build && yarn build:types  cd ../desktop && yarn build && cd ..",
     "start": "cd desktop && yarn start && cd ..",
-    "package": "cd desktop &&  yarn compile && cd ..",
-    "client": "cd client &&  yarn build && cd .."
+    "package": "cd desktop &&  yarn compile && cd .."
   },
   "dependencies": {},
   "devDependencies": {}

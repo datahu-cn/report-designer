@@ -1,22 +1,18 @@
 <template>
   <div class="com-data-table">
-    <vxe-grid
-      ref="vxeTable"
-      v-if="!loading"
-      v-bind="gridOptions"
-      v-on="gridEvents"
-    >
+    <Grid ref="vxeTable" v-if="!loading" v-bind="gridOptions" v-on="gridEvents">
       <template #cellTemplate="cellData">
         <span v-html="colFormatter(cellData)"></span>
       </template>
       <template #cellFooterTemplate="cellData">
         <span v-html="colFooterFormatter(cellData)"></span>
       </template>
-    </vxe-grid>
+    </Grid>
   </div>
 </template>
 
 <script lang="ts">
+import {Grid} from 'vxe-table'
 import {
   ChartData,
   CodeExpression,
@@ -57,6 +53,7 @@ interface IDataTableColumn {
 export default defineComponent({
   name: 'DataTable',
   props: ['chart', 'view', 'data'],
+  components: {Grid},
   setup(props, {emit}) {
     let chart = props.chart
 

@@ -1,6 +1,7 @@
 const {join} = require('path')
 const vue = require('@vitejs/plugin-vue')
 const {chrome} = require('./electron-dep-versions')
+import externalGlobals from 'rollup-plugin-external-globals'
 const fse = require('fs-extra')
 
 /**
@@ -8,15 +9,28 @@ const fse = require('fs-extra')
  * @see https://vitejs.dev/config/
  */
 console.error('process.env.NODE_ENV', process.env.NODE_ENV)
-if (process.env.NODE_ENV !== 'development') {
-  fse.copySync('../component/src', 'datahu/component')
-}
+// if (process.env.NODE_ENV !== 'development') {
+//   fse.copySync('../component/src', 'datahu/component')
+// }
 module.exports = {
   root: join(process.cwd(), './src/renderer'),
   resolve: {
     alias:
       process.env.NODE_ENV === 'development'
         ? [
+            {
+              find: '@datahu/core',
+              replacement: join(process.cwd(), '../core') + '/index.ts'
+            },
+            {
+              find: '@datahu/component-base',
+              replacement:
+                join(process.cwd(), '../component-base') + '/index.ts'
+            },
+            {
+              find: '@datahu/component',
+              replacement: join(process.cwd(), '../component') + '/index.ts'
+            },
             {
               find: '/@/',
               replacement: join(process.cwd(), './src/renderer') + '/'
@@ -26,10 +40,6 @@ module.exports = {
             {
               find: '/@/',
               replacement: join(process.cwd(), './src/renderer') + '/'
-            },
-            {
-              find: '@datahu/component',
-              replacement: join(process.cwd(), './datahu/component')
             }
           ]
   },
@@ -39,22 +49,24 @@ module.exports = {
   server: {
     port: '54321'
   },
+  esbuild: {
+    keepNames: true
+  },
   build: {
-    target: `chrome${chrome}`,
-    polyfillDynamicImport: false,
     outDir: join(process.cwd(), 'dist/source/renderer'),
     assetsDir: '.',
     rollupOptions: {
       external: require('./external-packages').default
     },
-    minify: 'terser',
-    terserOptions: {
-      compress: false,
-      mangle: false,
-      sourceMap: true,
-      keep_classnames: true,
-      keep_fnames: true
-    },
+    sourcemap: true,
+    minify: false,
+    // terserOptions: {
+    //   compress: false,
+    //   mangle: false,
+    //   sourceMap: true,
+    //   keep_classnames: true,
+    //   keep_fnames: true
+    // },
     emptyOutDir: true
   },
   css: {

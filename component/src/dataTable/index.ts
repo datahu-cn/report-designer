@@ -10,7 +10,7 @@ import {
   BaseComponentOption,
   DataOperationComponentOption,
   StyleComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import DataTable from './DataTable.vue'
 
 class TableStyleComponentOption {

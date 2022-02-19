@@ -26,7 +26,7 @@ import {
 } from 'vue'
 import {IChartDefinition, Util, ChartData, IFieldInfo} from '@datahu/core'
 import AmapEcharts from '../components/AmapEcharts.vue'
-import {ChartUtil, ITooltip} from '../base'
+import {ChartUtil, ITooltip} from '@datahu/component-base'
 export default defineComponent({
   name: 'ScatterAmapChart',
   props: {

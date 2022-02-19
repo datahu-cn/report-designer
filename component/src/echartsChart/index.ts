@@ -13,7 +13,7 @@ import {
   AngleAxisComponentOption,
   RadiusAxisComponentOption,
   DataOperationComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import EchartsChart from './EchartsChart.vue'
 
 export class FieldComponentOption {

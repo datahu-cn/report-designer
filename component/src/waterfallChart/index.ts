@@ -23,7 +23,7 @@ import {
   MarkPointComponentOption,
   MarkLineComponentOption,
   MarkAreaComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import WaterfallChart from './WaterfallChart.vue'
 
 export class WaterfallSeriesComponentOption {

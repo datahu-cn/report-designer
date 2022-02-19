@@ -24,7 +24,7 @@ import {
   AxisLabelComponentOption,
   AreaStyleComponentOption,
   SeriesLabelComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import GaugeChart from './GaugeChart.vue'
 
 export class FieldComponentOption {

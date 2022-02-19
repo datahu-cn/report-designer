@@ -22,7 +22,7 @@ import {
   AxisLabelComponentOption,
   AreaStyleComponentOption,
   SeriesLabelComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import TreeMapChart from './TreeMapChart.vue'
 
 export class FieldComponentOption {

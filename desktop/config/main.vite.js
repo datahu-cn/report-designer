@@ -14,19 +14,22 @@ module.exports = {
       '/@/': join(process.cwd(), './src/main') + '/'
     }
   },
+  esbuild: {
+    keepNames: true
+  },
   build: {
     target: `node${node}`,
     outDir: 'dist/source/main',
     assetsDir: '.',
     sourcemap: 'true',
-    minify: false,
-    terserOptions: {
-      compress: false,
-      mangle: false,
-      sourceMap: true,
-      keep_classnames: true,
-      keep_fnames: true
-    },
+    // minify: false,
+    // terserOptions: {
+    //   compress: false,
+    //   mangle: false,
+    //   sourceMap: true,
+    //   keep_classnames: true,
+    //   keep_fnames: true
+    // },
     lib: {
       entry: 'src/main/index.ts',
       name: 'index',

@@ -25,7 +25,7 @@ import {
   AxisLineComponentOption,
   AxisTickComponentOption,
   LineStyleComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import RadarChart from './RadarChart.vue'
 
 export class FieldComponentOption {

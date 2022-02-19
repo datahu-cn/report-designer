@@ -29,6 +29,14 @@ export interface IChartDefinition {
   option: any
   filters: Array<IFilterInfo>
   children: Array<IChartDefinition>
+  pluginName?: string
+}
+
+export interface IPackagePlugin {
+  name: string
+  description: string
+  version: string
+  content: string
 }
 
 export interface IPackageDefinition {
@@ -55,4 +63,6 @@ export interface IPackageDefinition {
   relationships: Array<IRelationshipDefinition>
   /** 数据缓存功能，在报表发布时，将数据表中已经处理后的数据缓存下来，优化报表发布后的数据加载速度，设计器中不使用缓存，无优化 */
   cacheData?: any
+
+  plugins?: Array<IPackagePlugin>
 }

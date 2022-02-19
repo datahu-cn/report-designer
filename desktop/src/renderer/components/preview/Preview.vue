@@ -22,11 +22,16 @@ import {
   onMounted,
   Ref
 } from 'vue'
-import {useI18n, useState, useLanguage} from '../../use/state'
+import {
+  useI18n,
+  useState,
+  useLanguage,
+  findChartComponent
+} from '../../use/state'
 import http from '../../use/http'
 import Icon from '../common/icon/Icon.vue'
 import html2canvas from 'html2canvas'
-import {ChartPanel, setContext} from '@datahu/component'
+import {ChartPanel, setContext} from '@datahu/component-base'
 
 export default defineComponent({
   name: 'Preview',
@@ -40,7 +45,7 @@ export default defineComponent({
 
     let chart = state.pkg.getChart()
 
-    let comClass = state.components[chart.type]
+    let comClass = findChartComponent(chart.type)
     let panel = reactive({com: new comClass(language.value), item: chart})
     state.focusItem = panel
     state.root = panel

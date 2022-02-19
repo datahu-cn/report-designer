@@ -1,5 +1,9 @@
 import {IControl, ControlType, ComponentControl, StyleType} from '@datahu/core'
-import {BaseComponent, BaseComponentOption, StyleComponentOption} from '../base'
+import {
+  BaseComponent,
+  BaseComponentOption,
+  StyleComponentOption
+} from '@datahu/component-base'
 import RichText from './RichText.vue'
 
 class RichTextComponentOption extends BaseComponentOption {

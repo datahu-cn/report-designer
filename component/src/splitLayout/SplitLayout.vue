@@ -23,7 +23,7 @@ import {
   computed,
   PropType
 } from 'vue'
-import {DropPanel} from '../chart'
+import {DropPanel} from '@datahu/component-base'
 export default defineComponent({
   name: 'GridLayout',
   props: {

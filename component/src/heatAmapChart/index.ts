@@ -26,7 +26,7 @@ import {
   AmapComponentOption,
   RangeComponentOption,
   StyleComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import HeatAmapChart from './HeatAmapChart.vue'
 
 export class FieldComponentOption {

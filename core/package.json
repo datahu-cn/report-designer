@@ -1,12 +1,26 @@
 {
   "name": "@datahu/core",
-  "version": "1.0.5",
-  "main": "index.ts",
+  "version": "1.1.5",
+  "main": "dist/core.es.js",
+  "module": "dist/core.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/core.es.js",
+      "require": "./dist/core.cjs.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "build:types": "tsc --declaration -p ./ -t esnext --emitDeclarationOnly --outDir types",
-    "test": "jest"
+    "test": "jest",
+    "pub": "npm publish --access public"
+  },
+  "author": "@datahu",
+  "homepage": "https://datahu.cn",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/datahu-cn/report-designer.git"
   },
   "dependencies": {
     "axios": "^0.21.1",

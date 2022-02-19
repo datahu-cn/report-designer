@@ -16,7 +16,11 @@ import {
 } from 'vue'
 import {useI18n, useState, useLanguage} from '../../use/state'
 import http from '../../use/http'
-import {ChartPanel, setContext} from '@datahu/component'
+import {
+  ChartPanel,
+  setContext,
+  findChartComponent
+} from '@datahu/component-base'
 
 export default defineComponent({
   name: 'ComponentPanel',
@@ -31,7 +35,7 @@ export default defineComponent({
 
     let chart = state.pkg.getChart()
 
-    let comClass = state.components[chart.type]
+    let comClass = findChartComponent(chart.type)
     let panel = reactive({com: new comClass(language.value), item: chart})
     state.focusItem = panel
     state.root = panel

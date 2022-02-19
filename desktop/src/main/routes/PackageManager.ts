@@ -43,6 +43,40 @@ export async function loadFrom(arg: any, mainWindow: any): Promise<any> {
   return Promise.resolve()
 }
 
+export async function openDirectory(arg: any, mainWindow: any): Promise<any> {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    properties: ['openDirectory']
+  })
+  if (result.filePaths && result.filePaths.length > 0) {
+    let path = result.filePaths[0] as string
+    return Promise.resolve({path})
+  }
+  return Promise.resolve()
+}
+
+export async function openFile(arg: any, mainWindow: any): Promise<any> {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    properties: ['openFile']
+  })
+  if (result.filePaths && result.filePaths.length > 0) {
+    let path = result.filePaths[0] as string
+    return Promise.resolve({path})
+  }
+  return Promise.resolve()
+}
+
+export async function openAndReadFile(arg: any, mainWindow: any): Promise<any> {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    properties: ['openFile']
+  })
+  if (result.filePaths && result.filePaths.length > 0) {
+    let path = result.filePaths[0] as string
+    let content = fs.readFileSync(path, {encoding: 'utf-8'})
+    return Promise.resolve({content})
+  }
+  return Promise.resolve()
+}
+
 export async function loadFromServer(arg: any): Promise<any> {
   let result = await downloadFromServer(arg)
   return new Promise((resolve, reject) => {

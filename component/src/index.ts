@@ -22,8 +22,7 @@ import {ScatterAmapChartComponent} from './scatterAmapChart'
 import {LinesAmapChartComponent} from './linesAmapChart'
 import {HeatAmapChartComponent} from './heatAmapChart'
 import {SplitLayoutComponent} from './splitLayout'
-
-export * from './chart'
+export {EmptyChartComponent} from './emptyChart'
 
 let Components = [
   LineChartComponent,

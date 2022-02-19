@@ -1,5 +1,9 @@
 import {ComponentControl, ControlType, IControl, StyleType} from '@datahu/core'
-import {BaseComponent, BaseComponentOption, StyleComponentOption} from '../base'
+import {
+  BaseComponent,
+  BaseComponentOption,
+  StyleComponentOption
+} from '@datahu/component-base'
 import PageLayout from './PageLayout.vue'
 
 class PageContentComponentOption {

@@ -1,14 +1,30 @@
 {
   "name": "@datahu/datasource",
-  "version": "1.0.5",
-  "main": "index.ts",
+  "version": "1.1.5",
+  "main": "dist/datasource.es.js",
+  "module": "dist/datasource.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/datasource.es.js",
+      "require": "./dist/datasource.cjs.js"
+    }
+  },
+  "author": "@datahu",
+  "homepage": "https://datahu.cn",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/datahu-cn/report-designer.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "build:types": "tsc --declaration -p ./ -t esnext --emitDeclarationOnly --outDir types",
-    "test": "export NODE_TLS_REJECT_UNAUTHORIZED=0 & jest"
+    "test": "export NODE_TLS_REJECT_UNAUTHORIZED=0 & jest",
+    "pub": "npm publish --access public"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@datahu/core": "^1.1.4"
+  },
   "devDependencies": {
     "@babel/core": "^7.12.13",
     "@babel/preset-env": "^7.14.4",

@@ -11,7 +11,7 @@
       v-if="isSlider"
       :style="optionAfterTheme.slicer.style"
     >
-      <a-slider
+      <Slider
         v-model:value="innerValue"
         :tipFormatter="tipFormatter"
         :min="min.toDate ? min.toDate().getTime() : min"
@@ -23,7 +23,7 @@
         :vertical="chart.option.slicer.vertical"
         :tooltipVisible="chart.option.slicer.tooltipVisible"
         :reverse="chart.option.slicer.reverse"
-      ></a-slider>
+      ></Slider>
     </div>
     <div
       class="com-simple-slicer-block"
@@ -31,7 +31,7 @@
       :style="optionAfterTheme.slicer.style"
     >
       <div v-if="chart.option.slicer.type == 'search'">
-        <a-input-search
+        <InputSearch
           :allow-clear="true"
           v-model:value="innerValue"
           :placeholder="chart.option.slicer.placeholder"
@@ -39,7 +39,7 @@
         />
       </div>
       <div v-if="chart.option.slicer.type == 'number'">
-        <a-input-number
+        <InputNumber
           :allow-clear="true"
           v-model:value="innerValue"
           :placeholder="chart.option.slicer.placeholder"
@@ -47,28 +47,28 @@
         />
       </div>
       <div v-if="chart.option.slicer.type == 'numberrange'">
-        <a-row>
-          <a-col :span="11">
-            <a-input-number
+        <Row>
+          <Col :span="11">
+            <InputNumber
               :allow-clear="true"
               v-model:value="innerValue[0]"
               :placeholder="chart.option.slicer.placeholders[0]"
               @change="change"
             />
-          </a-col>
-          <a-col class="c-number-range-split" :span="2">~</a-col>
-          <a-col :span="11">
-            <a-input-number
+          </Col>
+          <Col class="c-number-range-split" :span="2">~</Col>
+          <Col :span="11">
+            <InputNumber
               :allow-clear="true"
               v-model:value="innerValue[1]"
               :placeholder="chart.option.slicer.placeholders[1]"
               @change="change"
             />
-          </a-col>
-        </a-row>
+          </Col>
+        </Row>
       </div>
       <div v-if="chart.option.slicer.type == 'select'">
-        <a-select
+        <Select
           show-search
           :allow-clear="true"
           v-model:value="innerValue"
@@ -79,10 +79,10 @@
           <template #option="{label, value}">
             <span :aria-label="value" v-html="label"></span>
           </template>
-        </a-select>
+        </Select>
       </div>
       <div v-if="chart.option.slicer.type == 'multipleselect'">
-        <a-select
+        <Select
           show-search
           mode="multiple"
           :allow-clear="true"
@@ -90,31 +90,31 @@
           :placeholder="chart.option.slicer.placeholder"
           :options="selectOptions"
           @change="change"
-        ></a-select>
+        ></Select>
       </div>
       <div v-if="chart.option.slicer.type == 'date'">
-        <a-date-picker
+        <DatePicker
           @change="change"
           :placeholder="chart.option.slicer.placeholder"
           v-model:value="innerValue"
         />
       </div>
       <div v-if="chart.option.slicer.type == 'month'">
-        <a-month-picker
+        <MonthPicker
           @change="change"
           :placeholder="chart.option.slicer.placeholder"
           v-model:value="innerValue"
         />
       </div>
       <div v-if="chart.option.slicer.type == 'week'">
-        <a-week-picker
+        <WeekPicker
           @change="change"
           :placeholder="chart.option.slicer.placeholder"
           v-model:value="innerValue"
         />
       </div>
       <div v-if="chart.option.slicer.type == 'hour'">
-        <a-date-picker
+        <DatePicker
           :show-time="{format: 'HH'}"
           format="YYYY-MM-DD HH"
           @ok="change"
@@ -123,7 +123,7 @@
         />
       </div>
       <div v-if="chart.option.slicer.type == 'minute'">
-        <a-date-picker
+        <DatePicker
           :show-time="{format: 'HH:mm'}"
           format="YYYY-MM-DD HH:mm"
           @ok="change"
@@ -132,7 +132,7 @@
         />
       </div>
       <div v-if="chart.option.slicer.type == 'second'">
-        <a-date-picker
+        <DatePicker
           :show-time="{format: 'HH:mm:ss'}"
           format="YYYY-MM-DD HH:mm:ss"
           @ok="change"
@@ -141,7 +141,7 @@
         />
       </div>
       <div v-if="chart.option.slicer.type == 'monthrange'">
-        <a-range-picker
+        <RangePicker
           @change="change"
           format="YYYY-MM"
           :placeholder="chart.option.slicer.placeholders"
@@ -149,14 +149,14 @@
         />
       </div>
       <div v-if="chart.option.slicer.type == 'daterange'">
-        <a-range-picker
+        <RangePicker
           @change="change"
           :placeholder="chart.option.slicer.placeholders"
           v-model:value="innerValue"
         />
       </div>
       <div v-if="chart.option.slicer.type == 'hourrange'">
-        <a-range-picker
+        <RangePicker
           :show-time="{format: 'HH'}"
           format="YYYY-MM-DD HH"
           @ok="change"
@@ -165,7 +165,7 @@
         />
       </div>
       <div v-if="chart.option.slicer.type == 'minuterange'">
-        <a-range-picker
+        <RangePicker
           :show-time="{format: 'HH:mm'}"
           format="YYYY-MM-DD HH:mm"
           @ok="change"
@@ -174,7 +174,7 @@
         />
       </div>
       <div v-if="chart.option.slicer.type == 'secondrange'">
-        <a-range-picker
+        <RangePicker
           @ok="change"
           :show-time="{format: 'HH:mm:ss'}"
           format="YYYY-MM-DD HH:mm:ss"
@@ -206,6 +206,18 @@
 
 <script lang="ts">
 import {
+  Row,
+  Col,
+  Slider,
+  InputSearch,
+  InputNumber,
+  Select,
+  MonthPicker,
+  WeekPicker,
+  DatePicker,
+  RangePicker
+} from 'ant-design-vue'
+import {
   ChartData,
   CodeExpression,
   FilterExpression,
@@ -228,6 +240,18 @@ import moment from 'moment'
 export default defineComponent({
   name: 'SimpleSlicer',
   props: ['chart', 'data', 'pkg', 'view', 'optionAfterTheme'],
+  components: {
+    Row,
+    Col,
+    Slider,
+    InputSearch,
+    InputNumber,
+    Select,
+    MonthPicker,
+    WeekPicker,
+    DatePicker,
+    RangePicker
+  },
   setup(props, {emit}) {
     var container = ref(null)
     let chart = props.chart

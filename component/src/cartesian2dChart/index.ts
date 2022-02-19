@@ -14,7 +14,7 @@ import {
   RadiusAxisComponentOption,
   DataOperationComponentOption,
   DataZoomComponentOption
-} from '../base'
+} from '@datahu/component-base'
 import Cartesian2dChart from './Cartesian2dChart.vue'
 
 export class FieldComponentOption {

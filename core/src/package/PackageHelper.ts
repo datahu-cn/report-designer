@@ -3,6 +3,8 @@ import {DataContext} from '../data'
 import {Formatter, Formula, Parameter, TableCacheType, Util} from '../common'
 import {IChartDefinition} from './IPackageDefinition'
 
+declare var global: any
+
 export class PackageHelper {
   static eachChartById(
     root: IChartDefinition,

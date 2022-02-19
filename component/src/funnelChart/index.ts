@@ -12,7 +12,7 @@ import {
   TooltipComponentOption,
   LegendComponentOption,
   DataOperationComponentOption
-} from '../base'
+} from '@datahu/component-base'
 
 // 第二列 项
 class FieldComponentOption {
