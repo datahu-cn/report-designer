@@ -35,9 +35,11 @@ Data Hu 报表设计器, 用于数据分析、数据建模、报表设计。
    yarn package
    ```
 
-具体代码参见 client/public/demo.html
-
 #### 支持的功能
+
+#### 自定义可视化组件
+
+https://github.com/datahu-cn/component-template[https://github.com/datahu-cn/component-template]
 
 ##### 布局容器
 
