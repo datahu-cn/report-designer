@@ -39,7 +39,7 @@ Data Hu 报表设计器, 用于数据分析、数据建模、报表设计。
 
 #### 自定义可视化组件
 
-https://github.com/datahu-cn/component-template[https://github.com/datahu-cn/component-template]
+[https://github.com/datahu-cn/component-template](https://github.com/datahu-cn/component-template)
 
 ##### 布局容器
 
