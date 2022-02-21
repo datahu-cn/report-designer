@@ -1,5 +1,5 @@
 <template>
-  <div class="com-rich-text">
+  <div class="com-rich-text" :class="{'com-rich-text-view': view}">
     <div class="com-rich-text-panel">
       <div
         class="com-rich-text-panel-editor"
@@ -329,6 +329,7 @@ export default defineComponent({
       const editor = new EditorJS({
         holder: editorRef.value,
         readOnly: props.view,
+        inlineToolbar: false,
         tools: {
           // RichTextChartPanel,
           header: {
@@ -453,6 +454,10 @@ export default defineComponent({
   width: 100%;
   height: 100%;
   overflow: overlay;
+  .ce-block__content {
+    margin: 0px 0px 0px 0px;
+    max-width: 100%;
+  }
   .cdx-input.image-tool__caption {
     display: none;
   }
@@ -462,7 +467,14 @@ export default defineComponent({
   .ce-inline-toolbar,
   .ce-toolbar,
   .ce-settings {
-    // position: fixed;
+    background-color: #ffffff;
+  }
+  .ce-toolbar__actions {
+    background-color: #ffffff;
+    right: 0px;
+  }
+  .ce-toolbox {
+    background-color: #ffffff;
   }
   .com-rich-text-panel {
     // height: 100%;

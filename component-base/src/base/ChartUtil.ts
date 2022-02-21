@@ -249,4 +249,28 @@ export class ChartUtil {
       echarts.registerMap(name, result.data)
     }
   }
+
+  static overrideEchartOptionStyle(
+    opt: echarts.EChartsOption,
+    contentOption: any
+  ) {
+    if (contentOption.style.backgroundColor) {
+      opt.backgroundColor = contentOption.style.backgroundColor
+    }
+    if (!opt.textStyle) {
+      opt.textStyle = {}
+    }
+    if (contentOption.style.color) {
+      opt.textStyle.color = contentOption.style.color
+    }
+    if (contentOption.style.fontSize) {
+      opt.textStyle.fontSize = contentOption.style.fontSize
+    }
+    if (contentOption.style.fontFamily) {
+      opt.textStyle.fontFamily = contentOption.style.fontFamily
+    }
+    if (contentOption.style.fontWeight) {
+      opt.textStyle.fontWeight = contentOption.style.fontWeight
+    }
+  }
 }

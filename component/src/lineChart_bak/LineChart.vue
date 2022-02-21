@@ -92,7 +92,7 @@ export default defineComponent({
         visualMap: option.visualMap
       }
       console.log('opt', opt)
-      return opt
+      rUtil.assignTo(props.optionAfterTheme.echart, opt, false)
     })
 
     let dblclickHandle = (params: any) => {

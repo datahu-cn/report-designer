@@ -19,7 +19,8 @@ import {
   AngleAxisComponentOption,
   RadiusAxisComponentOption,
   DataOperationComponentOption,
-  SeriesLabelComponentOption
+  SeriesLabelComponentOption,
+  EchartComponentOption
 } from '@datahu/component-base'
 import DensityMapChart from './DensityMapChart.vue'
 
@@ -152,6 +153,7 @@ class DensityMapSeriesComponentOption {
   })
   itemStyle = {
     color: '',
+    areaColor: '',
     borderColor: 'gray',
     borderWidth: 0.3,
     borderType: 'solid'
@@ -264,6 +266,14 @@ export class DensityMapChartComponentOption extends BaseComponentOption {
   dataOperation: DataOperationComponentOption = new DataOperationComponentOption(
     {_supportPartRefresh: true, _supportDrillDown: true, _supportScope: true}
   )
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '图表',
+    children: EchartComponentOption.controls,
+    defaultValue: new EchartComponentOption()
+  })
+  echart?: EchartComponentOption = new EchartComponentOption()
 
   @ComponentControl({
     type: ControlType.subset,

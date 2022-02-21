@@ -17,6 +17,49 @@ import {I18n} from '../i18n'
 export * from './Base'
 export * from './ChartUtil'
 
+export class EchartComponentOption {
+  static controls: Array<IControl> = []
+
+  constructor(defaultValues: any = null) {
+    Util.cloneTo(defaultValues, this, true)
+  }
+
+  @ComponentControl({
+    type: ControlType.color,
+    title: '调色盘',
+    array: true,
+    addable: true
+  })
+  color: Array<string> = []
+
+  @ComponentControl({
+    type: ControlType.color,
+    title: '背景颜色'
+  })
+  backgroundColor: string = ''
+
+  @ComponentControl({
+    type: ControlType.style,
+    title: '文字样式',
+    options: [
+      StyleType.width,
+      StyleType.height,
+      StyleType.fontSize,
+      StyleType.color,
+      StyleType.fontFamily,
+      StyleType.fontWeight,
+      StyleType.lineHeight
+    ]
+  })
+  textStyle: StyleComponentOption = new StyleComponentOption({})
+
+  @ComponentControl({
+    type: ControlType.boolean,
+    title: '是否开启动画'
+  })
+  animation = true
+}
+
 export class AmapComponentOption {
   _enabled: boolean = true
   static controls: Array<IControl> = []

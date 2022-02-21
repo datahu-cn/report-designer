@@ -19,7 +19,8 @@ import {
   PolarComponentOption,
   AngleAxisComponentOption,
   RadiusAxisComponentOption,
-  DataOperationComponentOption
+  DataOperationComponentOption,
+  EchartComponentOption
 } from '@datahu/component-base'
 
 // 第二列 项
@@ -292,6 +293,38 @@ export class PieSeriesComponentOption {
   }
 }
 
+class PieAnimationComponentOption {
+  _enabled: boolean = false
+  static controls: Array<IControl> = []
+  constructor(defaultValues: any = null) {
+    Util.cloneTo(defaultValues, this, true)
+  }
+
+  @ComponentControl({
+    type: ControlType.select,
+    multiple: true,
+    options: [
+      {label: '高亮扇区', value: 'highlight'},
+      {label: '显示Tooltip', value: 'showTip'}
+    ],
+    title: '触发动作'
+  })
+  actions = ['highlight']
+
+  @ComponentControl({
+    type: ControlType.number,
+    title: '应用到第几个图形系列',
+    min: 1
+  })
+  seriesIndex = 1
+
+  @ComponentControl({
+    type: ControlType.number,
+    title: '播放速度（ms）'
+  })
+  speed: number = 2000
+}
+
 //第三列 项
 class PieChartComponentOption extends BaseComponentOption {
   static controls: Array<IControl> = []
@@ -313,6 +346,14 @@ class PieChartComponentOption extends BaseComponentOption {
   dataOperation: DataOperationComponentOption = new DataOperationComponentOption(
     {_supportPartRefresh: true, _supportDrillDown: true, _supportScope: true}
   )
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '图表',
+    children: EchartComponentOption.controls,
+    defaultValue: new EchartComponentOption()
+  })
+  echart?: EchartComponentOption = new EchartComponentOption()
 
   @ComponentControl({
     type: ControlType.subset,
@@ -342,6 +383,14 @@ class PieChartComponentOption extends BaseComponentOption {
     defaultValue: new PieSeriesComponentOption()
   })
   series: Array<PieSeriesComponentOption> = [new PieSeriesComponentOption()]
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '动画',
+    enableProperty: '_enabled',
+    children: PieAnimationComponentOption.controls
+  })
+  animation: PieAnimationComponentOption = new PieAnimationComponentOption()
 }
 export class PieChartComponent extends BaseComponent {
   icon: string = `<svg id="图层_1" data-name="图层 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" rx="2" ry="2" fill="none" opacity="0.5"/><path d="M20.31,32A12,12,0,0,0,30.45,14.09L20.31,20.18Z" fill="#7678ed" opacity="0.5"/><path d="M9.62,14A12,12,0,0,0,19.69,32V20.18L9.62,14Z" fill="#f9896b"/><path d="M30.13,13.57A12,12,0,0,0,10,13.44L20,19.64Z" fill="#7678ed"/></svg>`

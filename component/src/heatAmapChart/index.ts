@@ -369,9 +369,9 @@ export class HeatMapVisualMapComponentOption {
     type: ControlType.styleLength,
     title: '手柄宽度',
     options: [
-      {label: '自动', value: '', number: false},
       {label: 'px', value: 'px', number: true},
-      {label: '%', value: '%', number: true}
+      {label: '%', value: '%', number: true},
+      {label: '自动', value: '', number: false}
     ],
     show: (opt: any) => {
       return opt.show
@@ -383,9 +383,9 @@ export class HeatMapVisualMapComponentOption {
     type: ControlType.styleLength,
     title: '手柄高度',
     options: [
-      {label: '自动', value: '', number: false},
       {label: 'px', value: 'px', number: true},
-      {label: '%', value: '%', number: true}
+      {label: '%', value: '%', number: true},
+      {label: '自动', value: '', number: false}
     ],
     show: (opt: any) => {
       return opt.show

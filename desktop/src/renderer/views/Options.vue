@@ -1,15 +1,15 @@
 <template>
   <div class="c-options">
     <a-tabs tab-position="left" v-model:activeKey="activeKey">
-      <a-tab-pane tab="基本设置" key="1">
+      <!-- <a-tab-pane tab="基本设置" key="1">
         <BaseSettings />
-      </a-tab-pane>
+      </a-tab-pane> -->
       <a-tab-pane tab="可视化插件" key="2">
         <ComponentPlugins />
       </a-tab-pane>
-      <a-tab-pane tab="数据源插件" key="3">
+      <!-- <a-tab-pane tab="数据源插件" key="3">
         <BaseSettings />
-      </a-tab-pane>
+      </a-tab-pane> -->
     </a-tabs>
   </div>
 </template>
@@ -28,7 +28,7 @@ export default defineComponent({
     let state = useState()
 
     let language = useLanguage()
-    let activeKey = ref('1')
+    let activeKey = ref('2')
 
     onMounted(async () => {})
 

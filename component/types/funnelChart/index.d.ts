@@ -1,5 +1,5 @@
 import { IControl } from '@datahu/core';
-import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, DataOperationComponentOption } from '@datahu/component-base';
+import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, DataOperationComponentOption, EchartComponentOption } from '@datahu/component-base';
 declare class FieldComponentOption {
     static controls: never[];
     xaxis: never[];
@@ -49,6 +49,7 @@ declare class FunnelChartComponentOption extends BaseComponentOption {
     static controls: Array<IControl>;
     fields: FieldComponentOption;
     dataOperation: DataOperationComponentOption;
+    echart?: EchartComponentOption;
     tooltip?: TooltipComponentOption;
     legend: LegendComponentOption;
     series: Array<FunnelSeriesComponentOption>;

@@ -1,10 +1,11 @@
-import { BaseComponentOption, DataOperationComponentOption, DataZoomComponentOption, GridComponentOption, LegendComponentOption, SeriesComponentOption, TooltipComponentOption, VisualMapComponentOption, XAxisComponentOption, YAxisComponentOption } from '@datahu/component-base';
+import { BaseComponentOption, DataOperationComponentOption, DataZoomComponentOption, GridComponentOption, LegendComponentOption, SeriesComponentOption, TooltipComponentOption, VisualMapComponentOption, XAxisComponentOption, YAxisComponentOption, EchartComponentOption } from '@datahu/component-base';
 import { IControl } from '@datahu/core';
 import { Cartesian2dChartComponent, FieldComponentOption } from '../cartesian2dChart';
 export declare class BarChartComponentOption extends BaseComponentOption {
     static controls: Array<IControl>;
     fields: FieldComponentOption;
     dataOperation: DataOperationComponentOption;
+    echart?: EchartComponentOption;
     tooltip?: TooltipComponentOption;
     legend: LegendComponentOption;
     grid: GridComponentOption;

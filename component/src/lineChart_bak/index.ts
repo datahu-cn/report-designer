@@ -11,7 +11,8 @@ import {
   VisualMapComponentOption,
   PolarComponentOption,
   AngleAxisComponentOption,
-  RadiusAxisComponentOption
+  RadiusAxisComponentOption,
+  EchartComponentOption
 } from '@datahu/component-base'
 import LineChart from './LineChart.vue'
 
@@ -51,6 +52,14 @@ class LineChartComponentOption extends BaseComponentOption {
     children: FieldComponentOption.controls
   })
   fields: FieldComponentOption = new FieldComponentOption()
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '图表',
+    children: EchartComponentOption.controls,
+    defaultValue: new EchartComponentOption()
+  })
+  echart?: EchartComponentOption = new EchartComponentOption()
 
   @ComponentControl({
     type: ControlType.subset,

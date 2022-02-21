@@ -24,7 +24,8 @@ import {
   SeriesLabelComponentOption,
   AxisLineComponentOption,
   AxisTickComponentOption,
-  LineStyleComponentOption
+  LineStyleComponentOption,
+  EchartComponentOption
 } from '@datahu/component-base'
 import RadarChart from './RadarChart.vue'
 
@@ -376,6 +377,14 @@ export class RadarChartComponentOption extends BaseComponentOption {
   dataOperation: DataOperationComponentOption = new DataOperationComponentOption(
     {_supportPartRefresh: true, _supportDrillDown: true, _supportScope: true}
   )
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '图表',
+    children: EchartComponentOption.controls,
+    defaultValue: new EchartComponentOption()
+  })
+  echart?: EchartComponentOption = new EchartComponentOption()
 
   @ComponentControl({
     type: ControlType.subset,

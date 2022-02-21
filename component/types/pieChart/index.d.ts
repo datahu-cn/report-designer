@@ -1,5 +1,5 @@
 import { IControl } from '@datahu/core';
-import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, DataOperationComponentOption } from '@datahu/component-base';
+import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, DataOperationComponentOption, EchartComponentOption } from '@datahu/component-base';
 declare class FieldComponentOption {
     static controls: never[];
     xaxis: never[];
@@ -51,13 +51,23 @@ export declare class PieSeriesComponentOption {
         borderRadius: number[];
     };
 }
+declare class PieAnimationComponentOption {
+    _enabled: boolean;
+    static controls: Array<IControl>;
+    constructor(defaultValues?: any);
+    actions: string[];
+    seriesIndex: number;
+    speed: number;
+}
 declare class PieChartComponentOption extends BaseComponentOption {
     static controls: Array<IControl>;
     fields: FieldComponentOption;
     dataOperation: DataOperationComponentOption;
+    echart?: EchartComponentOption;
     tooltip?: TooltipComponentOption;
     legend: LegendComponentOption;
     series: Array<PieSeriesComponentOption>;
+    animation: PieAnimationComponentOption;
 }
 export declare class PieChartComponent extends BaseComponent {
     icon: string;

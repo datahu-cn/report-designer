@@ -74,7 +74,8 @@ function getGuideSidebar() {
         {text: '事件', link: '/guide/event'},
         {text: '自定义代码', link: '/guide/code'},
         {text: '代理网关', link: '/guide/gateway'},
-        {text: '缓存', link: '/guide/cache'}
+        {text: '缓存', link: '/guide/cache'},
+        {text: '插件', link: '/guide/plugin'}
       ]
     }
   ]

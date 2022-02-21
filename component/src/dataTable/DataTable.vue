@@ -56,13 +56,61 @@ export default defineComponent({
   components: {Grid},
   setup(props, {emit}) {
     let chart = props.chart
-
+    let timer: any = null
     onMounted(() => {
+      autoScroll()
       emit('mounted')
     })
     onUnmounted(() => {
+      if (timer) {
+        clearTimeout(timer)
+      }
       emit('unmounted')
     })
+
+    let autoScroll = () => {
+      let runScroll = () => {
+        if (
+          props.chart &&
+          props.chart.option &&
+          props.chart.option.animation &&
+          props.chart.option.animation._enabled &&
+          vxeTable.value &&
+          vxeTable.value.$el
+        ) {
+          let spaceEl = vxeTable.value.$el.querySelector('.vxe-body--y-space')
+          let bodyEl = vxeTable.value.$el.querySelector(
+            '.vxe-table--body-wrapper'
+          )
+          if (!spaceEl || !bodyEl) {
+            return
+          }
+          let maxHeight = spaceEl.clientHeight
+          let hegith = bodyEl.clientHeight
+          let maxScrollTop = maxHeight - hegith
+          let current = vxeTable.value.getScroll()
+          if (props.chart.option.animation.direction == 'down') {
+            let scrollTo = 0
+            if (current.scrollTop >= maxScrollTop) {
+              scrollTo = 0
+            } else if (
+              current.scrollTop + props.chart.option.animation.step >
+              maxScrollTop
+            ) {
+              scrollTo = maxScrollTop
+            } else {
+              scrollTo = current.scrollTop + props.chart.option.animation.step
+            }
+
+            vxeTable.value.scrollTo(current.scrollLeft, scrollTo)
+          }
+        }
+        timer = setTimeout(() => {
+          runScroll()
+        }, props.chart.option.animation.speed)
+      }
+      runScroll()
+    }
 
     let getColOption = (colName: string): ColumnStyleComponentOption => {
       let defaultOpt: any = null

@@ -11,7 +11,8 @@ import {
   BaseComponentOption,
   TooltipComponentOption,
   LegendComponentOption,
-  DataOperationComponentOption
+  DataOperationComponentOption,
+  EchartComponentOption
 } from '@datahu/component-base'
 
 // 第二列 项
@@ -297,6 +298,14 @@ class FunnelChartComponentOption extends BaseComponentOption {
   dataOperation: DataOperationComponentOption = new DataOperationComponentOption(
     {_supportPartRefresh: true, _supportDrillDown: true, _supportScope: true}
   )
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '图表',
+    children: EchartComponentOption.controls,
+    defaultValue: new EchartComponentOption()
+  })
+  echart?: EchartComponentOption = new EchartComponentOption()
 
   @ComponentControl({
     type: ControlType.subset,

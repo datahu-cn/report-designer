@@ -22,6 +22,7 @@ import {ScatterAmapChartComponent} from './scatterAmapChart'
 import {LinesAmapChartComponent} from './linesAmapChart'
 import {HeatAmapChartComponent} from './heatAmapChart'
 import {SplitLayoutComponent} from './splitLayout'
+import {RefreshControlComponent} from './refreshControl'
 export {EmptyChartComponent} from './emptyChart'
 
 let Components = [
@@ -48,7 +49,8 @@ let Components = [
   EchartsChartComponent,
   GridLayoutComponent,
   PageLayoutComponent,
-  SplitLayoutComponent
+  SplitLayoutComponent,
+  RefreshControlComponent
 ]
 
 export function getComponents(): any {

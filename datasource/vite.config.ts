@@ -1,4 +1,5 @@
 import {defineConfig} from 'vite'
+import {join} from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -7,6 +8,17 @@ export default defineConfig({
     hmr: {
       host: 'localhost'
     }
+  },
+  resolve: {
+    alias:
+      process.env.NODE_ENV === 'development'
+        ? [
+            {
+              find: '@datahu/core',
+              replacement: join(process.cwd(), '../core') + '/index.ts'
+            }
+          ]
+        : []
   },
   esbuild: {
     keepNames: true

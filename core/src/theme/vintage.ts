@@ -488,6 +488,19 @@ export class Vintage {
           backgroundColor: 'rgba(254,248,239,1)'
         }
       }
+    },
+    RefreshControl: {
+      body: {
+        style: {
+          backgroundColor: '#00000000'
+        }
+      },
+      content: {
+        style: {
+          justifyContent: 'center',
+          alignItems: 'center'
+        }
+      }
     }
   }
 }

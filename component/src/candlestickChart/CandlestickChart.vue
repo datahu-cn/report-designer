@@ -120,7 +120,7 @@ export default defineComponent({
           visualMap: option.visualMap
         }
         console.log('opt', opt)
-        return opt
+        return Util.assignTo(props.optionAfterTheme.echart, opt, false)
       } catch (e) {
         console.error(e)
         return null

@@ -1,5 +1,5 @@
 import { IControl } from '@datahu/core';
-import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, GridComponentOption, XAxisComponentOption, YAxisComponentOption, SeriesComponentOption, VisualMapComponentOption, DataOperationComponentOption, SeriesLabelComponentOption, MarkPointComponentOption, MarkLineComponentOption, MarkAreaComponentOption } from '@datahu/component-base';
+import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, GridComponentOption, XAxisComponentOption, YAxisComponentOption, SeriesComponentOption, VisualMapComponentOption, DataOperationComponentOption, SeriesLabelComponentOption, MarkPointComponentOption, MarkLineComponentOption, MarkAreaComponentOption, EchartComponentOption } from '@datahu/component-base';
 export declare class WaterfallSeriesComponentOption {
     _enabled: boolean;
     static controls: Array<IControl>;
@@ -30,6 +30,7 @@ export declare class WaterfallChartComponentOption extends BaseComponentOption {
     static controls: Array<IControl>;
     fields: FieldComponentOption;
     dataOperation: DataOperationComponentOption;
+    echart?: EchartComponentOption;
     tooltip?: TooltipComponentOption;
     legend: LegendComponentOption;
     grid: GridComponentOption;

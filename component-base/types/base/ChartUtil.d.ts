@@ -15,4 +15,5 @@ export declare class ChartUtil {
     }) => Promise<unknown>;
     static requestMaps: any;
     static registerMap(name: string): Promise<void>;
+    static overrideEchartOptionStyle(opt: echarts.EChartsOption, contentOption: any): void;
 }

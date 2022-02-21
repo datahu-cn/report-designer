@@ -11,6 +11,18 @@
               @change="change"
             ></ColorPicker>
           </a-form-item>
+          <a-form-item
+            v-if="modelValue.itemStyle.hasOwnProperty('areaColor')"
+            name="color"
+            label="图形区域颜色"
+          >
+            <ColorPicker
+              :size="size"
+              :disabled="disabled"
+              v-model="modelValue.itemStyle.areaColor"
+              @change="change"
+            ></ColorPicker>
+          </a-form-item>
           <a-form-item name="borderColor" label="图形边框颜色">
             <ColorPicker
               v-model="modelValue.itemStyle.borderColor"

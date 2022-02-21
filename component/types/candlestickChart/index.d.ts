@@ -1,5 +1,5 @@
 import { IControl } from '@datahu/core';
-import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, GridComponentOption, XAxisComponentOption, YAxisComponentOption, SeriesComponentOption, DataOperationComponentOption, MarkPointComponentOption, MarkLineComponentOption, MarkAreaComponentOption, VisualMapComponentOption } from '@datahu/component-base';
+import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, GridComponentOption, XAxisComponentOption, YAxisComponentOption, SeriesComponentOption, DataOperationComponentOption, MarkPointComponentOption, MarkLineComponentOption, MarkAreaComponentOption, VisualMapComponentOption, EchartComponentOption } from '@datahu/component-base';
 export declare class FieldComponentOption {
     static controls: never[];
     xaxis: never[];
@@ -31,6 +31,7 @@ export declare class CandlestickChartComponentOption extends BaseComponentOption
     static controls: Array<IControl>;
     fields: FieldComponentOption;
     dataOperation: DataOperationComponentOption;
+    echart?: EchartComponentOption;
     tooltip?: TooltipComponentOption;
     legend: LegendComponentOption;
     grid: GridComponentOption;

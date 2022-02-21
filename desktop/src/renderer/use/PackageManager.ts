@@ -131,8 +131,17 @@ export class PackageManager {
   }
 
   async loadData(language: string, force: boolean): Promise<void> {
+    this.refreshTableData(this.definition.tables, language, force)
+    this.addAction('reload_data', {})
+  }
+
+  async refreshTableData(
+    tables: Array<ITableDefinition>,
+    language: string,
+    force = true
+  ) {
     let loadTables: any = {}
-    for (let t of this.definition.tables) {
+    for (let t of tables) {
       // temp 用于赋值loading
       const temp: any = t
       temp.loading = {
@@ -176,15 +185,13 @@ export class PackageManager {
           loadTables[connectorId].loading.value = false
           for (let i = 0; i < requestData.length; i++) {
             loadArg.tables[i].rows = requestData[i]
-            this.dataContext.setTableData(loadArg.tables[i])
           }
         } catch (e: any) {
           console.error('reload data error', e)
         }
       }
     }
-    this.dataContext.resetFormulaTables()
-    this.addAction('reload_data', {})
+    this.resetData()
   }
 
   resetData() {

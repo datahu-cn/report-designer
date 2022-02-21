@@ -1,5 +1,5 @@
 import { IControl } from '@datahu/core';
-import { BaseComponent, BaseComponentOption, TooltipComponentOption, DataOperationComponentOption, SeriesLabelComponentOption } from '@datahu/component-base';
+import { BaseComponent, BaseComponentOption, TooltipComponentOption, DataOperationComponentOption, SeriesLabelComponentOption, EchartComponentOption } from '@datahu/component-base';
 export declare class FieldComponentOption {
     static controls: never[];
     xaxis: never[];
@@ -60,6 +60,7 @@ export declare class TreeMapChartComponentOption extends BaseComponentOption {
     static controls: Array<IControl>;
     fields: FieldComponentOption;
     dataOperation: DataOperationComponentOption;
+    echart?: EchartComponentOption;
     tooltip?: TooltipComponentOption;
     series: Array<TreeMapSeriesComponentOption>;
 }

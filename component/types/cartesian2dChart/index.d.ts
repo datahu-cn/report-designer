@@ -1,5 +1,5 @@
 import { IControl } from '@datahu/core';
-import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, GridComponentOption, XAxisComponentOption, YAxisComponentOption, SeriesComponentOption, VisualMapComponentOption, DataOperationComponentOption, DataZoomComponentOption } from '@datahu/component-base';
+import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, GridComponentOption, XAxisComponentOption, YAxisComponentOption, SeriesComponentOption, VisualMapComponentOption, DataOperationComponentOption, DataZoomComponentOption, EchartComponentOption } from '@datahu/component-base';
 export declare class FieldComponentOption {
     static controls: never[];
     xaxis: never[];
@@ -11,6 +11,7 @@ export declare class Cartesian2dChartComponentOption extends BaseComponentOption
     static controls: Array<IControl>;
     fields: FieldComponentOption;
     dataOperation: DataOperationComponentOption;
+    echart?: EchartComponentOption;
     tooltip?: TooltipComponentOption;
     legend: LegendComponentOption;
     grid: GridComponentOption;

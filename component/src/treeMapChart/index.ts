@@ -21,7 +21,8 @@ import {
   DataOperationComponentOption,
   AxisLabelComponentOption,
   AreaStyleComponentOption,
-  SeriesLabelComponentOption
+  SeriesLabelComponentOption,
+  EchartComponentOption
 } from '@datahu/component-base'
 import TreeMapChart from './TreeMapChart.vue'
 
@@ -345,6 +346,14 @@ export class TreeMapChartComponentOption extends BaseComponentOption {
   dataOperation: DataOperationComponentOption = new DataOperationComponentOption(
     {_supportPartRefresh: true, _supportDrillDown: true, _supportScope: true}
   )
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '图表',
+    children: EchartComponentOption.controls,
+    defaultValue: new EchartComponentOption()
+  })
+  echart?: EchartComponentOption = new EchartComponentOption()
 
   @ComponentControl({
     type: ControlType.subset,

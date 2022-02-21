@@ -1,3 +1,4 @@
+import { IControl } from '@datahu/core';
 import { BaseComponent, BaseComponentOption, DataOperationComponentOption, StyleComponentOption } from '@datahu/component-base';
 declare class TableStyleComponentOption {
     static controls: never[];
@@ -46,6 +47,14 @@ declare class TableGroupComponentOption {
     treeField: string;
     groupRowStyle: StyleComponentOption;
 }
+declare class TableAnimationComponentOption {
+    _enabled: boolean;
+    static controls: Array<IControl>;
+    constructor(defaultValues?: any);
+    direction: string;
+    speed: number;
+    step: number;
+}
 declare class DataTableComponentOption extends BaseComponentOption {
     static controls: never[];
     fields: FieldComponentOption;
@@ -53,6 +62,7 @@ declare class DataTableComponentOption extends BaseComponentOption {
     tableStyle: TableStyleComponentOption;
     columnStyles: Array<ColumnStyleComponentOption>;
     tableGroup: TableGroupComponentOption;
+    animation: TableAnimationComponentOption;
 }
 export declare class DataTableComponent extends BaseComponent {
     isLayout: boolean;

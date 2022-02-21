@@ -1,5 +1,5 @@
 import { IControl } from '@datahu/core';
-import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, DataOperationComponentOption, AxisLabelComponentOption, SeriesLabelComponentOption, AxisLineComponentOption, AxisTickComponentOption, LineStyleComponentOption } from '@datahu/component-base';
+import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, DataOperationComponentOption, AxisLabelComponentOption, SeriesLabelComponentOption, AxisLineComponentOption, AxisTickComponentOption, LineStyleComponentOption, EchartComponentOption } from '@datahu/component-base';
 export declare class FieldComponentOption {
     static controls: never[];
     xaxis: never[];
@@ -79,6 +79,7 @@ export declare class RadarChartComponentOption extends BaseComponentOption {
     static controls: Array<IControl>;
     fields: FieldComponentOption;
     dataOperation: DataOperationComponentOption;
+    echart?: EchartComponentOption;
     tooltip?: TooltipComponentOption;
     legend: LegendComponentOption;
     radar: RadarConfigComponentOption;

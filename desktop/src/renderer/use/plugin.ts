@@ -81,7 +81,7 @@ async function importPlugin(content) {
     type: 'text/javascript'
   })
   const fileURL = URL.createObjectURL(file)
-  var results: any = await import(fileURL)
+  var results: any = await import(/* @vite-ignore */ fileURL)
   return results
 }
 

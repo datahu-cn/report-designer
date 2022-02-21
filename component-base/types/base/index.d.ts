@@ -1,6 +1,14 @@
 import { IControl, IComponent, DataMergeMethod, IControlOption } from '@datahu/core';
 export * from './Base';
 export * from './ChartUtil';
+export declare class EchartComponentOption {
+    static controls: Array<IControl>;
+    constructor(defaultValues?: any);
+    color: Array<string>;
+    backgroundColor: string;
+    textStyle: StyleComponentOption;
+    animation: boolean;
+}
 export declare class AmapComponentOption {
     _enabled: boolean;
     static controls: Array<IControl>;

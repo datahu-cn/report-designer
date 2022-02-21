@@ -3,7 +3,8 @@ import {
   ControlType,
   ComponentControl,
   StyleType,
-  DataMergeType
+  DataMergeType,
+  Util
 } from '@datahu/core'
 import {
   BaseComponent,
@@ -398,6 +399,28 @@ class TableGroupComponentOption {
   groupRowStyle: StyleComponentOption = new StyleComponentOption()
 }
 
+class TableAnimationComponentOption {
+  _enabled: boolean = false
+  static controls: Array<IControl> = []
+  constructor(defaultValues: any = null) {
+    Util.cloneTo(defaultValues, this, true)
+  }
+
+  direction = 'down'
+
+  @ComponentControl({
+    type: ControlType.number,
+    title: '播放速度（ms）'
+  })
+  speed: number = 2000
+
+  @ComponentControl({
+    type: ControlType.number,
+    title: '播放跳动间隔(px)'
+  })
+  step: number = 20
+}
+
 class DataTableComponentOption extends BaseComponentOption {
   static controls = []
   @ComponentControl({
@@ -442,6 +465,14 @@ class DataTableComponentOption extends BaseComponentOption {
     defaultValue: new TableGroupComponentOption()
   })
   tableGroup: TableGroupComponentOption = new TableGroupComponentOption()
+
+  @ComponentControl({
+    type: ControlType.subset,
+    title: '动画',
+    enableProperty: '_enabled',
+    children: TableAnimationComponentOption.controls
+  })
+  animation: TableAnimationComponentOption = new TableAnimationComponentOption()
 }
 
 export class DataTableComponent extends BaseComponent {

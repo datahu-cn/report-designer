@@ -1,5 +1,5 @@
 import { IControl } from '@datahu/core';
-import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, VisualMapComponentOption, DataOperationComponentOption, SeriesLabelComponentOption } from '@datahu/component-base';
+import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, VisualMapComponentOption, DataOperationComponentOption, SeriesLabelComponentOption, EchartComponentOption } from '@datahu/component-base';
 export declare class FieldComponentOption {
     static controls: never[];
     xaxis: never[];
@@ -18,6 +18,7 @@ declare class DensityMapSeriesComponentOption {
     zoom: number;
     itemStyle: {
         color: string;
+        areaColor: string;
         borderColor: string;
         borderWidth: number;
         borderType: string;
@@ -35,6 +36,7 @@ export declare class DensityMapChartComponentOption extends BaseComponentOption 
     static controls: Array<IControl>;
     fields: FieldComponentOption;
     dataOperation: DataOperationComponentOption;
+    echart?: EchartComponentOption;
     tooltip?: TooltipComponentOption;
     legend: LegendComponentOption;
     series: Array<DensityMapSeriesComponentOption>;

@@ -4,6 +4,7 @@
       :theme="pkg.getTheme()"
       :option="option"
       @dblclick="dblclickHandle"
+      @ready="echartReady"
       :part-refresh="
         chart.option.dataOperation && chart.option.dataOperation.partRefresh
       "
@@ -34,12 +35,92 @@ export default defineComponent({
   },
   components: {Echarts},
   setup(props, {emit}) {
+    let timer: any = null
+    let myChart: any = null
     onMounted(() => {
+      autoStart()
       emit('mounted')
     })
     onUnmounted(() => {
+      if (timer) {
+        clearTimeout(timer)
+      }
       emit('unmounted')
     })
+
+    let echartReady = (instance: any) => {
+      myChart = instance
+    }
+    let autoStart = () => {
+      let currentIndex = -1
+      if (props.chart.option && props.chart.option.animation) {
+        let run = () => {
+          if (
+            props.chart &&
+            props.chart.option &&
+            props.chart.option.animation &&
+            props.chart.option.animation._enabled &&
+            props.chart.option.animation.actions &&
+            props.chart.option.animation.actions.length > 0 &&
+            option.value &&
+            option.value.series &&
+            option.value.series.length > 0 &&
+            myChart &&
+            option.value.series.length >
+              props.chart.option.animation.seriesIndex - 1 &&
+            option.value.dataset.source &&
+            option.value.dataset.source.length > 1
+          ) {
+            var dataLen = option.value.dataset.source.length - 1
+
+            if (
+              props.chart.option.animation.actions.indexOf('highlight') >= 0
+            ) {
+              //取消之前高亮的图形
+              myChart.dispatchAction({
+                type: 'downplay',
+                seriesIndex: props.chart.option.animation.seriesIndex - 1,
+                dataIndex: currentIndex
+              })
+            }
+
+            if (props.chart.option.animation.actions.indexOf('showTip') >= 0) {
+              // 显示 tooltip
+              myChart.dispatchAction({
+                type: 'hideTip',
+                seriesIndex: props.chart.option.animation.seriesIndex - 1,
+                dataIndex: currentIndex
+              })
+            }
+
+            currentIndex = (currentIndex + 1) % dataLen
+            // 高亮当前图形
+            if (
+              props.chart.option.animation.actions.indexOf('highlight') >= 0
+            ) {
+              myChart.dispatchAction({
+                type: 'highlight',
+                seriesIndex: props.chart.option.animation.seriesIndex - 1,
+                dataIndex: currentIndex
+              })
+            }
+
+            if (props.chart.option.animation.actions.indexOf('showTip') >= 0) {
+              // 显示 tooltip
+              myChart.dispatchAction({
+                type: 'showTip',
+                seriesIndex: props.chart.option.animation.seriesIndex - 1,
+                dataIndex: currentIndex
+              })
+            }
+          }
+          timer = setTimeout(() => {
+            run()
+          }, props.chart.option.animation.speed)
+        }
+        run()
+      }
+    }
     let option = computed(() => {
       try {
         let option = ChartUtil.getChartOption(props.chart!)
@@ -118,7 +199,7 @@ export default defineComponent({
           // visualMap: option.visualMap
         }
         console.log('opt', opt)
-        return opt
+        return Util.assignTo(props.optionAfterTheme.echart, opt, false)
       } catch (e) {
         console.error(e)
         return null
@@ -132,7 +213,7 @@ export default defineComponent({
         }
       }
     }
-    return {option, dblclickHandle}
+    return {option, dblclickHandle, echartReady}
   }
 })
 </script>

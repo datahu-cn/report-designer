@@ -1,5 +1,5 @@
 import { IControl } from '@datahu/core';
-import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, GridComponentOption, XAxisComponentOption, YAxisComponentOption, SeriesComponentOption, VisualMapComponentOption, PolarComponentOption, AngleAxisComponentOption, RadiusAxisComponentOption } from '@datahu/component-base';
+import { BaseComponent, BaseComponentOption, TooltipComponentOption, LegendComponentOption, GridComponentOption, XAxisComponentOption, YAxisComponentOption, SeriesComponentOption, VisualMapComponentOption, PolarComponentOption, AngleAxisComponentOption, RadiusAxisComponentOption, EchartComponentOption } from '@datahu/component-base';
 declare class FieldComponentOption {
     static controls: never[];
     xaxis: never[];
@@ -10,6 +10,7 @@ declare class FieldComponentOption {
 declare class LineChartComponentOption extends BaseComponentOption {
     static controls: Array<IControl>;
     fields: FieldComponentOption;
+    echart?: EchartComponentOption;
     tooltip?: TooltipComponentOption;
     legend: LegendComponentOption;
     grid: Array<GridComponentOption>;

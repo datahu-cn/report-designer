@@ -78,18 +78,32 @@ export default defineComponent({
       let v = props.modelValue
       let lengthValue = ''
       for (let opt of options.value) {
-        if (v && v.endsWith && v.endsWith(opt.value)) {
+        if (isEndWith(v, opt.value)) {
           lengthValue = v.substring(0, v.length - opt.value.length)
           break
         }
       }
       return lengthValue
     }
+
+    let isEndWith = (v: string, type: string) => {
+      if (type != '') {
+        return v && v.endsWith && v.endsWith(type)
+      }
+      if (v == type) {
+        return true
+      }
+      if (v && v.endsWith && '1234567890'.indexOf(v[v.length - 1]) >= 0) {
+        return true
+      }
+      return false
+    }
+
     let getNumberType = () => {
       let v = props.modelValue
       let lengthType = ''
       for (let opt of options.value) {
-        if (v && v.endsWith && v.endsWith(opt.value)) {
+        if (isEndWith(v, opt.value)) {
           lengthType = v.substring(v.length - opt.value.length)
           break
         }

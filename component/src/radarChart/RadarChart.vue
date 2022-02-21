@@ -133,7 +133,7 @@ export default defineComponent({
           radar: option.radar,
           series: series
         }
-        return opt
+        return Util.assignTo(props.optionAfterTheme.echart, opt, false)
       } catch (e) {
         console.error(e)
       }

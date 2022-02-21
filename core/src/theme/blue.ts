@@ -219,6 +219,19 @@ export class Blue {
           backgroundColor: '#f8f9fe'
         }
       }
+    },
+    RefreshControl: {
+      body: {
+        style: {
+          backgroundColor: '#00000000'
+        }
+      },
+      content: {
+        style: {
+          justifyContent: 'center',
+          alignItems: 'center'
+        }
+      }
     }
   }
 }

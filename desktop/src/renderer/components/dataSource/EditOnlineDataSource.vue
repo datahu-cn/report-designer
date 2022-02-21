@@ -12,8 +12,7 @@
         <div class="c-layouts">
           <div class="c-layout-body" v-if="currentUser">
             <a-spin :spinning="loading">
-              <a-skeleton v-if="categories.length == 0" />
-              <div v-if="categories.length > 0" class="c-layout-left">
+              <div v-if="loaded" class="c-layout-left">
                 <div class="c-layout-left-item">
                   <UserSelect
                     v-model="currentUser"
@@ -172,6 +171,7 @@ export default defineComponent({
 
     let loading = ref(false)
     let source = reactive(Util.copy(props.modelValue))
+    let loaded = ref(false)
 
     let visible = computed({
       get() {
@@ -198,6 +198,7 @@ export default defineComponent({
       } catch (e) {
         loading.value = false
       }
+      loaded.value = true
     }
 
     if (!source.id && state.store.user) {
@@ -280,7 +281,8 @@ export default defineComponent({
       add,
       remove,
       source,
-      openDetail
+      openDetail,
+      loaded
     }
   }
 })

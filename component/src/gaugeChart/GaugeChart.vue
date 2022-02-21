@@ -85,7 +85,7 @@ export default defineComponent({
         },
         series: series
       }
-      return opt
+      return Util.assignTo(props.optionAfterTheme.echart, opt, false)
     })
 
     // 雷达图参数 params 无法区分点击的是哪个点， 无法点钻取
