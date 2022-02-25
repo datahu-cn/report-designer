@@ -1,8 +1,9 @@
 {
   "name": "@datahu/datasource",
-  "version": "1.1.8",
-  "main": "dist/datasource.es.js",
+  "version": "1.1.10",
+  "main": "dist/datasource.cjs.js",
   "module": "dist/datasource.es.js",
+  "browser": "dist/datasource.es.js",
   "exports": {
     ".": {
       "import": "./dist/datasource.es.js",

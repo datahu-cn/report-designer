@@ -274,7 +274,7 @@ export function query(url: string, decode: boolean = false) {
   var startIndex = url.indexOf('?')
   if (startIndex >= 0) {
     var search = url.substring(startIndex)
-    var hashIndex = url.indexOf('#')
+    var hashIndex = search.indexOf('#')
     if (hashIndex >= 0) {
       search = search.substring(0, hashIndex)
     }

@@ -105,6 +105,11 @@ export default defineComponent({
     }
     let language = useLanguage()
 
+    let readyResolve
+    let readyPromise = new Promise((resolve) => {
+      readyResolve = resolve
+    })
+
     let welcomePageVisible = ref(false)
     let openWelcomePage = () => {
       welcomePageVisible.value = true
@@ -113,8 +118,10 @@ export default defineComponent({
     // 自定义schema 触发事件
     let schemeHangle = ref(null)
     useHandle(async (message: any) => {
-      schemeHangle.value = message
-      welcomePageVisible.value = false
+      readyPromise.then(() => {
+        schemeHangle.value = message
+        welcomePageVisible.value = false
+      })
     })
 
     let login = () => {
@@ -183,6 +190,7 @@ export default defineComponent({
       })
       await loadStore()
       await loadPlugins()
+      readyResolve()
       openWelcomePage()
     })
 
