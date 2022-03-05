@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,

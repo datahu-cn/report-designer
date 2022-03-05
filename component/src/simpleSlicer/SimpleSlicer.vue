@@ -151,6 +151,7 @@
       <div v-if="chart.option.slicer.type == 'daterange'">
         <RangePicker
           @change="change"
+          :ranges="ranges"
           :placeholder="chart.option.slicer.placeholders"
           v-model:value="innerValue"
         />
@@ -159,6 +160,7 @@
         <RangePicker
           :show-time="{format: 'HH'}"
           format="YYYY-MM-DD HH"
+          :ranges="ranges"
           @ok="change"
           :placeholder="chart.option.slicer.placeholders"
           v-model:value="innerValue"
@@ -168,6 +170,7 @@
         <RangePicker
           :show-time="{format: 'HH:mm'}"
           format="YYYY-MM-DD HH:mm"
+          :ranges="ranges"
           @ok="change"
           :placeholder="chart.option.slicer.placeholders"
           v-model:value="innerValue"
@@ -178,6 +181,7 @@
           @ok="change"
           :show-time="{format: 'HH:mm:ss'}"
           format="YYYY-MM-DD HH:mm:ss"
+          :ranges="ranges"
           :placeholder="chart.option.slicer.placeholders"
           v-model:value="innerValue"
         />
@@ -461,6 +465,18 @@ export default defineComponent({
           }
         }
         return true
+      })
+      if (
+        chart.option.dataOperation &&
+        chart.option.dataOperation.bindGlobalParameter
+      ) {
+        DataHu.parameter.pageParams[
+          chart.option.dataOperation.bindGlobalParameter
+        ] = v
+      }
+      emit('componentCustomEvent', {
+        trigger: 'change',
+        args: v
       })
     }
 
@@ -1028,6 +1044,64 @@ export default defineComponent({
 
     initAnimation()
 
+    let ranges = computed(() => {
+      let ranges = props.chart.option.slicer.ranges
+      if (ranges && ranges.length > 0) {
+        let items = {}
+        for (let range of ranges) {
+          let item = {}
+          switch (range) {
+            case 'hour1':
+              items['1小时内'] = [moment().add(-1, 'h'), moment()]
+              break
+            case 'hour2':
+              items['2小时内'] = [moment().add(-2, 'h'), moment()]
+              break
+            case 'hour3':
+              items['3小时内'] = [moment().add(-3, 'h'), moment()]
+              break
+            case 'hour6':
+              items['6小时内'] = [moment().add(-6, 'h'), moment()]
+              break
+            case 'hour12':
+              items['12小时内'] = [moment().add(-12, 'h'), moment()]
+              break
+            case 'hour24':
+              items['24小时内'] = [moment().add(-24, 'h'), moment()]
+              break
+            case 'today':
+              items['今天'] = [moment().startOf('d'), moment().endOf('d')]
+              break
+            case 'week':
+              items['本周'] = [moment().startOf('w'), moment().endOf('w')]
+              break
+            case 'month':
+              items['本月'] = [moment().startOf('M'), moment().endOf('M')]
+              break
+            case 'quarter':
+              items['本季度'] = [moment().startOf('Q'), moment().endOf('Q')]
+              break
+            case 'halfyear':
+              items['半年度'] = [
+                moment().month() < 6
+                  ? moment().month(0).startOf('M')
+                  : moment().month(6).startOf('M'),
+                moment().month() < 6
+                  ? moment().month(5).endOf('M')
+                  : moment().month(11).endOf('M')
+              ]
+              break
+            case 'year':
+              items['本年度'] = [moment().startOf('y'), moment().endOf('y')]
+              break
+          }
+        }
+        return items
+      } else {
+        return []
+      }
+    })
+
     watch(() => {
       return props.chart.option.animation._enabled
     }, initAnimation)
@@ -1050,7 +1124,8 @@ export default defineComponent({
       max,
       marks,
       sliderStep,
-      sliderStyle
+      sliderStyle,
+      ranges
     }
   }
 })

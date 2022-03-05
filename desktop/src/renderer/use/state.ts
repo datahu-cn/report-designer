@@ -156,6 +156,9 @@ let initGlobalContext = () => {
     get util() {
       return Util
     },
+    get pkg() {
+      return state.pkg
+    },
     get user() {
       if (state.store && state.store.user) {
         return state.store.user.user || {}
@@ -192,7 +195,7 @@ export async function loadStore() {
 }
 
 export async function loadPkg() {
-  let newPkg = await PackageManager.loadFrom()
+  let newPkg = await PackageManager.loadFrom(useLanguage().value)
   if (newPkg) {
     state.pkg = newPkg
     state.pkg.init()
@@ -208,7 +211,11 @@ export async function loadPkg() {
 export async function loadPkgFromPath(recenty: any) {
   state.loading = true
   try {
-    let pkg: any = await PackageManager.load(recenty.path)
+    let pkg: any = await PackageManager.load(
+      recenty.path,
+      false,
+      useLanguage().value
+    )
     if (pkg) {
       state.pkg = pkg
       state.pkg.init()
@@ -230,7 +237,8 @@ export async function loadPkgFromPath(recenty: any) {
 
 export async function newPkg() {
   state.loaded = false
-  let newPkg = PackageManager.emptyPkg()
+  resetState()
+  let newPkg = PackageManager.emptyPkg(useLanguage().value)
   state.pkg = newPkg
   state.pkg.init()
   nextTick(() => {
@@ -245,6 +253,7 @@ export function useState(): IState {
 export function resetState() {
   state.selectedTable = null as any
   state.selectedColumn = null as any
+  Parameter.pageParams = {}
 }
 
 export function useLanguage(): WritableComputedRef<string> {

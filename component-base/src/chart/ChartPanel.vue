@@ -126,6 +126,7 @@
       </Button>
     </div>
     <div class="c-drag-resize-panel" :style="panelStyle">
+      <a-spin v-if="spinning" class="c-component-spin" :spinning="spinning" />
       <div
         v-if="chart.item && chart.item.option && isActive"
         class="drag-cancel c-data-operation-actions"
@@ -252,6 +253,7 @@
       title="全屏"
     >
       <div class="c-component-content">
+        <a-spin v-if="spinning" class="c-component-spin" :spinning="spinning" />
         <component
           class="c-component-item"
           :chart="chart.item"
@@ -314,6 +316,8 @@ export default defineComponent({
     let state = context.state
     let language = context.language
     let chartState = userChartState()
+
+    let spinning = ref(false)
 
     let chartHelper = new ChartHelper(chartState, state)
 
@@ -628,8 +632,12 @@ export default defineComponent({
     let refreshing = ref(false)
     let refreshChart = () => {
       refreshing.value = true
+      spinning.value = true
       nextTick(() => {
-        refreshing.value = false
+        setTimeout(() => {
+          refreshing.value = false
+          spinning.value = false
+        }, 500)
       })
     }
 
@@ -638,7 +646,7 @@ export default defineComponent({
       chartDataViewerVisible.value = true
     }
 
-    let canHandle = false
+    let canHandle = true
 
     const instance = getCurrentInstance()
     let checkHandleEvent = () => {
@@ -681,6 +689,18 @@ export default defineComponent({
                   args
                 )
               }
+            } else if (action.handler == 'refresh_data') {
+              if (action.refreshTables && action.refreshTables.length > 0) {
+                spinning.value = true
+                try {
+                  await state.pkg.refreshTableDataById(
+                    action.refreshTables,
+                    true
+                  )
+                } finally {
+                  spinning.value = false
+                }
+              }
             }
           }
         }
@@ -717,6 +737,7 @@ export default defineComponent({
         EventNames.ComponentMounted,
         instance
       )
+      handleEvent('mounted')
     }
     let componentUnmounted = (e: any) => {
       chartState.chartHandler.triggerEvent(
@@ -724,6 +745,7 @@ export default defineComponent({
         EventNames.ComponentUnmounted,
         instance
       )
+      handleEvent('unmounted')
     }
 
     return {
@@ -747,6 +769,7 @@ export default defineComponent({
       switchLock,
       refreshChart,
       refreshing,
+      spinning,
       optionAfterTheme,
       openChartDataViewer,
       chartDataViewerVisible,
@@ -769,6 +792,15 @@ export default defineComponent({
 <style lang="less">
 .c-chart-panel {
   width: 100%;
+  .c-component-spin {
+    position: absolute;
+    z-index: 10000;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
   &.c-component-fullscreen {
     position: fixed !important;
     top: 0px !important;

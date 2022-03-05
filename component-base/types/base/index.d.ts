@@ -458,17 +458,20 @@ export declare class DataOperationComponentOption {
     _supportPartRefresh: boolean;
     _supportDrillDown: boolean;
     _supportScope: boolean;
+    _supportBindGlobalParameter: boolean;
     partRefresh: boolean;
     showDrillDown: boolean;
     showDataViewer: boolean;
     showFullScreen: boolean;
     scope: any;
+    bindGlobalParameter: string;
 }
 declare class EventActionComponentOption {
     static controls: Array<IControl>;
     trigger: string;
     handler: string;
     page: string;
+    refreshTables: Array<string>;
     link: string;
     code: string;
 }

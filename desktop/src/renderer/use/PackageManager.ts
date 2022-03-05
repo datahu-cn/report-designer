@@ -19,7 +19,7 @@ import {
 } from '@datahu/core'
 import {setPackagePlugins, loadPackagePlugins} from './plugin'
 export class PackageManager {
-  static emptyPkg() {
+  static emptyPkg(language = 'en') {
     var definition = {
       id: Util.uniqueId(),
       theme: 'default',
@@ -47,7 +47,7 @@ export class PackageManager {
       tables: [],
       relationships: []
     } as IPackageDefinition
-    return new PackageManager(definition, '未命名报表1.datahu')
+    return new PackageManager(definition, '未命名报表1.datahu', language)
   }
 
   definition: IPackageDefinition = null
@@ -55,9 +55,11 @@ export class PackageManager {
   path: string = null
   actions: Array<any> = []
   lastSaved = new Date()
+  language = 'en'
   // useRef = ref(null)
-  constructor(definition: IPackageDefinition, path: string) {
+  constructor(definition: IPackageDefinition, path: string, language = 'en') {
     this.definition = definition
+    this.language = language
     this.path = path
     if (!this.definition.chart) {
       this.definition.chart = {
@@ -81,7 +83,8 @@ export class PackageManager {
 
   static async load(
     path: string,
-    disabledError?: boolean
+    disabledError?: boolean,
+    language = 'en'
   ): Promise<PackageManager> {
     let definition = (await http.request(
       'PackageManager/load',
@@ -89,26 +92,29 @@ export class PackageManager {
       disabledError
     )) as IPackageDefinition
     await loadPackagePlugins(definition)
-    return new PackageManager(definition, path)
+    return new PackageManager(definition, path, language)
   }
 
-  static async loadFrom(): Promise<PackageManager> {
+  static async loadFrom(language = 'en'): Promise<PackageManager> {
     let result = (await http.request('PackageManager/loadFrom', {})) as any
     if (result && result.path) {
       await loadPackagePlugins(result.data)
-      return new PackageManager(result.data, result.path)
+      return new PackageManager(result.data, result.path, language)
     }
     throw new Error('未能成功加载')
   }
 
-  static async loadFromServer(params: any): Promise<PackageManager> {
+  static async loadFromServer(
+    params: any,
+    language = 'en'
+  ): Promise<PackageManager> {
     let result = (await http.request(
       'PackageManager/loadFromServer',
       params
     )) as any
     if (result) {
       await loadPackagePlugins(result.data)
-      return new PackageManager(result.data, result.path)
+      return new PackageManager(result.data, result.path, language)
     }
     throw new Error('未能成功加载')
   }
@@ -130,16 +136,12 @@ export class PackageManager {
     return this.definition.tables
   }
 
-  async loadData(language: string, force: boolean): Promise<void> {
-    this.refreshTableData(this.definition.tables, language, force)
+  async loadData(force: boolean): Promise<void> {
+    await this.refreshAllTableData(force)
     this.addAction('reload_data', {})
   }
 
-  async refreshTableData(
-    tables: Array<ITableDefinition>,
-    language: string,
-    force = true
-  ) {
+  async refreshTableData(tables: Array<ITableDefinition>, force = true) {
     let loadTables: any = {}
     for (let t of tables) {
       // temp 用于赋值loading
@@ -153,7 +155,7 @@ export class PackageManager {
           let connector = this.getConnector(t.connectorId)
           loadTables[t.connectorId] = {
             args: {
-              language: language,
+              language: this.language,
               connector: connector,
               tables: []
             },
@@ -177,6 +179,10 @@ export class PackageManager {
           let loadArg = loadTables[connectorId]
           // true 开始查询
           loadTables[connectorId].loading.value = true
+          loadArg.args.tables = PackageHelper.runTableSourceCode(
+            loadArg.args.tables,
+            this.definition
+          )
           let requestData = (await http.request(
             'DataSource/getData',
             loadArg.args
@@ -191,7 +197,21 @@ export class PackageManager {
         }
       }
     }
-    this.resetData()
+    this.dataContext.resetTableDatas(tables)
+  }
+
+  async refreshTableDataById(tableIds: Array<string>, force = true) {
+    let tables = PackageHelper.getTablesById(this.definition, tableIds)
+    await this.refreshTableData(tables, force)
+  }
+
+  async refreshTableDataByName(tableNames: Array<string>, force = true) {
+    let tables = PackageHelper.getTablesByName(this.definition, tableNames)
+    await this.refreshTableData(tables, force)
+  }
+
+  async refreshAllTableData(force = true) {
+    await this.refreshTableData(this.definition.tables, force)
   }
 
   resetData() {

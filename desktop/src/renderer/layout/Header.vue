@@ -302,7 +302,7 @@ export default defineComponent({
 
     let reloadData = async () => {
       state.loading = true
-      await state.pkg.loadData(language.value, true)
+      await state.pkg.loadData(true)
       // 定时器演示使用
       setTimeout(() => {
         state.loading = false

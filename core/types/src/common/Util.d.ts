@@ -1,4 +1,5 @@
 import * as Url from './Url';
+import moment from 'moment';
 export declare class Util {
     private static __global;
     static groupBy(value: Array<any>, props: Array<any> | string | Function): any[][];
@@ -42,5 +43,6 @@ export declare class Util {
      */
     static top(items: Array<any>, number: number, pro?: string, desc?: boolean): any[];
     static http: import("axios").AxiosInstance;
+    static moment: typeof moment;
     static getServerUrl(): string;
 }

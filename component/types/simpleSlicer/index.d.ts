@@ -22,6 +22,7 @@ declare class SlicerComponentOption {
     placeholders: Array<string>;
     defaultValue: string | null;
     defaultValues: Array<string | null>;
+    ranges: Array<string>;
     style: StyleComponentOption;
     itemLayout: string;
     itemStyle: StyleComponentOption;

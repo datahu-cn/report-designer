@@ -50,6 +50,7 @@ export class DataContext {
   private chartFilterData: any
   definition: IPackageDefinition
   private structure: any
+  private fromCache = false
 
   /**
    * 图表组件运行过程中的临时数据， 包括切片器过滤条件，数据下钻状态等信息
@@ -63,11 +64,24 @@ export class DataContext {
   }
 
   init(formCache: boolean = false) {
+    this.fromCache = this.fromCache
     this.formatData(formCache)
     this.resetFilterData()
   }
 
   resetData() {
+    this.resetFilterData()
+  }
+
+  resetTableDatas(tables: Array<ITableDefinition>) {
+    this.formatDataStructure()
+    for (let table of tables) {
+      try {
+        this.formatTableData(table, false)
+      } catch (e) {
+        console.error(e)
+      }
+    }
     this.resetFilterData()
   }
 

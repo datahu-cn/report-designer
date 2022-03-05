@@ -153,11 +153,7 @@ export default defineComponent({
         ) {
           run()
         } else {
-          await props.pkg.refreshTableData(
-            schedule.tables,
-            props.language,
-            true
-          )
+          await props.pkg.refreshTableData(schedule.tables, true)
         }
         await run()
       } catch (e) {

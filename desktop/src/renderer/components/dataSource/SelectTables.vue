@@ -153,6 +153,7 @@ import {
   IColumnDefinition,
   ITableDefinition,
   ITableQueryPager,
+  PackageHelper,
   TableCacheType,
   Util
 } from '@datahu/core'
@@ -364,14 +365,20 @@ export default defineComponent({
 
     let setTableData = async (table: ITableDefinition) => {
       loading.value = true
-      let data = (await http.request('DataSource/getData', {
-        language: language.value,
-        tables: [table],
-        connector: props.modelValue.connector
-      })) as any
-      loading.value = false
-      table.rows = data[0]
-      return data[0]
+      try {
+        let data = (await http.request('DataSource/getData', {
+          language: language.value,
+          tables: PackageHelper.runTableSourceCode(
+            [table],
+            state.pkg.definition
+          ),
+          connector: props.modelValue.connector
+        })) as any
+        table.rows = data[0]
+        return data[0]
+      } finally {
+        loading.value = false
+      }
     }
 
     let selectedTable: Ref<any> = ref(null)
@@ -559,7 +566,7 @@ export default defineComponent({
       try {
         state.loading = true
         state.loaded = false
-        await state.pkg.loadData(language.value, false)
+        await state.pkg.loadData(false)
         emit('submit', true)
         state.loading = false
       } catch (e) {

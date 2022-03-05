@@ -2484,6 +2484,7 @@ export class DataOperationComponentOption {
   _supportPartRefresh: boolean = false
   _supportDrillDown: boolean = false
   _supportScope: boolean = false
+  _supportBindGlobalParameter = false
 
   @ComponentControl({
     type: ControlType.boolean,
@@ -2531,6 +2532,15 @@ export class DataOperationComponentOption {
     type: 'global',
     chartIds: []
   }
+
+  @ComponentControl({
+    type: ControlType.text,
+    title: '绑定全局参数',
+    show(opt: any) {
+      return opt._supportBindGlobalParameter
+    }
+  })
+  bindGlobalParameter: string = ''
 }
 
 class EventActionComponentOption {
@@ -2544,7 +2554,9 @@ class EventActionComponentOption {
         {label: '单击', value: 'body_click'},
         {label: '双击', value: 'body_dblclick'},
         {label: '标题单击', value: 'title_click'},
-        {label: '标题双击', value: 'title_click'}
+        {label: '标题双击', value: 'title_click'},
+        {label: '渲染', value: 'mounted'},
+        {label: '卸载', value: 'unmounted'}
       ]
       if (
         chart.item.option &&
@@ -2565,7 +2577,8 @@ class EventActionComponentOption {
       {label: '跳转页面', value: 'goto_page'},
       {label: '返回上一页', value: 'goto_back'},
       {label: '打开链接', value: 'open_link'},
-      {label: '执行代码', value: 'run_code'}
+      {label: '执行代码', value: 'run_code'},
+      {label: '刷新数据', value: 'refresh_data'}
     ]
   })
   handler: string = 'goto_page'
@@ -2589,6 +2602,27 @@ class EventActionComponentOption {
     }
   })
   page: string = ''
+
+  @ComponentControl({
+    type: ControlType.select,
+    multiple: true,
+    title: '刷新数据范围',
+    show(opt: any) {
+      return opt.handler == 'refresh_data'
+    },
+    options(option: any, chart: any) {
+      let opts = [{label: '所有', value: '_all_'}]
+      let definition: IPackageDefinition = chart.data.dataContext.definition
+      if (definition.tables && definition.tables.length > 0) {
+        for (let c of definition.tables) {
+          opts.push({label: c.alias || c.name, value: c.id})
+        }
+        return opts
+      }
+      return opts
+    }
+  })
+  refreshTables: Array<string> = []
 
   @ComponentControl({
     type: ControlType.text,

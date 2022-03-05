@@ -1,4 +1,5 @@
 import * as Url from './Url'
+import moment from 'moment'
 import axios from 'axios'
 let http = axios.create({
   baseURL: '', // api的base_url
@@ -423,6 +424,8 @@ export class Util {
   }
 
   static http = http
+
+  static moment = moment
 
   static getServerUrl() {
     return 'https://datahu.cn'

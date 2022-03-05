@@ -515,6 +515,38 @@ class SlicerComponentOption {
   defaultValues: Array<string | null> = [null, null]
 
   @ComponentControl({
+    type: ControlType.select,
+    multiple: true,
+    title: '预设值',
+    options: [
+      {label: '1小时内', value: 'hour1'},
+      {label: '2小时内', value: 'hour2'},
+      {label: '3小时内', value: 'hour3'},
+      {label: '6小时内', value: 'hour6'},
+      {label: '12小时内', value: 'hour12'},
+      {label: '1天内', value: 'hour24'},
+      {label: '今天', value: 'today'},
+      {label: '本周', value: 'week'},
+      {label: '本月', value: 'month'},
+      {label: '本季度', value: 'quarter'},
+      {label: '半年度', value: 'halfyear'},
+      {label: '本年度', value: 'year'}
+    ],
+    show(opt: any) {
+      return (
+        [
+          'monthrange',
+          'daterange',
+          'hourrange',
+          'minuterange',
+          'secondrange'
+        ].indexOf(opt.type) >= 0 && !opt.slider
+      )
+    }
+  })
+  ranges: Array<string> = []
+
+  @ComponentControl({
     type: ControlType.style,
     title: '样式',
     options: [
@@ -689,7 +721,8 @@ class SimpleSlicerComponentOption extends BaseComponentOption {
       _supportDrillDown: false,
       _supportScope: true,
       showFullScreen: false,
-      showDataViewer: false
+      showDataViewer: false,
+      _supportBindGlobalParameter: true
     }
   )
 
@@ -716,6 +749,7 @@ export class SimpleSlicerComponent extends BaseComponent {
     this.option.pos.width = '300px'
     this.option.pos.height = '32px'
     this.option.body!.style.backgroundColor = '#FFFFFF00'
+    this.option.event.customEvents = [{label: '值变化', value: 'change'}]
   }
   title: string = '过滤器'
   option: SimpleSlicerComponentOption = new SimpleSlicerComponentOption()

@@ -34,6 +34,7 @@ export declare class DataContext {
     private chartFilterData;
     definition: IPackageDefinition;
     private structure;
+    private fromCache;
     /**
      * 图表组件运行过程中的临时数据， 包括切片器过滤条件，数据下钻状态等信息
      */
@@ -41,6 +42,7 @@ export declare class DataContext {
     constructor(data: any, definition: IPackageDefinition);
     init(formCache?: boolean): void;
     resetData(): void;
+    resetTableDatas(tables: Array<ITableDefinition>): void;
     resetFormulaTables(): void;
     getData(): any;
     getDataBeforeTableFilter(): any;

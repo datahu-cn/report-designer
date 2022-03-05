@@ -184,6 +184,7 @@ export default defineComponent({
       } else {
         v.splice(v.length - 1, 1)
       }
+      change()
       console.log('update field', formData.value)
     }
 

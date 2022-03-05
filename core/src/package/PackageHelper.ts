@@ -1,6 +1,14 @@
 import {IPackageDefinition} from './IPackageDefinition'
 import {DataContext} from '../data'
-import {Formatter, Formula, Parameter, TableCacheType, Util} from '../common'
+import {
+  CodeExpression,
+  Formatter,
+  Formula,
+  ITableDefinition,
+  Parameter,
+  TableCacheType,
+  Util
+} from '../common'
 import {IChartDefinition} from './IPackageDefinition'
 
 declare var global: any
@@ -23,6 +31,76 @@ export class PackageHelper {
     if (startChart) {
       PackageHelper.eachChart(startChart, handle)
     }
+  }
+
+  static runTableSourceCode(
+    tables: Array<ITableDefinition>,
+    definition: IPackageDefinition
+  ) {
+    let copyTables: Array<ITableDefinition> = Util.copy(tables)
+    for (let table of copyTables) {
+      if (table.useSourceCode && table.sourceCode) {
+        table.sourceCode = CodeExpression.runCode(
+          table.sourceCode,
+          ['table', 'definition'],
+          table,
+          definition
+        )
+      }
+    }
+    return copyTables
+  }
+
+  static getTablesById(
+    definition: IPackageDefinition,
+    ids: Array<string>
+  ): Array<ITableDefinition> {
+    let hasAll = ids.indexOf('_all_') >= 0
+    let tables = []
+    if (hasAll) {
+      for (let table of definition.tables) {
+        if (
+          table.cacheType != TableCacheType.Disabled &&
+          table.cacheType != TableCacheType.Enabled
+        ) {
+          tables.push(table)
+        }
+      }
+    } else {
+      for (let tableId of ids) {
+        for (let table of definition.tables) {
+          if (
+            table.cacheType != TableCacheType.Disabled &&
+            table.cacheType != TableCacheType.Enabled &&
+            !table.isFormula &&
+            table.id == tableId
+          ) {
+            tables.push(table)
+          }
+        }
+      }
+    }
+    return tables
+  }
+
+  static getTablesByName(
+    definition: IPackageDefinition,
+    names: Array<string>
+  ): Array<ITableDefinition> {
+    let tables = []
+    for (let tableName of names) {
+      for (let table of definition.tables) {
+        if (
+          table.cacheType != TableCacheType.Disabled &&
+          table.cacheType != TableCacheType.Enabled &&
+          !table.isFormula &&
+          (table.alias || table.name) == tableName
+        ) {
+          tables.push(table)
+        }
+      }
+    }
+    return tables
   }
 
   static eachChart(chart: IChartDefinition, handle: Function) {

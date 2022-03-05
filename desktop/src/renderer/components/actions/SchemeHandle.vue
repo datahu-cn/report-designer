@@ -66,7 +66,7 @@ export default defineComponent({
     })
 
     let loadPkgFromServer = async (params: any) => {
-      let newPkg = await PackageManager.loadFromServer(params)
+      let newPkg = await PackageManager.loadFromServer(params, language.value)
       if (newPkg) {
         state.pkg = newPkg
         state.pkg.init()
@@ -90,8 +90,11 @@ export default defineComponent({
         'datahu://'.length,
         props.modelValue.url.indexOf('?')
       )
-      if(actionConfig.action.endsWith('/')){
-        actionConfig.action = actionConfig.action.substring(0, actionConfig.action.length - 1)
+      if (actionConfig.action.endsWith('/')) {
+        actionConfig.action = actionConfig.action.substring(
+          0,
+          actionConfig.action.length - 1
+        )
       }
       query.value = Util.Url.query(props.modelValue.url)
       currentServer.value = query.value.server
