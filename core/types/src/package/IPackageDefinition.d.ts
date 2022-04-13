@@ -41,6 +41,8 @@ export interface IPackageDefinition {
     description?: string;
     /** 报表行业分类，发布时可设置 */
     category?: number;
+    /** 报表发布所属组织id， 发布时可设置 */
+    companyId?: number;
     /** 报表搜索关键词， 发布时可设置 */
     keywords?: string;
     /** 报表预览时自动生成的预览图片 */

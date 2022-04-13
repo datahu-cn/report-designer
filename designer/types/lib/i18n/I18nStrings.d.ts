@@ -1,0 +1,31 @@
+export interface I18nStrings {
+    common_new: string;
+    common_edit: string;
+    common_delete: string;
+    common_cancel: string;
+    common_submit: string;
+    common_upload: string;
+    common_required_message: string;
+    common_save: string;
+    common_save_as: string;
+    main_options: string;
+    main_chart: string;
+    main_table: string;
+    main_relationship: string;
+    main_dataSource: string;
+    dataSource_header: string;
+    dataSource_select_header: string;
+    dataSource_new_text: string;
+    dataSource_edit_text: string;
+    dataSource_select_tables_text: string;
+    merge_type_none: string;
+    merge_type_count: string;
+    merge_type_sum: string;
+    merge_type_min: string;
+    merge_type_max: string;
+    merge_type_first: string;
+    merge_type_last: string;
+    merge_type_collection: string;
+    merge_type_avg: string;
+    merge_type_code: string;
+}

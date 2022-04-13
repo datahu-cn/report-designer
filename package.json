@@ -2,7 +2,7 @@
   "name": "@datahu/all",
   "version": "1.1.7",
   "scripts": {
-    "preinit": "cd core && yarn && cd ../component-base && yarn && cd ../component && yarn && cd ../datasource && yarn  cd ../desktop && yarn && cd ..",
+    "preinit": "cd core && yarn && cd ../component-base && yarn && cd ../component && yarn && cd ../datasource && yarn && cd ../designer && yarn  cd ../desktop && yarn && cd ..",
     "build": "cd core && yarn build && yarn build:types && cd ../component-base && yarn build && yarn build:types && cd ../component && yarn build && yarn build:types && cd ../datasource && yarn build && yarn build:types  cd ../desktop && yarn build && cd ..",
     "start": "cd desktop && yarn start && cd ..",
     "package": "cd desktop &&  yarn compile && cd .."

@@ -1,7 +1,8 @@
 const {join} = require('path')
 const vue = require('@vitejs/plugin-vue')
 const {chrome} = require('./electron-dep-versions')
-import externalGlobals from 'rollup-plugin-external-globals'
+import Components from 'unplugin-vue-components/vite'
+import {AntDesignVueResolver} from 'unplugin-vue-components/resolvers'
 const fse = require('fs-extra')
 
 /**
@@ -32,6 +33,10 @@ module.exports = {
               replacement: join(process.cwd(), '../component') + '/index.ts'
             },
             {
+              find: '@datahu/designer',
+              replacement: join(process.cwd(), '../designer') + '/index.ts'
+            },
+            {
               find: '/@/',
               replacement: join(process.cwd(), './src/renderer') + '/'
             }
@@ -43,7 +48,12 @@ module.exports = {
             }
           ]
   },
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    Components({
+      resolvers: [AntDesignVueResolver({importStyle: false})]
+    })
+  ],
   base: '',
   sourcemap: 'true',
   server: {

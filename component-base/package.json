@@ -1,14 +1,13 @@
 {
   "name": "@datahu/component-base",
-  "version": "1.1.12",
+  "version": "1.2.1",
   "module": "dist/component-base.es.js",
   "main": "dist/component-base.es.js",
   "exports": {
     ".": {
       "import": "./dist/component-base.es.js",
       "require": "./dist/component-base.es.js"
-    },
-    "./dist/style.css": "./dist/style.css"
+    }
   },
   "author": "@datahu",
   "homepage": "https://datahu.cn",

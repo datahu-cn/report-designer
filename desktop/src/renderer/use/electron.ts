@@ -5,7 +5,7 @@ export function useElectron(): ExposedInMainWorld {
   return (window as any).electron as ExposedInMainWorld
 }
 
-export function useHandle(callback) {
+export function useHandle(callback: any) {
   let electron = useElectron()
   electron.handle(callback)
   electron.preloadReady()

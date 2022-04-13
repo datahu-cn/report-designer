@@ -1,6 +1,6 @@
 {
   "name": "@datahu/datasource",
-  "version": "1.1.12",
+  "version": "1.2.1",
   "main": "dist/datasource.cjs.js",
   "module": "dist/datasource.es.js",
   "browser": "dist/datasource.es.js",

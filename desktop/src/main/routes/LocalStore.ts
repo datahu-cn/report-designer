@@ -1,8 +1,6 @@
-import fs from 'fs'
 import Store from 'electron-store'
 import {Util} from '@datahu/core'
 import {dialog} from 'electron'
-import path from 'path'
 const store = new Store()
 
 export function getStore(arg: any = null): Promise<any> {

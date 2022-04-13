@@ -34,7 +34,6 @@ export default defineConfig({
         'ant-design-vue',
         'vxe-table',
         'xe-utils',
-        'vxe-table-plugin-export-xlsx',
         'echarts',
         'axios',
         'add'
