@@ -7,6 +7,20 @@ Data Hu 报表设计器, 用于数据分析、数据建模、报表设计。
 文档地址： [https://datahu.cn/docs/](https://datahu.cn/docs/)
 
 ![](/datahu.gif)
+![](/docs/full.png)
+
+#### v1.2.1 Latest
+
+1、重构代码结构，修复部分 bug
+2、从 desktop 拆分 designer 出来，支持扩展 web 端在线设计
+[datahu-mac-1.2.1.dmg](https://cdn.datahu.cn/update/datahu-mac-1.2.1.dmg)
+[datahu-win-1.2.1.exe](https://cdn.datahu.cn/update/datahu-win-1.2.1.exe)
+
+#### 在线示例
+
+- [新建在线报表](https://datahu.cn/designer?cid=4&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgsIm1vYmlsZSI6IjE4NTAwMDQ1MzU4IiwiZW1haWwiOiIxODUwMDA0NTM1OCIsImF2YXRhciI6bnVsbCwibmFtZSI6Iua1i-ivleeUqOaItyIsImlhdCI6MTY0OTkxMzQ4NCwiZXhwIjoxNjUwMjczNDg0fQ.FALf24-cvIRpPu9iMK4kMFuJqZy7V6Sqmg9vzphVzXU)
+- [新冠疫情简单报表示例](https://datahu.cn/designer?key=ed52b2d42b1ce34a4a179c2f5087a45f5e630b2b385b597469e4a3bd17124208&name=新冠疫情V1.0&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgsIm1vYmlsZSI6IjE4NTAwMDQ1MzU4IiwiZW1haWwiOiIxODUwMDA0NTM1OCIsImF2YXRhciI6bnVsbCwibmFtZSI6Iua1i-ivleeUqOaItyIsImlhdCI6MTY0OTkxMzQ4NCwiZXhwIjoxNjUwMjczNDg0fQ.FALf24-cvIRpPu9iMK4kMFuJqZy7V6Sqmg9vzphVzXU)
+- [新冠疫情大屏报表示例](https://datahu.cn/designer?key=ed52b2d42b1ce34a4a179c2f5087a45f1a402e82226a77f2852ea4615b5ec344&name=新冠疫情大屏V1.0&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgsIm1vYmlsZSI6IjE4NTAwMDQ1MzU4IiwiZW1haWwiOiIxODUwMDA0NTM1OCIsImF2YXRhciI6bnVsbCwibmFtZSI6Iua1i-ivleeUqOaItyIsImlhdCI6MTY0OTkxMzQ4NCwiZXhwIjoxNjUwMjczNDg0fQ.FALf24-cvIRpPu9iMK4kMFuJqZy7V6Sqmg9vzphVzXU)
 
 #### 开始开发
 
@@ -36,6 +50,10 @@ Data Hu 报表设计器, 用于数据分析、数据建模、报表设计。
    ```
 
 #### 支持的功能
+
+#### 自定义可视化组件
+
+[https://github.com/datahu-cn/component-template](https://github.com/datahu-cn/component-template)
 
 ##### 布局容器
 
@@ -100,3 +118,7 @@ Data Hu 报表设计器, 用于数据分析、数据建模、报表设计。
 - [Oracle 数据库](https://datahu.cn/docs/datasource/oracle.html)
 
 - [Restful API](https://datahu.cn/docs/datasource/restful.html)
+
+- [PostgreSQL](https://datahu.cn/docs/datasource/postgresql.html)
+
+- [Domino](https://datahu.cn/docs/datasource/domino.html)

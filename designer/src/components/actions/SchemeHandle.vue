@@ -16,7 +16,7 @@
               :server="currentServer"
             ></UserSelect>
           </a-form-item>
-          <a-form-item :label="actionConfig.showText">
+          <a-form-item v-if="query.name" :label="actionConfig.showText">
             {{ query.name }}
           </a-form-item>
         </a-form>
@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import {computed, defineComponent, nextTick, ref, Ref} from 'vue'
-import {useI18n, useState, useLanguage} from '../../use/state'
+import {useI18n, useState, useLanguage, newPkg} from '../../use/state'
 import {PackageManager} from '../../use/PackageManager'
 import {Modal} from 'ant-design-vue'
 import {Util} from '@datahu/core'
@@ -112,9 +112,10 @@ export default defineComponent({
       }
 
       if (actionConfig.action == 'design') {
+        let isNew = !query.value.name
         // 打开在线报表
-        query.value.name = decodeURI(query.value.name)
-        actionConfig.showText = '打开报表'
+        query.value.name = isNew ? '' : decodeURI(query.value.name)
+        actionConfig.showText = isNew ? '新建报表' : '打开报表'
       } else if (actionConfig.action == 'usedata') {
         // 使用数据
         query.value.name = decodeURI(query.value.name)
@@ -127,7 +128,18 @@ export default defineComponent({
       loading.value = true
       try {
         if (actionConfig.action == 'design') {
-          await loadPkgFromServer({user: currentUser.value, query: query.value})
+          let isNew = !query.value.name
+          if (isNew) {
+            if (query.value.cid) {
+              state.defaultCompanyId = parseInt(query.value.cid)
+            }
+            await newPkg()
+          } else {
+            await loadPkgFromServer({
+              user: currentUser.value,
+              query: query.value
+            })
+          }
           if (query.value.route && route.name != query.value.route) {
             router.push(query.value.route)
           }

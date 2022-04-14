@@ -170,7 +170,11 @@ export default defineComponent({
     let expandedKeys = ref([state.pkg.definition.chart.id])
 
     let selectedKeys = computed(() => {
-      return [state.focusItem.item.id]
+      if (state.focusItem) {
+        return [state.focusItem.item.id]
+      } else {
+        return []
+      }
     })
 
     let select = (keys: any, e: any) => {
